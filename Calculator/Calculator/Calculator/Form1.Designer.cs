@@ -31,7 +31,7 @@ namespace Calculator
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
-            this.InputDisplayBox = new System.Windows.Forms.RichTextBox();
+            this.tbInput = new System.Windows.Forms.RichTextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.ModBtn = new System.Windows.Forms.Button();
             this.RemoveBtn = new System.Windows.Forms.Button();
@@ -60,20 +60,19 @@ namespace Calculator
             this.resultTextBox = new System.Windows.Forms.RichTextBox();
             this.SuspendLayout();
             // 
-            // InputDisplayBox
+            // tbInput
             // 
-            this.InputDisplayBox.BackColor = System.Drawing.SystemColors.Control;
-            this.InputDisplayBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.InputDisplayBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.InputDisplayBox.Location = new System.Drawing.Point(27, 78);
-            this.InputDisplayBox.Name = "InputDisplayBox";
-            this.InputDisplayBox.ReadOnly = true;
-            this.InputDisplayBox.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.InputDisplayBox.Size = new System.Drawing.Size(289, 38);
-            this.InputDisplayBox.TabIndex = 1;
-            this.InputDisplayBox.TabStop = false;
-            this.InputDisplayBox.Text = "0";
-            this.InputDisplayBox.TextChanged += new System.EventHandler(this.richTextBox2_TextChanged);
+            this.tbInput.BackColor = System.Drawing.SystemColors.Control;
+            this.tbInput.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.tbInput.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tbInput.Location = new System.Drawing.Point(6, 78);
+            this.tbInput.Name = "tbInput";
+            this.tbInput.ReadOnly = true;
+            this.tbInput.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.tbInput.Size = new System.Drawing.Size(309, 38);
+            this.tbInput.TabIndex = 1;
+            this.tbInput.TabStop = false;
+            this.tbInput.Text = "0";
             // 
             // label1
             // 
@@ -132,7 +131,7 @@ namespace Calculator
             this.ClearBtn2.TabIndex = 51;
             this.ClearBtn2.Text = "C";
             this.ClearBtn2.UseVisualStyleBackColor = false;
-            this.ClearBtn2.Click += new System.EventHandler(this.ClearBtn2_Click);
+            this.ClearBtn2.Click += new System.EventHandler(this.ClearBtn_Click);
             // 
             // ClearBtn
             // 
@@ -191,7 +190,7 @@ namespace Calculator
             this.DivsionBtn.TabIndex = 54;
             this.DivsionBtn.Text = " ÷ ";
             this.DivsionBtn.UseVisualStyleBackColor = false;
-            this.DivsionBtn.Click += new System.EventHandler(this.DivsionBtn_Click);
+            this.DivsionBtn.Click += new System.EventHandler(this.AddBtn_Click);
             // 
             // ReciprocalBtn
             // 
@@ -219,7 +218,7 @@ namespace Calculator
             this.Btn8.TabIndex = 60;
             this.Btn8.Text = "8";
             this.Btn8.UseVisualStyleBackColor = false;
-            this.Btn8.Click += new System.EventHandler(this.Btn8_Click);
+            this.Btn8.Click += new System.EventHandler(this.Btn1_Click);
             // 
             // Btn7
             // 
@@ -233,7 +232,7 @@ namespace Calculator
             this.Btn7.TabIndex = 57;
             this.Btn7.Text = "7";
             this.Btn7.UseVisualStyleBackColor = false;
-            this.Btn7.Click += new System.EventHandler(this.Btn7_Click);
+            this.Btn7.Click += new System.EventHandler(this.Btn1_Click);
             // 
             // Btn9
             // 
@@ -247,7 +246,7 @@ namespace Calculator
             this.Btn9.TabIndex = 73;
             this.Btn9.Text = "9";
             this.Btn9.UseVisualStyleBackColor = false;
-            this.Btn9.Click += new System.EventHandler(this.Btn9_Click);
+            this.Btn9.Click += new System.EventHandler(this.Btn1_Click);
             // 
             // MultiplicationBtn
             // 
@@ -262,7 +261,7 @@ namespace Calculator
             this.MultiplicationBtn.TabIndex = 74;
             this.MultiplicationBtn.Text = " x";
             this.MultiplicationBtn.UseVisualStyleBackColor = false;
-            this.MultiplicationBtn.Click += new System.EventHandler(this.MultiplicationBtn_Click);
+            this.MultiplicationBtn.Click += new System.EventHandler(this.AddBtn_Click);
             // 
             // Btn4
             // 
@@ -276,7 +275,7 @@ namespace Calculator
             this.Btn4.TabIndex = 75;
             this.Btn4.Text = "4";
             this.Btn4.UseVisualStyleBackColor = false;
-            this.Btn4.Click += new System.EventHandler(this.Btn4_Click);
+            this.Btn4.Click += new System.EventHandler(this.Btn1_Click);
             // 
             // Btn5
             // 
@@ -290,7 +289,7 @@ namespace Calculator
             this.Btn5.TabIndex = 76;
             this.Btn5.Text = "5";
             this.Btn5.UseVisualStyleBackColor = false;
-            this.Btn5.Click += new System.EventHandler(this.Btn5_Click);
+            this.Btn5.Click += new System.EventHandler(this.Btn1_Click);
             // 
             // Btn6
             // 
@@ -304,7 +303,7 @@ namespace Calculator
             this.Btn6.TabIndex = 77;
             this.Btn6.Text = "6";
             this.Btn6.UseVisualStyleBackColor = false;
-            this.Btn6.Click += new System.EventHandler(this.Btn6_Click);
+            this.Btn6.Click += new System.EventHandler(this.Btn1_Click);
             // 
             // MinusBtn
             // 
@@ -319,7 +318,7 @@ namespace Calculator
             this.MinusBtn.TabIndex = 78;
             this.MinusBtn.Text = " -";
             this.MinusBtn.UseVisualStyleBackColor = false;
-            this.MinusBtn.Click += new System.EventHandler(this.MinusBtn_Click);
+            this.MinusBtn.Click += new System.EventHandler(this.AddBtn_Click);
             // 
             // AddBtn
             // 
@@ -348,7 +347,7 @@ namespace Calculator
             this.Btn3.TabIndex = 81;
             this.Btn3.Text = "3";
             this.Btn3.UseVisualStyleBackColor = false;
-            this.Btn3.Click += new System.EventHandler(this.Btn3_Click);
+            this.Btn3.Click += new System.EventHandler(this.Btn1_Click);
             // 
             // Btn2
             // 
@@ -362,7 +361,7 @@ namespace Calculator
             this.Btn2.TabIndex = 80;
             this.Btn2.Text = "2";
             this.Btn2.UseVisualStyleBackColor = false;
-            this.Btn2.Click += new System.EventHandler(this.Btn2_Click);
+            this.Btn2.Click += new System.EventHandler(this.Btn1_Click);
             // 
             // Btn1
             // 
@@ -483,19 +482,18 @@ namespace Calculator
             this.Controls.Add(this.RemoveBtn);
             this.Controls.Add(this.ModBtn);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.InputDisplayBox);
+            this.Controls.Add(this.tbInput);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "Form1";
             this.Text = "Calculator";
-            this.Load += new System.EventHandler(this.Form1_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-        private System.Windows.Forms.RichTextBox InputDisplayBox;
+        private System.Windows.Forms.RichTextBox tbInput;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button ModBtn;
         private System.Windows.Forms.Button RemoveBtn;

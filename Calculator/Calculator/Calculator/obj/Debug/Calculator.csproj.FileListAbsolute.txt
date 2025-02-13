@@ -8,3 +8,13 @@ C:\DotNet-Windows-Form\Calculator\Calculator\Calculator\obj\Debug\Calculator.csp
 C:\DotNet-Windows-Form\Calculator\Calculator\Calculator\obj\Debug\Calculator.csproj.CoreCompileInputs.cache
 C:\DotNet-Windows-Form\Calculator\Calculator\Calculator\obj\Debug\Calculator.exe
 C:\DotNet-Windows-Form\Calculator\Calculator\Calculator\obj\Debug\Calculator.pdb
+C:\Dot-Net-Win-Apps\Dot-Net-Apps\Calculator\Calculator\Calculator\bin\Debug\Calculator.exe.config
+C:\Dot-Net-Win-Apps\Dot-Net-Apps\Calculator\Calculator\Calculator\bin\Debug\Calculator.exe
+C:\Dot-Net-Win-Apps\Dot-Net-Apps\Calculator\Calculator\Calculator\bin\Debug\Calculator.pdb
+C:\Dot-Net-Win-Apps\Dot-Net-Apps\Calculator\Calculator\Calculator\obj\Debug\Calculator.csproj.AssemblyReference.cache
+C:\Dot-Net-Win-Apps\Dot-Net-Apps\Calculator\Calculator\Calculator\obj\Debug\Calculator.Form1.resources
+C:\Dot-Net-Win-Apps\Dot-Net-Apps\Calculator\Calculator\Calculator\obj\Debug\Calculator.Properties.Resources.resources
+C:\Dot-Net-Win-Apps\Dot-Net-Apps\Calculator\Calculator\Calculator\obj\Debug\Calculator.csproj.GenerateResource.cache
+C:\Dot-Net-Win-Apps\Dot-Net-Apps\Calculator\Calculator\Calculator\obj\Debug\Calculator.csproj.CoreCompileInputs.cache
+C:\Dot-Net-Win-Apps\Dot-Net-Apps\Calculator\Calculator\Calculator\obj\Debug\Calculator.exe
+C:\Dot-Net-Win-Apps\Dot-Net-Apps\Calculator\Calculator\Calculator\obj\Debug\Calculator.pdb
