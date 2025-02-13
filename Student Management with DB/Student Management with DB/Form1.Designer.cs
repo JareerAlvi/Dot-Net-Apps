@@ -44,6 +44,9 @@
             this.AgeUpdatebtn = new System.Windows.Forms.Button();
             this.GradeUpdatebtn = new System.Windows.Forms.Button();
             this.btnDeleteFailingStudents = new System.Windows.Forms.Button();
+            this.btnIDDelete = new System.Windows.Forms.Button();
+            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
+            this.btnDelFinal = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.grdStudents)).BeginInit();
             this.SuspendLayout();
             // 
@@ -200,11 +203,34 @@
             this.btnDeleteFailingStudents.UseVisualStyleBackColor = true;
             this.btnDeleteFailingStudents.Click += new System.EventHandler(this.btnDeleteFailingStudents_Click);
             // 
+            // btnIDDelete
+            // 
+            this.btnIDDelete.Location = new System.Drawing.Point(439, 213);
+            this.btnIDDelete.Name = "btnIDDelete";
+            this.btnIDDelete.Size = new System.Drawing.Size(82, 28);
+            this.btnIDDelete.TabIndex = 17;
+            this.btnIDDelete.Text = "Delete";
+            this.btnIDDelete.UseVisualStyleBackColor = true;
+            this.btnIDDelete.Click += new System.EventHandler(this.btnIDDelete_Click);
+            // 
+            // btnDelFinal
+            // 
+            this.btnDelFinal.Location = new System.Drawing.Point(351, 156);
+            this.btnDelFinal.Name = "btnDelFinal";
+            this.btnDelFinal.Size = new System.Drawing.Size(82, 28);
+            this.btnDelFinal.TabIndex = 18;
+            this.btnDelFinal.Text = "Delete";
+            this.btnDelFinal.UseVisualStyleBackColor = true;
+            this.btnDelFinal.Visible = false;
+            this.btnDelFinal.Click += new System.EventHandler(this.btnDelFinal_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.btnDelFinal);
+            this.Controls.Add(this.btnIDDelete);
             this.Controls.Add(this.btnDeleteFailingStudents);
             this.Controls.Add(this.GradeUpdatebtn);
             this.Controls.Add(this.AgeUpdatebtn);
@@ -248,6 +274,9 @@
         private System.Windows.Forms.Button AgeUpdatebtn;
         private System.Windows.Forms.Button GradeUpdatebtn;
         private System.Windows.Forms.Button btnDeleteFailingStudents;
+        private System.Windows.Forms.Button btnIDDelete;
+        private System.ComponentModel.BackgroundWorker backgroundWorker1;
+        private System.Windows.Forms.Button btnDelFinal;
     }
 }
 
