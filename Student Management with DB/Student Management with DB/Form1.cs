@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -17,6 +18,7 @@ namespace Student_Management_with_DB
         public Form1()
         {
             InitializeComponent();
+            ShowAll();
         }
         private string Name;
         private int Age;
@@ -60,12 +62,7 @@ namespace Student_Management_with_DB
                     string checkQuery = "SELECT MAX(ID) FROM Students";
                     SqlCommand checkCommand = new SqlCommand(checkQuery, sqlConnection);
                     object result = checkCommand.ExecuteScalar();
-                    int.TryParse(result?.ToString(), out int id);
-                    if (id == 5)
-                    {
-                        MessageBox.Show("Students Limit Reached! Cannot Add More.");
-                        return;
-                    }
+
 
                     SqlCommand sqlCommand = sqlConnection.CreateCommand();
                     sqlCommand.CommandText = "INSERT INTO Students (Name, Age, Grade) VALUES (@Name, @Age, @Grade)";
@@ -73,6 +70,7 @@ namespace Student_Management_with_DB
                     sqlCommand.Parameters.AddWithValue("@Age", Age);
                     sqlCommand.Parameters.AddWithValue("@Grade", Grade);
                     sqlCommand.ExecuteNonQuery();
+                    ShowAll();
                     MessageBox.Show("Student Added Successfully");
                 }
             }
@@ -93,40 +91,9 @@ namespace Student_Management_with_DB
 
         private void btnDisplayAStudents_Click(object sender, EventArgs e)
         {
-            try
-            {
-                lstStudents = new List<Student>();
-                grdStudents.DataSource = null;
-
-                using (SqlConnection sqlConnection = new SqlConnection(ConnectionString))
-                {
-                    sqlConnection.Open();
-
-                    SqlCommand sqlCommand = sqlConnection.CreateCommand();
-                    sqlCommand.CommandText = "SELECT * FROM Students WHERE Grade = 'A'";
-
-                    SqlDataReader sqlDataReader = sqlCommand.ExecuteReader();
-                    while (sqlDataReader.Read())
-                    {
-                        Student objStudent = new Student()
-                        {
-                            ID = int.Parse(sqlDataReader["ID"].ToString()),
-                            Name = sqlDataReader["Name"].ToString(),
-                            Age = int.Parse(sqlDataReader["Age"].ToString()),
-                            Grade = sqlDataReader["Grade"].ToString()
-                        };
-
-                        lstStudents.Add(objStudent);
-                    }
-
-                    grdStudents.DataSource = lstStudents;
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Error in btnDisplayAStudents_Click: {ex.Message}");
-            }
+            GradeWiseDisplayPannel.Visible = true;
         }
+
 
         private void btnDisplayAll_Click(object sender, EventArgs e)
         {
@@ -170,83 +137,12 @@ namespace Student_Management_with_DB
             btnDisplayAll.Visible = false;
             btnUpdate.Visible = false;
             btnSubmit.Visible = false;
-            btnDisplayAStudents.Visible = false;
-            btnUpdateAge.Visible = true;
-            btnUpdateGrade.Visible = true;
+            btnDisplayByGrade.Visible = false;
             btnIDDelete.Visible = false;
             btnDeleteFailingStudents.Visible = false;
-        }
+            UpdatePanel.Visible = true;
+            ShowAll();
 
-        private void btnUpdateAge_Click(object sender, EventArgs e)
-        {
-            btnUpdateGrade.Visible = false;
-            label1.Text = "ID";
-            label3.Visible = false;
-            tbGrade.Visible = false;
-            btnUpdateAge.Visible = false;
-            AgeUpdatebtn.Visible = true;
-        }
-
-        private void AgeUpdatebtn_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                using (SqlConnection sqlConnection = new SqlConnection(ConnectionString))
-                {
-                    sqlConnection.Open();
-
-                    SqlCommand sqlCommand = sqlConnection.CreateCommand();
-                    sqlCommand.CommandText = "UPDATE Students SET Age = @Age WHERE ID = @ID";
-                    sqlCommand.Parameters.AddWithValue("@Age", int.Parse(tbAge.Text.Trim()));
-                    sqlCommand.Parameters.AddWithValue("@ID", int.Parse(tbName.Text.Trim()));
-
-                    int rowsAffected = sqlCommand.ExecuteNonQuery();
-                    if (rowsAffected > 0)
-                        MessageBox.Show("Student Age Updated Successfully");
-                    else
-                        MessageBox.Show("No student found with the given ID");
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Error in AgeUpdatebtn_Click: {ex.Message}");
-            }
-        }
-
-        private void btnUpdateGrade_Click(object sender, EventArgs e)
-        {
-            btnUpdateGrade.Visible = false;
-            label2.Text = "Grade";
-            label3.Visible = false;
-            tbGrade.Visible = false;
-            btnUpdateAge.Visible = false;
-            GradeUpdatebtn.Visible = true;
-        }
-
-        private void GradeUpdatebtn_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                using (SqlConnection sqlConnection = new SqlConnection(ConnectionString))
-                {
-                    sqlConnection.Open();
-
-                    SqlCommand sqlCommand = sqlConnection.CreateCommand();
-                    sqlCommand.CommandText = "UPDATE Students SET Grade = @Grade WHERE Name = @Name";
-                    sqlCommand.Parameters.AddWithValue("@Grade", tbAge.Text.Trim());
-                    sqlCommand.Parameters.AddWithValue("@Name", tbName.Text.Trim());
-
-                    int rowsAffected = sqlCommand.ExecuteNonQuery();
-                    if (rowsAffected > 0)
-                        MessageBox.Show("Student Grade Updated Successfully");
-                    else
-                        MessageBox.Show("No student found with the given Name");
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Error in GradeUpdatebtn_Click: {ex.Message}");
-            }
         }
 
         private void btnDeleteFailingStudents_Click(object sender, EventArgs e)
@@ -276,23 +172,120 @@ namespace Student_Management_with_DB
 
         private void btnIDDelete_Click(object sender, EventArgs e)
         {
+            ShowAll();
             btnDisplayAll.Visible = false;
             btnUpdate.Visible = false;
             btnSubmit.Visible = false;
-            btnDisplayAStudents.Visible = false;
+            btnDisplayByGrade.Visible = false;
 
             btnDeleteFailingStudents.Visible = false;
             btnIDDelete.Visible = false;
-            tbAge.Visible = false;
-            tbGrade.Visible = false;
-            label2.Visible = false;
-            label3.Visible = false;
-            label1.Text = "ID";
-            btnDelFinal.Visible = true;
+            DeletePanel.Visible = true;
         }
 
-        private void btnDelFinal_Click(object sender, EventArgs e)
+
+
+        private void btnUpdateFinal_Click(object sender, EventArgs e)
         {
+            
+            grdStudents.DataSource=lstStudents;
+            if (string.IsNullOrWhiteSpace(tbNameUpdate.Text) || string.IsNullOrEmpty(tbAgeUpdate.Text) || string.IsNullOrEmpty(tbGradeUpdate.Text))
+            {
+                MessageBox.Show("No Field Cant be Empty");
+                return;
+            }
+            if (!int.TryParse(tbAgeUpdate.Text.Trim(), out int age))
+            {
+                MessageBox.Show("Please Enter A Valid Number For Age");
+                return;
+            }
+
+            string[] grades = { "A", "B", "C", "D", "F" };
+            if (!grades.Contains(tbGradeUpdate.Text.Trim().ToUpper()))
+            {
+                MessageBox.Show("Please Enter A Valid Grade (A, B, C, D, F).");
+                return;
+            }
+
+            if (!int.TryParse(tbIDForUpdate.Text.Trim(), out int studentID))
+            {
+                MessageBox.Show("Please Enter A Valid ID.");
+                return;
+            }
+
+            try
+            {
+                using (SqlConnection sqlConnection = new SqlConnection(ConnectionString))
+                {
+                    sqlConnection.Open();
+
+                    SqlCommand sqlCommand = sqlConnection.CreateCommand();
+
+
+
+                    sqlCommand.CommandText = "UPDATE Students SET Age = @Age, Name = @Name, Grade = @Grade WHERE ID = @ID";
+                    sqlCommand.Parameters.AddWithValue("@Name", tbNameUpdate.Text.Trim());
+                    sqlCommand.Parameters.AddWithValue("@Age", age);
+                    sqlCommand.Parameters.AddWithValue("@Grade", tbGradeUpdate.Text.Trim().ToUpper());
+                    sqlCommand.Parameters.AddWithValue("@ID", studentID);
+
+                    int rowsAffected = sqlCommand.ExecuteNonQuery();
+                    if (rowsAffected > 0) {
+                        ShowAll();
+                        MessageBox.Show("Student Information Updated Successfully");
+                    }
+
+                    else
+                        MessageBox.Show("No Student Found With The Given ID.");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error in btnUpdateFinal_Click: {ex.Message}");
+            }
+
+        }
+
+        private void ShowAll()
+        {
+            try
+            {
+                lstStudents = new List<Student>();
+                grdStudents.DataSource = null;
+
+                using (SqlConnection sqlConnection = new SqlConnection(ConnectionString))
+                {
+                    sqlConnection.Open();
+
+                    SqlCommand sqlCommand = sqlConnection.CreateCommand();
+                    sqlCommand.CommandText = "SELECT * FROM Students";
+
+                    SqlDataReader sqlDataReader = sqlCommand.ExecuteReader();
+                    while (sqlDataReader.Read())
+                    {
+                        Student objStudent = new Student()
+                        {
+                            ID = int.Parse(sqlDataReader["ID"].ToString()),
+                            Name = sqlDataReader["Name"].ToString(),
+                            Age = int.Parse(sqlDataReader["Age"].ToString()),
+                            Grade = sqlDataReader["Grade"].ToString()
+                        };
+
+                        lstStudents.Add(objStudent);
+                    }
+
+                    grdStudents.DataSource = lstStudents;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error in btnDisplayAll_Click: {ex.Message}");
+            }
+        }
+
+        private void btnDeleteFinal_Click(object sender, EventArgs e)
+        {
+
             try
             {
                 using (SqlConnection sqlConnection = new SqlConnection(ConnectionString))
@@ -301,11 +294,14 @@ namespace Student_Management_with_DB
 
                     SqlCommand sqlCommand = sqlConnection.CreateCommand();
                     sqlCommand.CommandText = "DELETE FROM Students WHERE ID = @ID";
-                    sqlCommand.Parameters.AddWithValue("@ID", int.Parse(tbName.Text.Trim()));
+                    sqlCommand.Parameters.AddWithValue("@ID", int.Parse(tbIDforDelete.Text.Trim()));
 
                     int rowsAffected = sqlCommand.ExecuteNonQuery();
                     if (rowsAffected > 0)
+                    {
+                        ShowAll();
                         MessageBox.Show("Student Deleted Successfully");
+                    }
                     else
                         MessageBox.Show("No student found with the given ID");
                 }
@@ -313,6 +309,45 @@ namespace Student_Management_with_DB
             catch (Exception ex)
             {
                 MessageBox.Show($"Error in btnDelFinal_Click: {ex.Message}");
+            }
+        }
+
+        private void btnA_Click(object sender, EventArgs e)
+        {
+            Button btn = sender as Button;
+            string grade = btn.Text;
+            try
+            {
+                lstStudents = new List<Student>();
+                grdStudents.DataSource = null;
+
+                using (SqlConnection sqlConnection = new SqlConnection(ConnectionString))
+                {
+                    sqlConnection.Open();
+
+                    SqlCommand sqlCommand = sqlConnection.CreateCommand();
+                    sqlCommand.CommandText = "SELECT * FROM Students WHERE Grade = @Grade";
+                    sqlCommand.Parameters.AddWithValue("@Grade", grade);
+                    SqlDataReader sqlDataReader = sqlCommand.ExecuteReader();
+                    while (sqlDataReader.Read())
+                    {
+                        Student objStudent = new Student()
+                        {
+                            ID = int.Parse(sqlDataReader["ID"].ToString()),
+                            Name = sqlDataReader["Name"].ToString(),
+                            Age = int.Parse(sqlDataReader["Age"].ToString()),
+                            Grade = sqlDataReader["Grade"].ToString()
+                        };
+
+                        lstStudents.Add(objStudent);
+                    }
+
+                    grdStudents.DataSource = lstStudents;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error in btnDisplayAStudents_Click: {ex.Message}");
             }
         }
     }
