@@ -69,11 +69,6 @@ namespace Student_Management_with_DB
 
         }
 
-        private void btnDisplayAStudents_Click(object sender, EventArgs e)
-        {
-            GradeWiseDisplayPannel.Visible = true;
-        }
-
         private void btnDisplayAll_Click(object sender, EventArgs e)
         {
             try
@@ -110,8 +105,6 @@ namespace Student_Management_with_DB
             }
         }
 
-
-
         private void btnDeleteFailingStudents_Click(object sender, EventArgs e)
         {
             try
@@ -137,10 +130,6 @@ namespace Student_Management_with_DB
                 MessageBox.Show($"Error in btnDeleteFailingStudents_Click: {ex.Message}");
             }
         }
-
-       
-
-  
 
         private void ShowAll()
         {
@@ -177,8 +166,6 @@ namespace Student_Management_with_DB
                 MessageBox.Show($"Error in btnDisplayAll_Click: {ex.Message}");
             }
         }
-
-
 
         private void btnA_Click(object sender, EventArgs e)
         {
@@ -240,7 +227,6 @@ namespace Student_Management_with_DB
             }
         }
 
-
         private void btnDelete_Click_1(object sender, EventArgs e)
         {
             if (grdStudents.SelectedRows.Count > 0) //Checking if User has selected a row or not
@@ -288,8 +274,6 @@ namespace Student_Management_with_DB
 
 
         }
-
-
 
         private void btnUpdate_Click(object sender, EventArgs e)
         {
@@ -364,7 +348,6 @@ namespace Student_Management_with_DB
             lbUpdate.Text = "Enter the name of Student";
 
         }
-
 
         private void btnSearchFinal_Click(object sender, EventArgs e)
         { 

@@ -150,7 +150,6 @@
             this.btnDisplayByGrade.TabIndex = 10;
             this.btnDisplayByGrade.Text = "Grade Summary";
             this.btnDisplayByGrade.UseVisualStyleBackColor = true;
-            this.btnDisplayByGrade.Click += new System.EventHandler(this.btnDisplayAStudents_Click);
             // 
             // btnUpdate
             // 
