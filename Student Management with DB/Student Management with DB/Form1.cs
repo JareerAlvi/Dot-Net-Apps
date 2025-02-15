@@ -344,7 +344,7 @@ namespace Student_Management_with_DB
 
         private void btnSearch_Click(object sender, EventArgs e)
         {
-            lbUpdate.Visible = GradeWiseDisplayPannel.Visible = SearchPannel.Visible = true;
+            lbUpdate.Visible = GradeWiseDisplayPannel.Visible = SearchPannel.Visible = btnBack.Visible= true;
             lbUpdate.Text = "Enter the name of Student";
 
         }
@@ -397,7 +397,13 @@ namespace Student_Management_with_DB
 
         private void btnGradeSummary_Click(object sender, EventArgs e)
         {
-            GradeWiseDisplayPannel.Visible = true;
+            GradeWiseDisplayPannel.Visible =btnBack.Visible= true;
+        }
+
+        private void btnBack_Click(object sender, EventArgs e)
+        {
+            GradeWiseDisplayPannel.Visible=SearchPannel.Visible = false;
+            btnBack.Visible = false;
         }
     }
 }

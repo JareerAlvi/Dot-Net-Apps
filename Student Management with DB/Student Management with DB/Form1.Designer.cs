@@ -58,6 +58,7 @@
             this.btnSubmitUpdate = new System.Windows.Forms.Button();
             this.lbUpdate = new System.Windows.Forms.Label();
             this.btnSearch = new System.Windows.Forms.Button();
+            this.btnBack = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.grdStudents)).BeginInit();
             this.GradeWiseDisplayPannel.SuspendLayout();
             this.SearchPannel.SuspendLayout();
@@ -354,11 +355,23 @@
             this.btnSearch.UseVisualStyleBackColor = true;
             this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click);
             // 
+            // btnBack
+            // 
+            this.btnBack.Location = new System.Drawing.Point(0, 0);
+            this.btnBack.Name = "btnBack";
+            this.btnBack.Size = new System.Drawing.Size(47, 23);
+            this.btnBack.TabIndex = 28;
+            this.btnBack.Text = "back";
+            this.btnBack.UseVisualStyleBackColor = true;
+            this.btnBack.Visible = false;
+            this.btnBack.Click += new System.EventHandler(this.btnBack_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.btnBack);
             this.Controls.Add(this.GradeWiseDisplayPannel);
             this.Controls.Add(this.btnDelete);
             this.Controls.Add(this.btnUpdate);
@@ -421,6 +434,7 @@
         private System.Windows.Forms.Button btnSearchFinal;
         private System.Windows.Forms.TextBox tbSearchName;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Button btnBack;
     }
 }
 
