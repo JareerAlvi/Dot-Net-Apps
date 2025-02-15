@@ -54,8 +54,13 @@
             this.btnSubmitUpdate = new System.Windows.Forms.Button();
             this.lbUpdate = new System.Windows.Forms.Label();
             this.btnSearch = new System.Windows.Forms.Button();
+            this.SearchPannel = new System.Windows.Forms.Panel();
+            this.label4 = new System.Windows.Forms.Label();
+            this.tbSearchName = new System.Windows.Forms.TextBox();
+            this.btnSearchFinal = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.grdStudents)).BeginInit();
             this.GradeWiseDisplayPannel.SuspendLayout();
+            this.SearchPannel.SuspendLayout();
             this.SuspendLayout();
             // 
             // tbName
@@ -179,6 +184,7 @@
             // 
             // GradeWiseDisplayPannel
             // 
+            this.GradeWiseDisplayPannel.Controls.Add(this.SearchPannel);
             this.GradeWiseDisplayPannel.Controls.Add(this.lbGradeCount);
             this.GradeWiseDisplayPannel.Controls.Add(this.lbGrade);
             this.GradeWiseDisplayPannel.Controls.Add(this.lbGrademsg);
@@ -189,7 +195,7 @@
             this.GradeWiseDisplayPannel.Controls.Add(this.btnA);
             this.GradeWiseDisplayPannel.Location = new System.Drawing.Point(32, 24);
             this.GradeWiseDisplayPannel.Name = "GradeWiseDisplayPannel";
-            this.GradeWiseDisplayPannel.Size = new System.Drawing.Size(729, 161);
+            this.GradeWiseDisplayPannel.Size = new System.Drawing.Size(741, 258);
             this.GradeWiseDisplayPannel.TabIndex = 24;
             this.GradeWiseDisplayPannel.Visible = false;
             // 
@@ -310,6 +316,44 @@
             this.btnSearch.UseVisualStyleBackColor = true;
             this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click);
             // 
+            // SearchPannel
+            // 
+            this.SearchPannel.Controls.Add(this.btnSearchFinal);
+            this.SearchPannel.Controls.Add(this.tbSearchName);
+            this.SearchPannel.Controls.Add(this.label4);
+            this.SearchPannel.Location = new System.Drawing.Point(0, 0);
+            this.SearchPannel.Name = "SearchPannel";
+            this.SearchPannel.Size = new System.Drawing.Size(741, 258);
+            this.SearchPannel.TabIndex = 27;
+            this.SearchPannel.Visible = false;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.Location = new System.Drawing.Point(190, 62);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(60, 20);
+            this.label4.TabIndex = 0;
+            this.label4.Text = "Name:";
+            // 
+            // tbSearchName
+            // 
+            this.tbSearchName.Location = new System.Drawing.Point(256, 64);
+            this.tbSearchName.Name = "tbSearchName";
+            this.tbSearchName.Size = new System.Drawing.Size(248, 20);
+            this.tbSearchName.TabIndex = 1;
+            // 
+            // btnSearchFinal
+            // 
+            this.btnSearchFinal.Location = new System.Drawing.Point(338, 127);
+            this.btnSearchFinal.Name = "btnSearchFinal";
+            this.btnSearchFinal.Size = new System.Drawing.Size(75, 34);
+            this.btnSearchFinal.TabIndex = 2;
+            this.btnSearchFinal.Text = "Search";
+            this.btnSearchFinal.UseVisualStyleBackColor = true;
+            this.btnSearchFinal.Click += new System.EventHandler(this.btnSearchFinal_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -338,6 +382,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.grdStudents)).EndInit();
             this.GradeWiseDisplayPannel.ResumeLayout(false);
             this.GradeWiseDisplayPannel.PerformLayout();
+            this.SearchPannel.ResumeLayout(false);
+            this.SearchPannel.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -371,6 +417,10 @@
         private System.Windows.Forms.Label lbGrade;
         private System.Windows.Forms.Label lbGrademsg;
         private System.Windows.Forms.Button btnSearch;
+        private System.Windows.Forms.Panel SearchPannel;
+        private System.Windows.Forms.Button btnSearchFinal;
+        private System.Windows.Forms.TextBox tbSearchName;
+        private System.Windows.Forms.Label label4;
     }
 }
 

@@ -182,9 +182,10 @@ namespace Student_Management_with_DB
 
         private void btnA_Click(object sender, EventArgs e)
         {
+            lbGrademsg.Visible = lbGrade.Visible = lbGradeCount.Visible = true;
             Button btn = sender as Button;
             string currentgrade = btn.Text.Substring(btn.Text.Length - 1); // Extract grade from button text
-            lbGrademsg.Visible = true;
+            
             lbGrade.Text = btn.Text +" :";
 
             try
@@ -301,6 +302,8 @@ namespace Student_Management_with_DB
                 btnSubmit.Click += btnSubmitUpdate_Click; // Assign new handler
                 tbName.BackColor=tbAge.BackColor=tbGrade.BackColor=Color.PaleVioletRed;
                 lbUpdate.Visible = true;
+                GradeWiseDisplayPannel.Visible = SearchPannel.Visible =false;
+                lbGrademsg.Visible = lbGrade.Visible = lbGradeCount.Visible = false;
             }
             else if(grdStudents.SelectedRows.Count>0){
                 MessageBox.Show("Only One Student' Inmformation can be Updated at a time");
@@ -357,6 +360,55 @@ namespace Student_Management_with_DB
 
         private void btnSearch_Click(object sender, EventArgs e)
         {
+            lbUpdate.Visible = GradeWiseDisplayPannel.Visible = SearchPannel.Visible = true;
+            lbUpdate.Text = "Enter the name of Student";
+
+        }
+
+
+        private void btnSearchFinal_Click(object sender, EventArgs e)
+        { 
+            IList<Student> lststudents = new List<Student>();
+            if (GetInput(tbSearchName.Text))
+            {
+                try
+                {
+                    using (SqlConnection sqlConnection = new SqlConnection(ConnectionString))
+                    {
+                        sqlConnection.Open();
+                        SqlCommand sqlCommand=sqlConnection.CreateCommand();
+                        sqlCommand.CommandText = "SELECT * FROM Students WHERE Name= @Name";
+                        sqlCommand.Parameters.AddWithValue("@Name",tbSearchName.Text.Trim());
+                        SqlDataReader sqlDataReader= sqlCommand.ExecuteReader();
+                        while (sqlDataReader.Read()) {
+                            Student objstudent = new Student()
+                            {
+                                ID = int.Parse(sqlDataReader["ID"].ToString()),
+                                Name = sqlDataReader["Name"].ToString(),
+                                Age = int.Parse(sqlDataReader["Age"].ToString()),
+                                Grade = sqlDataReader["Grade"].ToString()
+
+                            };
+                            lststudents.Add(objstudent);
+
+                        }
+                  
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error in  btnSearchFinal_Click: {ex}");
+                }
+            }
+
+            if (lststudents.Count==0) {
+                MessageBox.Show($"No student found with the given Name !");
+
+            }
+
+
+            tbSearchName.Text ="";
+            grdStudents.DataSource = lststudents;
 
         }
     }
