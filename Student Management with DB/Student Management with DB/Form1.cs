@@ -394,5 +394,10 @@ namespace Student_Management_with_DB
             grdStudents.DataSource = lststudents;
 
         }
+
+        private void btnGradeSummary_Click(object sender, EventArgs e)
+        {
+            GradeWiseDisplayPannel.Visible = true;
+        }
     }
 }

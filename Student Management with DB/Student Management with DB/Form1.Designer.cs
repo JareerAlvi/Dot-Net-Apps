@@ -37,12 +37,16 @@
             this.btnSubmit = new System.Windows.Forms.Button();
             this.btnDisplayAll = new System.Windows.Forms.Button();
             this.grdStudents = new System.Windows.Forms.DataGridView();
-            this.btnDisplayByGrade = new System.Windows.Forms.Button();
+            this.btnGradeSummary = new System.Windows.Forms.Button();
             this.btnUpdate = new System.Windows.Forms.Button();
             this.btnDeleteFailingStudents = new System.Windows.Forms.Button();
             this.btnDelete = new System.Windows.Forms.Button();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.GradeWiseDisplayPannel = new System.Windows.Forms.Panel();
+            this.SearchPannel = new System.Windows.Forms.Panel();
+            this.btnSearchFinal = new System.Windows.Forms.Button();
+            this.tbSearchName = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
             this.lbGradeCount = new System.Windows.Forms.Label();
             this.lbGrade = new System.Windows.Forms.Label();
             this.lbGrademsg = new System.Windows.Forms.Label();
@@ -54,10 +58,6 @@
             this.btnSubmitUpdate = new System.Windows.Forms.Button();
             this.lbUpdate = new System.Windows.Forms.Label();
             this.btnSearch = new System.Windows.Forms.Button();
-            this.SearchPannel = new System.Windows.Forms.Panel();
-            this.label4 = new System.Windows.Forms.Label();
-            this.tbSearchName = new System.Windows.Forms.TextBox();
-            this.btnSearchFinal = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.grdStudents)).BeginInit();
             this.GradeWiseDisplayPannel.SuspendLayout();
             this.SearchPannel.SuspendLayout();
@@ -142,14 +142,15 @@
             this.grdStudents.Size = new System.Drawing.Size(443, 150);
             this.grdStudents.TabIndex = 9;
             // 
-            // btnDisplayByGrade
+            // btnGradeSummary
             // 
-            this.btnDisplayByGrade.Location = new System.Drawing.Point(279, 237);
-            this.btnDisplayByGrade.Name = "btnDisplayByGrade";
-            this.btnDisplayByGrade.Size = new System.Drawing.Size(82, 37);
-            this.btnDisplayByGrade.TabIndex = 10;
-            this.btnDisplayByGrade.Text = "Grade Summary";
-            this.btnDisplayByGrade.UseVisualStyleBackColor = true;
+            this.btnGradeSummary.Location = new System.Drawing.Point(279, 237);
+            this.btnGradeSummary.Name = "btnGradeSummary";
+            this.btnGradeSummary.Size = new System.Drawing.Size(82, 37);
+            this.btnGradeSummary.TabIndex = 10;
+            this.btnGradeSummary.Text = "Grade Summary";
+            this.btnGradeSummary.UseVisualStyleBackColor = true;
+            this.btnGradeSummary.Click += new System.EventHandler(this.btnGradeSummary_Click);
             // 
             // btnUpdate
             // 
@@ -194,9 +195,47 @@
             this.GradeWiseDisplayPannel.Controls.Add(this.btnA);
             this.GradeWiseDisplayPannel.Location = new System.Drawing.Point(32, 24);
             this.GradeWiseDisplayPannel.Name = "GradeWiseDisplayPannel";
-            this.GradeWiseDisplayPannel.Size = new System.Drawing.Size(741, 258);
+            this.GradeWiseDisplayPannel.Size = new System.Drawing.Size(741, 252);
             this.GradeWiseDisplayPannel.TabIndex = 24;
             this.GradeWiseDisplayPannel.Visible = false;
+            // 
+            // SearchPannel
+            // 
+            this.SearchPannel.Controls.Add(this.btnSearchFinal);
+            this.SearchPannel.Controls.Add(this.tbSearchName);
+            this.SearchPannel.Controls.Add(this.label4);
+            this.SearchPannel.Location = new System.Drawing.Point(0, 0);
+            this.SearchPannel.Name = "SearchPannel";
+            this.SearchPannel.Size = new System.Drawing.Size(741, 258);
+            this.SearchPannel.TabIndex = 27;
+            this.SearchPannel.Visible = false;
+            // 
+            // btnSearchFinal
+            // 
+            this.btnSearchFinal.Location = new System.Drawing.Point(338, 127);
+            this.btnSearchFinal.Name = "btnSearchFinal";
+            this.btnSearchFinal.Size = new System.Drawing.Size(75, 34);
+            this.btnSearchFinal.TabIndex = 2;
+            this.btnSearchFinal.Text = "Search";
+            this.btnSearchFinal.UseVisualStyleBackColor = true;
+            this.btnSearchFinal.Click += new System.EventHandler(this.btnSearchFinal_Click);
+            // 
+            // tbSearchName
+            // 
+            this.tbSearchName.Location = new System.Drawing.Point(256, 64);
+            this.tbSearchName.Name = "tbSearchName";
+            this.tbSearchName.Size = new System.Drawing.Size(248, 20);
+            this.tbSearchName.TabIndex = 1;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.Location = new System.Drawing.Point(190, 62);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(60, 20);
+            this.label4.TabIndex = 0;
+            this.label4.Text = "Name:";
             // 
             // lbGradeCount
             // 
@@ -315,44 +354,6 @@
             this.btnSearch.UseVisualStyleBackColor = true;
             this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click);
             // 
-            // SearchPannel
-            // 
-            this.SearchPannel.Controls.Add(this.btnSearchFinal);
-            this.SearchPannel.Controls.Add(this.tbSearchName);
-            this.SearchPannel.Controls.Add(this.label4);
-            this.SearchPannel.Location = new System.Drawing.Point(0, 0);
-            this.SearchPannel.Name = "SearchPannel";
-            this.SearchPannel.Size = new System.Drawing.Size(741, 258);
-            this.SearchPannel.TabIndex = 27;
-            this.SearchPannel.Visible = false;
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(190, 62);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(60, 20);
-            this.label4.TabIndex = 0;
-            this.label4.Text = "Name:";
-            // 
-            // tbSearchName
-            // 
-            this.tbSearchName.Location = new System.Drawing.Point(256, 64);
-            this.tbSearchName.Name = "tbSearchName";
-            this.tbSearchName.Size = new System.Drawing.Size(248, 20);
-            this.tbSearchName.TabIndex = 1;
-            // 
-            // btnSearchFinal
-            // 
-            this.btnSearchFinal.Location = new System.Drawing.Point(338, 127);
-            this.btnSearchFinal.Name = "btnSearchFinal";
-            this.btnSearchFinal.Size = new System.Drawing.Size(75, 34);
-            this.btnSearchFinal.TabIndex = 2;
-            this.btnSearchFinal.Text = "Search";
-            this.btnSearchFinal.UseVisualStyleBackColor = true;
-            this.btnSearchFinal.Click += new System.EventHandler(this.btnSearchFinal_Click);
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -370,7 +371,7 @@
             this.Controls.Add(this.tbAge);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.tbName);
-            this.Controls.Add(this.btnDisplayByGrade);
+            this.Controls.Add(this.btnGradeSummary);
             this.Controls.Add(this.btnDisplayAll);
             this.Controls.Add(this.btnSubmit);
             this.Controls.Add(this.btnDeleteFailingStudents);
@@ -399,7 +400,7 @@
         private System.Windows.Forms.Button btnSubmit;
         private System.Windows.Forms.Button btnDisplayAll;
         private System.Windows.Forms.DataGridView grdStudents;
-        private System.Windows.Forms.Button btnDisplayByGrade;
+        private System.Windows.Forms.Button btnGradeSummary;
         private System.Windows.Forms.Button btnUpdate;
         private System.Windows.Forms.Button btnDeleteFailingStudents;
         private System.Windows.Forms.Button btnDelete;
