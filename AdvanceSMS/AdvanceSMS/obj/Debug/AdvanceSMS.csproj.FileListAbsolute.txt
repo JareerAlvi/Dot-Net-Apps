@@ -1,0 +1,9 @@
+C:\DotNet_WinApps\Dot-Net-Apps\AdvanceSMS\AdvanceSMS\bin\Debug\AdvanceSMS.exe.config
+C:\DotNet_WinApps\Dot-Net-Apps\AdvanceSMS\AdvanceSMS\bin\Debug\AdvanceSMS.exe
+C:\DotNet_WinApps\Dot-Net-Apps\AdvanceSMS\AdvanceSMS\obj\Debug\AdvanceSMS.csproj.AssemblyReference.cache
+C:\DotNet_WinApps\Dot-Net-Apps\AdvanceSMS\AdvanceSMS\obj\Debug\AdvanceSMS.Properties.Resources.resources
+C:\DotNet_WinApps\Dot-Net-Apps\AdvanceSMS\AdvanceSMS\obj\Debug\AdvanceSMS.csproj.GenerateResource.cache
+C:\DotNet_WinApps\Dot-Net-Apps\AdvanceSMS\AdvanceSMS\obj\Debug\AdvanceSMS.csproj.CoreCompileInputs.cache
+C:\DotNet_WinApps\Dot-Net-Apps\AdvanceSMS\AdvanceSMS\obj\Debug\AdvanceSMS.exe
+C:\DotNet_WinApps\Dot-Net-Apps\AdvanceSMS\AdvanceSMS\obj\Debug\AdvanceSMS.pdb
+C:\DotNet_WinApps\Dot-Net-Apps\AdvanceSMS\AdvanceSMS\bin\Debug\AdvanceSMS.pdb

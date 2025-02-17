@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Student_Management_with_DB;
 
-namespace Student_Management_with_DB
+namespace AdvanceSMS
 {
     internal static class Program
     {
