@@ -17,7 +17,7 @@ namespace AdvanceSMS
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new SMS_Authentication());
+            Application.Run(new HomePage());
         }
     }
 }
