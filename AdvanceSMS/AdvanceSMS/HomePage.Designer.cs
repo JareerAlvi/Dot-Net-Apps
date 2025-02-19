@@ -29,6 +29,9 @@
         private void InitializeComponent()
         {
             this.panel1 = new System.Windows.Forms.Panel();
+            this.btnUpdateStudent = new System.Windows.Forms.Button();
+            this.btnAddStudent = new System.Windows.Forms.Button();
+            this.grdStudents = new System.Windows.Forms.DataGridView();
             this.dateTimePicker = new System.Windows.Forms.DateTimePicker();
             this.label5 = new System.Windows.Forms.Label();
             this.lbDOBMsg = new System.Windows.Forms.Label();
@@ -47,9 +50,7 @@
             this.lbLNameMsg = new System.Windows.Forms.Label();
             this.lbFNameMsg = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.grdStudents = new System.Windows.Forms.DataGridView();
-            this.btnAddStudent = new System.Windows.Forms.Button();
-            this.btnUpdateStudent = new System.Windows.Forms.Button();
+            this.btnSubmitUpdate = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.grdStudents)).BeginInit();
             this.SuspendLayout();
@@ -58,6 +59,7 @@
             // 
             this.panel1.BackColor = System.Drawing.SystemColors.InactiveCaption;
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel1.Controls.Add(this.btnSubmitUpdate);
             this.panel1.Controls.Add(this.btnUpdateStudent);
             this.panel1.Controls.Add(this.btnAddStudent);
             this.panel1.Controls.Add(this.grdStudents);
@@ -83,6 +85,48 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(754, 594);
             this.panel1.TabIndex = 1;
+            // 
+            // btnUpdateStudent
+            // 
+            this.btnUpdateStudent.BackColor = System.Drawing.SystemColors.MenuHighlight;
+            this.btnUpdateStudent.FlatAppearance.BorderColor = System.Drawing.SystemColors.InactiveCaption;
+            this.btnUpdateStudent.FlatAppearance.MouseDownBackColor = System.Drawing.Color.White;
+            this.btnUpdateStudent.FlatAppearance.MouseOverBackColor = System.Drawing.Color.White;
+            this.btnUpdateStudent.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnUpdateStudent.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnUpdateStudent.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.btnUpdateStudent.Location = new System.Drawing.Point(426, 361);
+            this.btnUpdateStudent.Name = "btnUpdateStudent";
+            this.btnUpdateStudent.Size = new System.Drawing.Size(98, 39);
+            this.btnUpdateStudent.TabIndex = 24;
+            this.btnUpdateStudent.Text = "Update";
+            this.btnUpdateStudent.UseVisualStyleBackColor = false;
+            this.btnUpdateStudent.Click += new System.EventHandler(this.btnUpdateStudent_Click);
+            // 
+            // btnAddStudent
+            // 
+            this.btnAddStudent.BackColor = System.Drawing.SystemColors.MenuHighlight;
+            this.btnAddStudent.FlatAppearance.BorderColor = System.Drawing.SystemColors.InactiveCaption;
+            this.btnAddStudent.FlatAppearance.MouseDownBackColor = System.Drawing.Color.White;
+            this.btnAddStudent.FlatAppearance.MouseOverBackColor = System.Drawing.Color.White;
+            this.btnAddStudent.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnAddStudent.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnAddStudent.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.btnAddStudent.Location = new System.Drawing.Point(185, 361);
+            this.btnAddStudent.Name = "btnAddStudent";
+            this.btnAddStudent.Size = new System.Drawing.Size(98, 39);
+            this.btnAddStudent.TabIndex = 23;
+            this.btnAddStudent.Text = "Add";
+            this.btnAddStudent.UseVisualStyleBackColor = false;
+            this.btnAddStudent.Click += new System.EventHandler(this.btnAddStudent_Click);
+            // 
+            // grdStudents
+            // 
+            this.grdStudents.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.grdStudents.Location = new System.Drawing.Point(2, 440);
+            this.grdStudents.Name = "grdStudents";
+            this.grdStudents.Size = new System.Drawing.Size(746, 126);
+            this.grdStudents.TabIndex = 22;
             // 
             // dateTimePicker
             // 
@@ -245,46 +289,23 @@
             this.label1.TabIndex = 2;
             this.label1.Text = "First Name";
             // 
-            // grdStudents
+            // btnSubmitUpdate
             // 
-            this.grdStudents.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.grdStudents.Location = new System.Drawing.Point(2, 440);
-            this.grdStudents.Name = "grdStudents";
-            this.grdStudents.Size = new System.Drawing.Size(746, 126);
-            this.grdStudents.TabIndex = 22;
-            // 
-            // btnAddStudent
-            // 
-            this.btnAddStudent.BackColor = System.Drawing.SystemColors.MenuHighlight;
-            this.btnAddStudent.FlatAppearance.BorderColor = System.Drawing.SystemColors.InactiveCaption;
-            this.btnAddStudent.FlatAppearance.MouseDownBackColor = System.Drawing.Color.White;
-            this.btnAddStudent.FlatAppearance.MouseOverBackColor = System.Drawing.Color.White;
-            this.btnAddStudent.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnAddStudent.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAddStudent.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.btnAddStudent.Location = new System.Drawing.Point(185, 361);
-            this.btnAddStudent.Name = "btnAddStudent";
-            this.btnAddStudent.Size = new System.Drawing.Size(98, 39);
-            this.btnAddStudent.TabIndex = 23;
-            this.btnAddStudent.Text = "Add";
-            this.btnAddStudent.UseVisualStyleBackColor = false;
-            this.btnAddStudent.Click += new System.EventHandler(this.btnAddStudent_Click);
-            // 
-            // btnUpdateStudent
-            // 
-            this.btnUpdateStudent.BackColor = System.Drawing.SystemColors.MenuHighlight;
-            this.btnUpdateStudent.FlatAppearance.BorderColor = System.Drawing.SystemColors.InactiveCaption;
-            this.btnUpdateStudent.FlatAppearance.MouseDownBackColor = System.Drawing.Color.White;
-            this.btnUpdateStudent.FlatAppearance.MouseOverBackColor = System.Drawing.Color.White;
-            this.btnUpdateStudent.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnUpdateStudent.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnUpdateStudent.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.btnUpdateStudent.Location = new System.Drawing.Point(426, 361);
-            this.btnUpdateStudent.Name = "btnUpdateStudent";
-            this.btnUpdateStudent.Size = new System.Drawing.Size(98, 39);
-            this.btnUpdateStudent.TabIndex = 24;
-            this.btnUpdateStudent.Text = "Update";
-            this.btnUpdateStudent.UseVisualStyleBackColor = false;
+            this.btnSubmitUpdate.BackColor = System.Drawing.SystemColors.MenuHighlight;
+            this.btnSubmitUpdate.FlatAppearance.BorderColor = System.Drawing.SystemColors.InactiveCaption;
+            this.btnSubmitUpdate.FlatAppearance.MouseDownBackColor = System.Drawing.Color.White;
+            this.btnSubmitUpdate.FlatAppearance.MouseOverBackColor = System.Drawing.Color.White;
+            this.btnSubmitUpdate.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnSubmitUpdate.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnSubmitUpdate.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.btnSubmitUpdate.Location = new System.Drawing.Point(322, 333);
+            this.btnSubmitUpdate.Name = "btnSubmitUpdate";
+            this.btnSubmitUpdate.Size = new System.Drawing.Size(98, 39);
+            this.btnSubmitUpdate.TabIndex = 25;
+            this.btnSubmitUpdate.Text = "Update";
+            this.btnSubmitUpdate.UseVisualStyleBackColor = false;
+            this.btnSubmitUpdate.Visible = false;
+            this.btnSubmitUpdate.Click += new System.EventHandler(this.btnSubmitUpdate_Click);
             // 
             // HomePage
             // 
@@ -326,5 +347,6 @@
         private System.Windows.Forms.DataGridView grdStudents;
         private System.Windows.Forms.Button btnUpdateStudent;
         private System.Windows.Forms.Button btnAddStudent;
+        private System.Windows.Forms.Button btnSubmitUpdate;
     }
 }

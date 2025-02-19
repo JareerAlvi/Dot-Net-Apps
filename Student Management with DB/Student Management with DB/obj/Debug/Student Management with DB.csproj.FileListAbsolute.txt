@@ -1,0 +1,10 @@
+C:\DotNet_WinApps\Dot-Net-Apps\Student Management with DB\Student Management with DB\obj\Debug\Student Management with DB.csproj.AssemblyReference.cache
+C:\DotNet_WinApps\Dot-Net-Apps\Student Management with DB\Student Management with DB\obj\Debug\Student_Management_with_DB.Form1.resources
+C:\DotNet_WinApps\Dot-Net-Apps\Student Management with DB\Student Management with DB\obj\Debug\Student_Management_with_DB.Properties.Resources.resources
+C:\DotNet_WinApps\Dot-Net-Apps\Student Management with DB\Student Management with DB\obj\Debug\Student Management with DB.csproj.GenerateResource.cache
+C:\DotNet_WinApps\Dot-Net-Apps\Student Management with DB\Student Management with DB\obj\Debug\Student Management with DB.csproj.CoreCompileInputs.cache
+C:\DotNet_WinApps\Dot-Net-Apps\Student Management with DB\Student Management with DB\bin\Debug\Student Management with DB.exe.config
+C:\DotNet_WinApps\Dot-Net-Apps\Student Management with DB\Student Management with DB\bin\Debug\Student Management with DB.exe
+C:\DotNet_WinApps\Dot-Net-Apps\Student Management with DB\Student Management with DB\bin\Debug\Student Management with DB.pdb
+C:\DotNet_WinApps\Dot-Net-Apps\Student Management with DB\Student Management with DB\obj\Debug\Student Management with DB.exe
+C:\DotNet_WinApps\Dot-Net-Apps\Student Management with DB\Student Management with DB\obj\Debug\Student Management with DB.pdb

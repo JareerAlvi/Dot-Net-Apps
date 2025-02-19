@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -10,6 +11,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml.Linq;
 using Classes;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 namespace Student_Management_with_DB
 {
     public partial class HomePage : Form
@@ -21,68 +24,65 @@ namespace Student_Management_with_DB
             InitializeComponent();
             ShowAll();
         }
-
         private bool IsValidEmail(string email)
         {
             try
             {
-                var addr = new System.Net.Mail.MailAddress(email);
-                return addr.Address == email;
+                var addr = new System.Net.Mail.MailAddress(email); //trying to parse email in correct using an in built class
+                return true; 
+                //upper statement would throw exception in cas of invalid format...and control will transfer to catch block without coming on this line
             }
             catch
             {
                 return false;
             }
         }
-
         private bool ValidateStudentInput()
         {
             
+            lbFNameMsg.Text = lbLNameMsg.Text = lbAgeMsg.Text = lbGradeMsg.Text =  lbEmailMsg.Text =  lbDOBMsg.Text = "";
+
+            bool isValid = true; 
+
+
             if (string.IsNullOrWhiteSpace(tbFirstName.Text))
             {
                 lbFNameMsg.Text = "First Name must be provided.";
-                return false;
+                isValid = false;
             }
 
-            // Validate Last Name
             if (string.IsNullOrWhiteSpace(tbLastName.Text))
             {
                 lbLNameMsg.Text = "Last Name must be provided.";
-                return false;
+                isValid = false;
             }
 
-            // Validate Age (must be a positive integer)
-            if (int.Parse(tbAge.Text.ToString()) <= 0)
+            if (!int.TryParse(tbAge.Text, out int age) || age <= 0)
             {
                 lbAgeMsg.Text = "Please enter a valid positive number for Age.";
-                return false;
+                isValid = false;
             }
 
-            // Validate Grade (Must be A, B, C, D, or F)
             string[] validGrades = { "A", "B", "C", "D", "F" };
-            if (!validGrades.Contains(tbGrade.Text.ToUpper()))
+            if (!validGrades.Contains(tbGrade.Text.Trim().ToUpper()))
             {
                 lbGradeMsg.Text = "Please enter a valid Grade (A, B, C, D, F).";
-                return false;
+                isValid = false;
             }
-
-            // Validate Email (Simple format check)
             if (!IsValidEmail(tbEmail.Text))
             {
                 lbEmailMsg.Text = "Please enter a valid Email.";
-                return false;
+                isValid = false;
             }
 
-            // Validate Date of Birth (Should not be a future date)
-            if (DateTime.Parse(dateTimePicker.Text) > DateTime.Now)
+            if (!DateTime.TryParse(dateTimePicker.Text, out DateTime dob) || dob > DateTime.Now)
             {
                 lbDOBMsg.Text = "Date of Birth cannot be in the future.";
-                return false;
+                isValid = false;
             }
 
-            return true;
+            return isValid;
         }
-
         private void ShowAll()
         {
             try
@@ -123,7 +123,6 @@ namespace Student_Management_with_DB
                 MessageBox.Show($"Error in ShowAll_Function: {ex.Message}");
             }
         }
-
         private void btnAddStudent_Click(object sender, EventArgs e)
         {
 
@@ -132,15 +131,147 @@ namespace Student_Management_with_DB
             {
                 using (SqlConnection sqlConnection = new SqlConnection(ConnectionString))
                 {
-                    sqlConnection.Open();
+                    try
+                    {
+                        sqlConnection.Open();
+                        using (SqlCommand checkEmailCmd = new SqlCommand("SELECT COUNT(*) FROM tbStudents WHERE Email = @Email", sqlConnection))
+                        {
+                            checkEmailCmd.Parameters.AddWithValue("@Email", tbEmail.Text.Trim());
 
-                    ShowAll();
+                            int emailCount = (int)checkEmailCmd.ExecuteScalar();
+                            if (emailCount > 0)
+                            {
+                                MessageBox.Show("This email is already registered. Please use a different email.");
+                                return; 
+                            }
+                        }
+                        SqlCommand sqlCommand = sqlConnection.CreateCommand();
+                        sqlCommand.CommandText = @"
+            INSERT INTO tbStudents(FirstName, LastName, Age, Grade, Email, DateOfBirth)
+            VALUES(@FirstName, @LastName, @Age, @Grade, @Email, @DateOfBirth)";
 
+                            sqlCommand.Parameters.AddWithValue("@FirstName", tbFirstName.Text.Trim());
+                            sqlCommand.Parameters.AddWithValue("@LastName", tbLastName.Text.Trim());
+                            sqlCommand.Parameters.AddWithValue("@Age", int.TryParse(tbAge.Text, out int age) ? age : 0); 
+                            sqlCommand.Parameters.AddWithValue("@Grade", tbGrade.Text.Trim());
+                            sqlCommand.Parameters.AddWithValue("@Email", tbEmail.Text.Trim());
+                            sqlCommand.Parameters.AddWithValue("@DateOfBirth", dateTimePicker.Value); 
+
+                            int rowsAffected = sqlCommand.ExecuteNonQuery();
+                            if (rowsAffected > 0)
+                            {
+                            tbFirstName.Text = tbLastName.Text = tbAge.Text = tbGrade.Text = tbEmail.Text = "";
+                            dateTimePicker.Value = DateTime.Now;
+                            ShowAll(); 
+                            MessageBox.Show("Student Added Successfully");
+                            }
+                        
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("An error occurred: " + ex.Message);
+                    }
                 }
+
             }
 
 
 
+        }
+        private void btnUpdateStudent_Click(object sender, EventArgs e)
+        {
+
+            if (grdStudents.SelectedRows.Count == 1 )
+            {
+                tbFirstName.Text = grdStudents.CurrentRow.Cells["First_Name"].Value.ToString();
+                tbLastName.Text = grdStudents.CurrentRow.Cells["Last_Name"].Value.ToString();
+                tbAge.Text = grdStudents.CurrentRow.Cells["Age"].Value.ToString();
+                tbGrade.Text = grdStudents.CurrentRow.Cells["Grade"].Value.ToString();
+                tbEmail.Text = grdStudents.CurrentRow.Cells["Email"].Value.ToString();
+                dateTimePicker.Value = DateTime.Parse(grdStudents.CurrentRow.Cells["DOB"].Value.ToString());
+                btnAddStudent.Visible=btnUpdateStudent.Visible=false;
+                btnSubmitUpdate.Visible=true;
+            }
+
+            else if (grdStudents.SelectedRows.Count > 0)
+            {
+                MessageBox.Show("Only One Student's Inmformation can be Updated at a time");
+
+            }
+            else
+            {
+                MessageBox.Show("Please Select a Student First");
+
+            }
+        }
+        private void btnSubmitUpdate_Click(object sender, EventArgs e)
+        {
+            if (ValidateStudentInput())
+            {
+                try
+                {
+
+
+                    using (SqlConnection sqlConnection = new SqlConnection(ConnectionString))
+                    {
+                        sqlConnection.Open();
+                        using (SqlCommand checkEmailCmd = new SqlCommand("SELECT COUNT(*) FROM tbStudents WHERE Email = @Email", sqlConnection))
+                        {
+                            checkEmailCmd.Parameters.AddWithValue("@Email", tbEmail.Text.Trim());
+
+                            int emailCount = (int)checkEmailCmd.ExecuteScalar();
+                            if (emailCount > 0 && tbEmail.Text != grdStudents.CurrentRow.Cells["Email"].Value.ToString()) //Check so that email isnt duplicated and if email isnt changed during update...the false ,message doesnt appears
+                            {
+                                MessageBox.Show("This email is already registered. Please use a different email.");
+                                return;
+                            }
+                        }
+
+                        SqlCommand sqlCommand = sqlConnection.CreateCommand();
+
+
+
+                        sqlCommand.CommandText = @"
+                       UPDATE tbStudents 
+                       SET FirstName = @FirstName, LastName = @LastName, Age = @Age, 
+                       Grade = @Grade, Email = @Email, DateOfBirth = @DateOfBirth 
+                       WHERE StudentID = @StudentID";
+                        sqlCommand.Parameters.AddWithValue("@StudentID", int.Parse(grdStudents.CurrentRow.Cells["StudentID"].Value.ToString()));
+                        sqlCommand.Parameters.AddWithValue("@FirstName", tbFirstName.Text.Trim());
+                        sqlCommand.Parameters.AddWithValue("@LastName", tbLastName.Text.Trim());
+                        sqlCommand.Parameters.AddWithValue("@Age", int.Parse(tbAge.Text));
+                        sqlCommand.Parameters.AddWithValue("@Grade", tbGrade.Text.Trim());
+                        sqlCommand.Parameters.AddWithValue("@Email", tbEmail.Text.Trim());
+                        sqlCommand.Parameters.AddWithValue("@DateOfBirth", dateTimePicker.Value);
+
+                        int rowsAffected = sqlCommand.ExecuteNonQuery();
+
+                        if (rowsAffected > 0)
+                        {
+                            //Returning to previous states
+                            btnSubmitUpdate.Visible=false;
+                            btnUpdateStudent.Visible=btnAddStudent.Visible = true;
+                            tbFirstName.Text = tbLastName.Text = tbAge.Text = tbGrade.Text = tbEmail.Text = "";
+                            dateTimePicker.Value = DateTime.Now;
+                            ShowAll();
+                            MessageBox.Show("Student Information Updated Successfully");
+                        }
+                        else
+                        {
+                            MessageBox.Show("No changes were made. The information remains the same.");
+                        }
+
+
+
+
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error in btnUpdateFinal_Click: {ex.Message}");
+                }
+
+            }
         }
     }
 }
