@@ -1,15 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Data.SqlClient;
-using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using Classes;
 namespace Student_Management_with_DB
 {
     public partial class Form1 : Form
@@ -22,21 +16,21 @@ namespace Student_Management_with_DB
         }
 
 
-        private bool GetInput(string Name=" ",string Age=" ",string Grade=" ")
+        private bool GetInput(string Name = " ", string Age = " ", string Grade = " ")
         {
-            if (string.IsNullOrEmpty(Name)&&Name!=" ")
+            if (string.IsNullOrEmpty(Name) && Name != " ")
             {
                 MessageBox.Show("Name must be Provided");
                 return false;
             }
-            
+
 
             if (!int.TryParse(Age, out int AgeInNumber) && Age != " ")
             {
                 MessageBox.Show("Please enter a valid number for Age.");
                 return false;
             }
-          
+
             string[] grades = { "A", "B", "C", "D", "F" };
             if (!grades.Contains(Grade.ToUpper()) && Grade != " ")
             {
@@ -49,7 +43,7 @@ namespace Student_Management_with_DB
         private void btnSubmit_Click(object sender, EventArgs e)
         {
 
-            if (GetInput(tbName.Text,tbAge.Text,tbGrade.Text))
+            if (GetInput(tbName.Text, tbAge.Text, tbGrade.Text))
             {
                 using (SqlConnection sqlConnection = new SqlConnection(ConnectionString))
                 {
@@ -64,7 +58,7 @@ namespace Student_Management_with_DB
                     MessageBox.Show("Student Added Successfully");
                 }
             }
-              
+
 
 
         }
@@ -117,7 +111,8 @@ namespace Student_Management_with_DB
                     sqlCommand.CommandText = "DELETE FROM Students WHERE Grade = 'F'";
 
                     int rowsAffected = sqlCommand.ExecuteNonQuery();
-                    if (rowsAffected > 0) {
+                    if (rowsAffected > 0)
+                    {
                         ShowAll();
                         MessageBox.Show("All Students with Grade 'F' Deleted Successfully");
                     }
@@ -172,8 +167,8 @@ namespace Student_Management_with_DB
             lbGrademsg.Visible = lbGrade.Visible = lbGradeCount.Visible = true;
             Button btn = sender as Button;
             string currentgrade = btn.Text.Substring(btn.Text.Length - 1); // Extract grade from button text
-            
-            lbGrade.Text = btn.Text +" :";
+
+            lbGrade.Text = btn.Text + " :";
 
             try
             {
@@ -266,7 +261,7 @@ namespace Student_Management_with_DB
                     MessageBox.Show($"Error in btnDelete_Click1: {ex.Message}");
                 }
             }
-        
+
             else
             {
                 MessageBox.Show("Please select at least one Student to Delete.");
@@ -278,18 +273,20 @@ namespace Student_Management_with_DB
         private void btnUpdate_Click(object sender, EventArgs e)
         {
 
-            if (grdStudents.SelectedRows.Count == 1) { 
-             tbName.Text=grdStudents.CurrentRow.Cells["Name"].Value.ToString();
-             tbAge.Text=grdStudents.CurrentRow.Cells["Age"].Value.ToString();
-             tbGrade.Text = grdStudents.CurrentRow.Cells["Grade"].Value.ToString();
+            if (grdStudents.SelectedRows.Count == 1)
+            {
+                tbName.Text = grdStudents.CurrentRow.Cells["Name"].Value.ToString();
+                tbAge.Text = grdStudents.CurrentRow.Cells["Age"].Value.ToString();
+                tbGrade.Text = grdStudents.CurrentRow.Cells["Grade"].Value.ToString();
                 btnSubmit.Click -= btnSubmit_Click; // Remove old handler (if previously assigned)
                 btnSubmit.Click += btnSubmitUpdate_Click; // Assign new handler
-                tbName.BackColor=tbAge.BackColor=tbGrade.BackColor=Color.PaleVioletRed;
+                tbName.BackColor = tbAge.BackColor = tbGrade.BackColor = Color.PaleVioletRed;
                 lbUpdate.Visible = true;
-                GradeWiseDisplayPannel.Visible = SearchPannel.Visible =false;
+                GradeWiseDisplayPannel.Visible = SearchPannel.Visible = false;
                 lbGrademsg.Visible = lbGrade.Visible = lbGradeCount.Visible = false;
             }
-            else if(grdStudents.SelectedRows.Count>0){
+            else if (grdStudents.SelectedRows.Count > 0)
+            {
                 MessageBox.Show("Only One Student' Inmformation can be Updated at a time");
 
             }
@@ -328,7 +325,7 @@ namespace Student_Management_with_DB
                         tbName.Text = tbAge.Text = tbGrade.Text = null;
                         ShowAll();
                         MessageBox.Show("Student Information Updated Successfully");
-  
+
                     }
                 }
                 catch (Exception ex)
@@ -344,13 +341,13 @@ namespace Student_Management_with_DB
 
         private void btnSearch_Click(object sender, EventArgs e)
         {
-            lbUpdate.Visible = GradeWiseDisplayPannel.Visible = SearchPannel.Visible = btnBack.Visible= true;
+            lbUpdate.Visible = GradeWiseDisplayPannel.Visible = SearchPannel.Visible = btnBack.Visible = true;
             lbUpdate.Text = "Enter the name of Student";
 
         }
 
         private void btnSearchFinal_Click(object sender, EventArgs e)
-        { 
+        {
             IList<Student> lststudents = new List<Student>();
             if (GetInput(tbSearchName.Text))
             {
@@ -359,11 +356,12 @@ namespace Student_Management_with_DB
                     using (SqlConnection sqlConnection = new SqlConnection(ConnectionString))
                     {
                         sqlConnection.Open();
-                        SqlCommand sqlCommand=sqlConnection.CreateCommand();
+                        SqlCommand sqlCommand = sqlConnection.CreateCommand();
                         sqlCommand.CommandText = "SELECT * FROM Students WHERE Name= @Name";
-                        sqlCommand.Parameters.AddWithValue("@Name",tbSearchName.Text.Trim());
-                        SqlDataReader sqlDataReader= sqlCommand.ExecuteReader();
-                        while (sqlDataReader.Read()) {
+                        sqlCommand.Parameters.AddWithValue("@Name", tbSearchName.Text.Trim());
+                        SqlDataReader sqlDataReader = sqlCommand.ExecuteReader();
+                        while (sqlDataReader.Read())
+                        {
                             Student objstudent = new Student()
                             {
                                 ID = int.Parse(sqlDataReader["ID"].ToString()),
@@ -375,7 +373,7 @@ namespace Student_Management_with_DB
                             lststudents.Add(objstudent);
 
                         }
-                  
+
                     }
                 }
                 catch (Exception ex)
@@ -384,25 +382,26 @@ namespace Student_Management_with_DB
                 }
             }
 
-            if (lststudents.Count==0) {
+            if (lststudents.Count == 0)
+            {
                 MessageBox.Show($"No student found with the given Name !");
 
             }
 
 
-            tbSearchName.Text ="";
+            tbSearchName.Text = "";
             grdStudents.DataSource = lststudents;
 
         }
 
         private void btnGradeSummary_Click(object sender, EventArgs e)
         {
-            GradeWiseDisplayPannel.Visible =btnBack.Visible= true;
+            GradeWiseDisplayPannel.Visible = btnBack.Visible = true;
         }
 
         private void btnBack_Click(object sender, EventArgs e)
         {
-            GradeWiseDisplayPannel.Visible=SearchPannel.Visible = false;
+            GradeWiseDisplayPannel.Visible = SearchPannel.Visible = false;
             btnBack.Visible = false;
         }
     }

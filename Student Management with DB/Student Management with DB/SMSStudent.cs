@@ -1,14 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Classes2
+namespace Student_Management_with_DB
 {
-    internal class Student
+    internal class SMSStudent
     {
-
         public int StudentID { get; set; } = 0;
         public string First_Name { get; set; } = "";
         public string Last_Name { get; set; } = "";
@@ -16,8 +11,5 @@ namespace Classes2
         public string Grade { get; set; } = "";
         public string Email { get; set; } = "";
         public DateTime DOB { get; set; } = DateTime.MinValue;
-
-
     }
-
 }

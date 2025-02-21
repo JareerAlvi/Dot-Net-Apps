@@ -1,27 +1,23 @@
-﻿using Classes2;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
+using System.Configuration;
 using System.Data.SqlClient;
 using System.Diagnostics;
-using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
 namespace Student_Management_with_DB
 {
-    public partial class ManageStudents: Form
+    public partial class ManageStudents : Form
     {
-        string ConnectionString = "Server=localhost;Database=SMS;Integrated Security=True;";
+        string connectionString = ConfigurationManager.ConnectionStrings["MyDbConnection"].ConnectionString;
 
         public ManageStudents()
         {
             InitializeComponent();
-            btnBack2.BackgroundImage = ResizeImage(Image.FromFile("C:\\Users\\MY GUEST\\Downloads\\back.png"), btnBack2.Size);
+
+            //btnBack2.BackgroundImage = Util.ResizeImage(Image.FromFile("C:\\Users\\MY GUEST\\Downloads\\back.png"), btnBack2.Size);
 
             List<string> cbItemsSearch = new List<string> { "Name", "Email", "Grade" };
             List<string> cbItemsSort = new List<string> { "First Name", "Last Name", "Grade" };
@@ -30,23 +26,14 @@ namespace Student_Management_with_DB
             cbSort.DataSource = cbItemsSort;
 
         }
-        private Image ResizeImage(Image img, Size newSize)
-        {
-            Bitmap bmp = new Bitmap(newSize.Width, newSize.Height);
-            using (Graphics g = Graphics.FromImage(bmp))
-            {
-                g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
-                g.DrawImage(img, 0, 0, newSize.Width, newSize.Height);
-            }
-            return bmp;
-        }
+
         private void ShowAll()
         {
             try
             {
-                IList<Student> lstStudents = new List<Student>();
+                IList<SMSStudent> lstStudents = new List<SMSStudent>();
 
-                using (SqlConnection sqlConnection = new SqlConnection(ConnectionString))
+                using (SqlConnection sqlConnection = new SqlConnection(connectionString))
                 {
                     sqlConnection.Open();
 
@@ -56,7 +43,7 @@ namespace Student_Management_with_DB
                     SqlDataReader sqlDataReader = sqlCommand.ExecuteReader();
                     while (sqlDataReader.Read())
                     {
-                        Student objStudent = new Student()
+                        SMSStudent objStudent = new SMSStudent()
                         {
                             StudentID = int.Parse(sqlDataReader["StudentID"].ToString()),
                             First_Name = sqlDataReader["FirstName"].ToString(),
@@ -82,9 +69,9 @@ namespace Student_Management_with_DB
         }
         private void btnSearch_Click(object sender, EventArgs e)
         {
-            IList<Student> lstStudents = new List<Student>();
+            IList<SMSStudent> lstStudents = new List<SMSStudent>();
 
-            using (SqlConnection sqlConnection= new SqlConnection(ConnectionString))
+            using (SqlConnection sqlConnection = new SqlConnection(connectionString))
             {
                 sqlConnection.Open();
                 if (cbSearch.SelectedItem != null)
@@ -105,14 +92,14 @@ namespace Student_Management_with_DB
                         }
                         string Name = tbSearch.Text.ToString() + " "; //ADDING Whiespace in case user gives corect input i.e FirstName
                         searchCommand.CommandText = "SELECT * FROM tbStudents WHERE FirstName = @Value";
-                        searchCommand.Parameters.AddWithValue("@Value", Name.Substring(0,Name.IndexOf(" ")));
+                        searchCommand.Parameters.AddWithValue("@Value", Name.Substring(0, Name.IndexOf(" ")));
                     }
                     else if (selectedCriteria == "Email")
                     {
                         try
                         {
-                            var addr = new System.Net.Mail.MailAddress(tbSearch.Text); 
-   
+                            var addr = new System.Net.Mail.MailAddress(tbSearch.Text);
+
                         }
                         catch
                         {
@@ -139,7 +126,7 @@ namespace Student_Management_with_DB
 
                     while (sqlDataReader.Read())
                     {
-                        Student objStudent = new Student()
+                        SMSStudent objStudent = new SMSStudent()
                         {
                             StudentID = int.Parse(sqlDataReader["StudentID"].ToString()),
                             First_Name = sqlDataReader["FirstName"].ToString(),
@@ -167,9 +154,9 @@ namespace Student_Management_with_DB
         private void btnSort_Click(object sender, EventArgs e)
         {
 
-            IList<Student> lstStudents = new List<Student>();
+            IList<SMSStudent> lstStudents = new List<SMSStudent>();
 
-            using (SqlConnection sqlConnection = new SqlConnection(ConnectionString))
+            using (SqlConnection sqlConnection = new SqlConnection(connectionString))
             {
                 sqlConnection.Open();
                 if (cbSort.SelectedItem != null)
@@ -200,7 +187,7 @@ namespace Student_Management_with_DB
 
                     while (sqlDataReader.Read())
                     {
-                        Student objStudent = new Student()
+                        SMSStudent objStudent = new SMSStudent()
                         {
                             StudentID = int.Parse(sqlDataReader["StudentID"].ToString()),
                             First_Name = sqlDataReader["FirstName"].ToString(),
@@ -244,7 +231,7 @@ namespace Student_Management_with_DB
                 try
                 {
 
-                    using (SqlConnection sqlConnection = new SqlConnection(ConnectionString))
+                    using (SqlConnection sqlConnection = new SqlConnection(connectionString))
                     {
                         sqlConnection.Open();
                         foreach (int currentid in idsToDelete) //Deleting all the ids in idsForDelete List
@@ -277,7 +264,7 @@ namespace Student_Management_with_DB
         {
             try
             {
-                using (SqlConnection sqlConnection = new SqlConnection(ConnectionString))
+                using (SqlConnection sqlConnection = new SqlConnection(connectionString))
                 {
                     sqlConnection.Open();
                     SqlCommand sqlCommand = new SqlCommand("SELECT * FROM tbStudents", sqlConnection);
@@ -320,7 +307,7 @@ namespace Student_Management_with_DB
                     return;
                 }
 
-                using (SqlConnection sqlConnection = new SqlConnection(ConnectionString))
+                using (SqlConnection sqlConnection = new SqlConnection(connectionString))
                 {
                     sqlConnection.Open();
                     using (StreamReader reader = new StreamReader(filePath))
@@ -364,7 +351,7 @@ namespace Student_Management_with_DB
                     }
 
                     MessageBox.Show("Student records imported successfully.");
-                    ShowAll(); 
+                    ShowAll();
                 }
             }
             catch (Exception ex)
@@ -377,9 +364,9 @@ namespace Student_Management_with_DB
         {
             try
             {
-                IList<Student> lstStudents = new List<Student>();
+                IList<SMSStudent> lstStudents = new List<SMSStudent>();
 
-                using (SqlConnection sqlConnection = new SqlConnection(ConnectionString))
+                using (SqlConnection sqlConnection = new SqlConnection(connectionString))
                 {
                     sqlConnection.Open();
                     SqlCommand sqlCommand = new SqlCommand("SELECT * FROM tbStudents", sqlConnection);
@@ -387,7 +374,7 @@ namespace Student_Management_with_DB
 
                     while (sqlDataReader.Read())
                     {
-                        Student objStudent = new Student()
+                        SMSStudent objStudent = new SMSStudent()
                         {
                             StudentID = int.Parse(sqlDataReader["StudentID"].ToString()),
                             First_Name = sqlDataReader["FirstName"].ToString(),

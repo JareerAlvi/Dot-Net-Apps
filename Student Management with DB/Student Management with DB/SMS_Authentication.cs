@@ -1,19 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
+using System.Configuration;
 using System.Data.SqlClient;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Student_Management_with_DB
 {
     public partial class SMS_Authentication : Form
     {
-        string ConnectionString = "Server=localhost;Database=SMS;Integrated Security=True;";
+        string connectionString = ConfigurationManager.ConnectionStrings["MyDbConnection"].ConnectionString;
+
         public SMS_Authentication()
         {
             InitializeComponent();
@@ -41,44 +37,43 @@ namespace Student_Management_with_DB
                 return;
             }
 
-            try {
-                using (SqlConnection sqlConnection = new SqlConnection(ConnectionString)) {
+            try
+            {
+                using (SqlConnection sqlConnection = new SqlConnection(connectionString))
+                {
                     sqlConnection.Open();
                     SqlCommand sqlCommand = sqlConnection.CreateCommand();
                     sqlCommand.CommandText = "SELECT COUNT(*) FROM tbUsers WHERE UserName= @Name AND Password=@Password";
                     sqlCommand.Parameters.AddWithValue("@Name", Name);
                     sqlCommand.Parameters.AddWithValue("@Password", Password);
 
-                    int userExists = (int)sqlCommand.ExecuteScalar(); 
-
+                    int userExists = (int)sqlCommand.ExecuteScalar();
                     if (userExists > 0)
                     {
-                        
                         HomePage homePage = new HomePage();
                         homePage.Show();
                         this.Hide();
                     }
                     else
                     {
-                        lbPassMsg.Text = "";
-                        lbPassMsg.Text="Invalid username or password.";
-                        lbPassMsg.ForeColor=Color.Red;
+                        lbPassMsg.Text = "Invalid username or password.";
+                        lbPassMsg.ForeColor = Color.Red;
                         lbNameMsg.Visible = false;
                     }
-
                 }
 
             }
-            catch (Exception ex) {
-
+            catch (Exception ex)
+            {
                 MessageBox.Show($"Error in btnLogin_Click: {ex}");
             }
         }
 
         private void tbName_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.Enter) { 
-            btnLogin.PerformClick();
+            if (e.KeyCode == Keys.Enter)
+            {
+                btnLogin.PerformClick();
             }
         }
     }
