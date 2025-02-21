@@ -8,3 +8,16 @@ C:\DotNet_WinApps\Dot-Net-Apps\Student Management with DB\Student Management wit
 C:\DotNet_WinApps\Dot-Net-Apps\Student Management with DB\Student Management with DB\bin\Debug\Student Management with DB.pdb
 C:\DotNet_WinApps\Dot-Net-Apps\Student Management with DB\Student Management with DB\obj\Debug\Student Management with DB.exe
 C:\DotNet_WinApps\Dot-Net-Apps\Student Management with DB\Student Management with DB\obj\Debug\Student Management with DB.pdb
+C:\Dot-Net-Apps\Student Management with DB\Student Management with DB\bin\Debug\Student Management with DB.exe.config
+C:\Dot-Net-Apps\Student Management with DB\Student Management with DB\bin\Debug\Student Management with DB.exe
+C:\Dot-Net-Apps\Student Management with DB\Student Management with DB\bin\Debug\Student Management with DB.pdb
+C:\Dot-Net-Apps\Student Management with DB\Student Management with DB\obj\Debug\Student Management with DB.csproj.AssemblyReference.cache
+C:\Dot-Net-Apps\Student Management with DB\Student Management with DB\obj\Debug\Student_Management_with_DB.Form1.resources
+C:\Dot-Net-Apps\Student Management with DB\Student Management with DB\obj\Debug\Student_Management_with_DB.HomePage.resources
+C:\Dot-Net-Apps\Student Management with DB\Student Management with DB\obj\Debug\Student_Management_with_DB.ManageStudents.resources
+C:\Dot-Net-Apps\Student Management with DB\Student Management with DB\obj\Debug\Student_Management_with_DB.Properties.Resources.resources
+C:\Dot-Net-Apps\Student Management with DB\Student Management with DB\obj\Debug\Student_Management_with_DB.SMS_Authentication.resources
+C:\Dot-Net-Apps\Student Management with DB\Student Management with DB\obj\Debug\Student Management with DB.csproj.GenerateResource.cache
+C:\Dot-Net-Apps\Student Management with DB\Student Management with DB\obj\Debug\Student Management with DB.csproj.CoreCompileInputs.cache
+C:\Dot-Net-Apps\Student Management with DB\Student Management with DB\obj\Debug\Student Management with DB.exe
+C:\Dot-Net-Apps\Student Management with DB\Student Management with DB\obj\Debug\Student Management with DB.pdb

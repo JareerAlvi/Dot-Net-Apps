@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Classes
+namespace Classes2
 {
     internal class Student
     {
@@ -16,6 +16,7 @@ namespace Classes
         public string Grade { get; set; } = "";
         public string Email { get; set; } = "";
         public DateTime DOB { get; set; } = DateTime.MinValue;
+
 
     }
 
