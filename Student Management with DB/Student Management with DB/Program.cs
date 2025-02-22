@@ -17,6 +17,7 @@ namespace Student_Management_with_DB
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new SMS_Authentication());
+            Environment.Exit(0);
         }
     }
 }

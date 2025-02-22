@@ -13,7 +13,8 @@ namespace Student_Management_with_DB
         {
             InitializeComponent();
             //btnBack.BackgroundImage = ResizeImage(Image.FromFile("C:\\Users\\MY GUEST\\Downloads\\back.png"), btnBack.Size);
-
+            string[] validGrades = { "A", "B", "C", "D", "F" };
+            cbGrades.DataSource = validGrades;
             Util.ShowAll(grdStudents);
         }
 
@@ -41,12 +42,7 @@ namespace Student_Management_with_DB
                 isValid = false;
             }
 
-            string[] validGrades = { "A", "B", "C", "D", "F" };
-            if (!validGrades.Contains(tbGrade.Text.Trim().ToUpper()))
-            {
-                lbGradeMsg.Text = "Please enter a valid Grade (A, B, C, D, F).";
-                isValid = false;
-            }
+
 
             if (!Util.IsValidEmail(tbEmail.Text.Trim()))
             {
@@ -92,14 +88,15 @@ namespace Student_Management_with_DB
                         sqlCommand.Parameters.AddWithValue("@FirstName", tbFirstName.Text.Trim());
                         sqlCommand.Parameters.AddWithValue("@LastName", tbLastName.Text.Trim());
                         sqlCommand.Parameters.AddWithValue("@Age", int.TryParse(tbAge.Text, out int age) ? age : 0);
-                        sqlCommand.Parameters.AddWithValue("@Grade", tbGrade.Text.Trim().ToUpper());
+                        sqlCommand.Parameters.AddWithValue("@Grade", cbGrades.SelectedItem);
                         sqlCommand.Parameters.AddWithValue("@Email", tbEmail.Text.Trim());
                         sqlCommand.Parameters.AddWithValue("@DateOfBirth", dateTimePicker.Value);
 
                         int rowsAffected = sqlCommand.ExecuteNonQuery();
                         if (rowsAffected > 0)
                         {
-                            tbFirstName.Text = tbLastName.Text = tbAge.Text = tbGrade.Text = tbEmail.Text = "";
+                            tbFirstName.Text = tbLastName.Text = tbAge.Text  = tbEmail.Text = "";
+                            cbGrades.SelectedItem = "A";
                             dateTimePicker.Value = DateTime.Now;
                             Util.ShowAll(grdStudents);
                             MessageBox.Show("Student Added Successfully");
@@ -123,7 +120,7 @@ namespace Student_Management_with_DB
                 tbFirstName.Text = selectedRow.Cells["First_Name"].Value.ToString();
                 tbLastName.Text = selectedRow.Cells["Last_Name"].Value.ToString();
                 tbAge.Text = selectedRow.Cells["Age"].Value.ToString();
-                tbGrade.Text = selectedRow.Cells["Grade"].Value.ToString();
+                cbGrades.SelectedItem = selectedRow.Cells["Grade"].Value.ToString();
                 tbEmail.Text = selectedRow.Cells["Email"].Value.ToString();
                 dateTimePicker.Value = DateTime.Parse(selectedRow.Cells["DOB"].Value.ToString());
 
@@ -175,7 +172,7 @@ namespace Student_Management_with_DB
                     sqlCommand.Parameters.AddWithValue("@FirstName", tbFirstName.Text.Trim());
                     sqlCommand.Parameters.AddWithValue("@LastName", tbLastName.Text.Trim());
                     sqlCommand.Parameters.AddWithValue("@Age", int.Parse(tbAge.Text));
-                    sqlCommand.Parameters.AddWithValue("@Grade", tbGrade.Text.Trim().ToUpper());
+                    sqlCommand.Parameters.AddWithValue("@Grade", cbGrades.SelectedItem);
                     sqlCommand.Parameters.AddWithValue("@Email", tbEmail.Text.Trim());
                     sqlCommand.Parameters.AddWithValue("@DateOfBirth", dateTimePicker.Value);
 
@@ -186,7 +183,8 @@ namespace Student_Management_with_DB
                         //Returning to previous states
                         btnSubmitUpdate.Visible = false;
                         btnUpdateStudent.Visible = btnAddStudent.Visible = true;
-                        tbFirstName.Text = tbLastName.Text = tbAge.Text = tbGrade.Text = tbEmail.Text = string.Empty;
+                        tbFirstName.Text = tbLastName.Text = tbAge.Text  = tbEmail.Text = string.Empty;
+                        cbGrades.SelectedItem = "A";
                         dateTimePicker.Value = DateTime.Now;
                         Util.ShowAll(grdStudents);
                         MessageBox.Show("Student Information Updated Successfully");
