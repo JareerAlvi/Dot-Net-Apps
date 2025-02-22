@@ -213,26 +213,36 @@ namespace Student_Management_with_DB
                     }
                 }
 
-                try
-                {
-                    using (SqlConnection sqlConnection = new SqlConnection(connectionString))
-                    {
-                        sqlConnection.Open();
-                        foreach (int currentid in idsToDelete)
-                        {
-                            SqlCommand sqlCommand = sqlConnection.CreateCommand();
-                            sqlCommand.CommandText = "DELETE FROM tbStudents WHERE StudentID = @ID";
-                            sqlCommand.Parameters.AddWithValue("@ID", currentid);
-                            sqlCommand.ExecuteNonQuery();
-                        }
+                // Confirmation message box
+                DialogResult result = MessageBox.Show(
+                    "Are you sure you want to delete the selected student(s)?",
+                    "Confirm Deletion",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Warning);
 
-                        Util.ShowAll(grdStudents);
-                        MessageBox.Show("Students Deleted Successfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    }
-                }
-                catch (Exception ex)
+                if (result == DialogResult.Yes)
                 {
-                    MessageBox.Show($"Error in btnDelete_Click1: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    try
+                    {
+                        using (SqlConnection sqlConnection = new SqlConnection(connectionString))
+                        {
+                            sqlConnection.Open();
+                            foreach (int currentid in idsToDelete)
+                            {
+                                SqlCommand sqlCommand = sqlConnection.CreateCommand();
+                                sqlCommand.CommandText = "DELETE FROM tbStudents WHERE StudentID = @ID";
+                                sqlCommand.Parameters.AddWithValue("@ID", currentid);
+                                sqlCommand.ExecuteNonQuery();
+                            }
+
+                            Util.ShowAll(grdStudents);
+                            MessageBox.Show("Students Deleted Successfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Error in btnDelete_Click1: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
                 }
             }
             else
@@ -240,6 +250,7 @@ namespace Student_Management_with_DB
                 MessageBox.Show("Please select at least one Student to Delete.", "No Selection", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
+
 
         private void btnExport_Click(object sender, EventArgs e)
         {
