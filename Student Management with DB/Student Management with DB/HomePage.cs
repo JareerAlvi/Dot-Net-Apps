@@ -14,7 +14,7 @@ namespace Student_Management_with_DB
             InitializeComponent();
             //btnBack.BackgroundImage = ResizeImage(Image.FromFile("C:\\Users\\MY GUEST\\Downloads\\back.png"), btnBack.Size);
 
-            ShowAll();
+            Util.ShowAll(grdStudents);
         }
 
         private bool ValidateStudentInput()
@@ -63,44 +63,7 @@ namespace Student_Management_with_DB
             return isValid;
         }
 
-        private void ShowAll()
-        {
-            try
-            {
-                IList<SMSStudent> lstStudents = new List<SMSStudent>();
 
-                using (SqlConnection sqlConnection = new SqlConnection(connectionString))
-                {
-                    sqlConnection.Open();
-
-                    SqlCommand sqlCommand = sqlConnection.CreateCommand();
-                    sqlCommand.CommandText = "SELECT * FROM tbStudents";
-
-                    SqlDataReader sqlDataReader = sqlCommand.ExecuteReader();
-                    while (sqlDataReader.Read())
-                    {
-                        SMSStudent objStudent = new SMSStudent()
-                        {
-                            StudentID = int.Parse(sqlDataReader["StudentID"].ToString()),
-                            First_Name = sqlDataReader["FirstName"].ToString(),
-                            Last_Name = sqlDataReader["LastName"].ToString(),
-                            Age = int.Parse(sqlDataReader["Age"].ToString()),
-                            Grade = sqlDataReader["Grade"].ToString(),
-                            Email = sqlDataReader["Email"].ToString(),
-                            DOB = DateTime.Parse(sqlDataReader["DateOfBirth"].ToString())
-                        };
-
-                        lstStudents.Add(objStudent);
-                    }
-
-                    grdStudents.DataSource = lstStudents;
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Error in ShowAll_Function: {ex.Message}");
-            }
-        }
         private void btnAddStudent_Click(object sender, EventArgs e)
         {
             if (ValidateStudentInput())
@@ -138,7 +101,7 @@ namespace Student_Management_with_DB
                         {
                             tbFirstName.Text = tbLastName.Text = tbAge.Text = tbGrade.Text = tbEmail.Text = "";
                             dateTimePicker.Value = DateTime.Now;
-                            ShowAll();
+                            Util.ShowAll(grdStudents);
                             MessageBox.Show("Student Added Successfully");
                         }
 
@@ -225,7 +188,7 @@ namespace Student_Management_with_DB
                         btnUpdateStudent.Visible = btnAddStudent.Visible = true;
                         tbFirstName.Text = tbLastName.Text = tbAge.Text = tbGrade.Text = tbEmail.Text = string.Empty;
                         dateTimePicker.Value = DateTime.Now;
-                        ShowAll();
+                        Util.ShowAll(grdStudents);
                         MessageBox.Show("Student Information Updated Successfully");
                     }
                     else

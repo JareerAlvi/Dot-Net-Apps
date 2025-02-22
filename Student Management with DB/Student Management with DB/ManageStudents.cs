@@ -27,46 +27,7 @@ namespace Student_Management_with_DB
 
         }
 
-        private void ShowAll()
-        {
-            try
-            {
-                IList<SMSStudent> lstStudents = new List<SMSStudent>();
 
-                using (SqlConnection sqlConnection = new SqlConnection(connectionString))
-                {
-                    sqlConnection.Open();
-
-                    SqlCommand sqlCommand = sqlConnection.CreateCommand();
-                    sqlCommand.CommandText = "SELECT * FROM tbStudents";
-
-                    SqlDataReader sqlDataReader = sqlCommand.ExecuteReader();
-                    while (sqlDataReader.Read())
-                    {
-                        SMSStudent objStudent = new SMSStudent()
-                        {
-                            StudentID = int.Parse(sqlDataReader["StudentID"].ToString()),
-                            First_Name = sqlDataReader["FirstName"].ToString(),
-                            Last_Name = sqlDataReader["LastName"].ToString(),
-                            Age = int.Parse(sqlDataReader["Age"].ToString()),
-                            Grade = sqlDataReader["Grade"].ToString(),
-                            Email = sqlDataReader["Email"].ToString(),
-                            DOB = DateTime.Parse(sqlDataReader["DateOfBirth"].ToString())
-
-
-                        };
-
-                        lstStudents.Add(objStudent);
-                    }
-
-                    grdStudents.DataSource = lstStudents;
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Error in ShowAll_Function: {ex.Message}");
-            }
-        }
         private void btnSearch_Click(object sender, EventArgs e)
         {
             IList<SMSStudent> lstStudents = new List<SMSStudent>();
@@ -149,7 +110,7 @@ namespace Student_Management_with_DB
         }
         private void btnAll_Click(object sender, EventArgs e)
         {
-            ShowAll();
+            Util.ShowAll(grdStudents);
         }
         private void btnSort_Click(object sender, EventArgs e)
         {
@@ -242,7 +203,7 @@ namespace Student_Management_with_DB
                             sqlCommand.ExecuteNonQuery();
                         }
 
-                        ShowAll();
+                        Util.ShowAll(grdStudents);
                         MessageBox.Show("Students Deleted Successfully");
 
                     }
@@ -351,7 +312,7 @@ namespace Student_Management_with_DB
                     }
 
                     MessageBox.Show("Student records imported successfully.");
-                    ShowAll();
+                    Util.ShowAll(grdStudents);
                 }
             }
             catch (Exception ex)

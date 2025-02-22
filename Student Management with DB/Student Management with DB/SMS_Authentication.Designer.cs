@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.panel1 = new System.Windows.Forms.Panel();
+            this.btnShowPass = new System.Windows.Forms.Button();
             this.tbPassword = new System.Windows.Forms.TextBox();
             this.tbName = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
@@ -44,6 +45,7 @@
             // 
             this.panel1.BackColor = System.Drawing.SystemColors.InactiveCaption;
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel1.Controls.Add(this.btnShowPass);
             this.panel1.Controls.Add(this.tbPassword);
             this.panel1.Controls.Add(this.tbName);
             this.panel1.Controls.Add(this.label2);
@@ -55,13 +57,26 @@
             this.panel1.Size = new System.Drawing.Size(422, 208);
             this.panel1.TabIndex = 0;
             // 
+            // btnShowPass
+            // 
+            this.btnShowPass.Location = new System.Drawing.Point(327, 140);
+            this.btnShowPass.Name = "btnShowPass";
+            this.btnShowPass.Size = new System.Drawing.Size(47, 23);
+            this.btnShowPass.TabIndex = 9;
+            this.btnShowPass.Text = "show";
+            this.btnShowPass.UseVisualStyleBackColor = true;
+            this.btnShowPass.MouseDown += new System.Windows.Forms.MouseEventHandler(this.btnShowPass_MouseDown);
+            this.btnShowPass.MouseUp += new System.Windows.Forms.MouseEventHandler(this.btnShowPass_MouseUp);
+            // 
             // tbPassword
             // 
             this.tbPassword.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tbPassword.Location = new System.Drawing.Point(127, 137);
             this.tbPassword.Name = "tbPassword";
+            this.tbPassword.PasswordChar = '•';
             this.tbPassword.Size = new System.Drawing.Size(194, 26);
             this.tbPassword.TabIndex = 8;
+            this.tbPassword.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tbPassword_KeyDown);
             // 
             // tbName
             // 
@@ -70,7 +85,6 @@
             this.tbName.Name = "tbName";
             this.tbName.Size = new System.Drawing.Size(194, 26);
             this.tbName.TabIndex = 7;
-            this.tbName.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tbName_KeyDown);
             // 
             // label2
             // 
@@ -168,5 +182,6 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox tbPassword;
         private System.Windows.Forms.TextBox tbName;
+        private System.Windows.Forms.Button btnShowPass;
     }
 }

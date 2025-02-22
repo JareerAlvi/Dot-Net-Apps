@@ -69,12 +69,23 @@ namespace Student_Management_with_DB
             }
         }
 
-        private void tbName_KeyDown(object sender, KeyEventArgs e)
+        private void tbPassword_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
             {
                 btnLogin.PerformClick();
             }
+        }
+
+        private void btnShowPass_MouseDown(object sender, MouseEventArgs e)
+        {
+            tbPassword.PasswordChar = '\0'; //Assining NULL
+        }
+
+        private void btnShowPass_MouseUp(object sender, MouseEventArgs e)
+        {
+            tbPassword.PasswordChar = '•';
+            tbPassword.Focus(); //Taking the cursor back to tbPassword fr a better user experience
         }
     }
 }
