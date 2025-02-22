@@ -16,7 +16,7 @@ namespace Student_Management_with_DB
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new SMS_Authentication());
+            Application.Run(new ManageStudents());
             Environment.Exit(0);
         }
     }

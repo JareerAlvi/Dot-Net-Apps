@@ -33,6 +33,7 @@ namespace Student_Management_with_DB
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ManageStudents));
             this.panel2 = new System.Windows.Forms.Panel();
+            this.lbManageTitle = new System.Windows.Forms.Label();
             this.btnGenerateReport = new System.Windows.Forms.Button();
             this.btnImport = new System.Windows.Forms.Button();
             this.btnExport = new System.Windows.Forms.Button();
@@ -46,7 +47,8 @@ namespace Student_Management_with_DB
             this.lbSearchMsg = new System.Windows.Forms.Label();
             this.grdStudents = new System.Windows.Forms.DataGridView();
             this.btnBack2 = new System.Windows.Forms.Button();
-            this.lbManageTitle = new System.Windows.Forms.Label();
+            this.fdExportCSV = new System.Windows.Forms.SaveFileDialog();
+            this.fdImportCSV = new System.Windows.Forms.OpenFileDialog();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.grdStudents)).BeginInit();
             this.SuspendLayout();
@@ -72,6 +74,16 @@ namespace Student_Management_with_DB
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(754, 576);
             this.panel2.TabIndex = 2;
+            // 
+            // lbManageTitle
+            // 
+            this.lbManageTitle.AutoSize = true;
+            this.lbManageTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 27.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbManageTitle.Location = new System.Drawing.Point(213, 37);
+            this.lbManageTitle.Name = "lbManageTitle";
+            this.lbManageTitle.Size = new System.Drawing.Size(327, 42);
+            this.lbManageTitle.TabIndex = 35;
+            this.lbManageTitle.Text = "Manage Students";
             // 
             // btnGenerateReport
             // 
@@ -254,15 +266,16 @@ namespace Student_Management_with_DB
             this.btnBack2.UseVisualStyleBackColor = false;
             this.btnBack2.Click += new System.EventHandler(this.btnBack2_Click);
             // 
-            // lbManageTitle
+            // fdExportCSV
             // 
-            this.lbManageTitle.AutoSize = true;
-            this.lbManageTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 27.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbManageTitle.Location = new System.Drawing.Point(213, 37);
-            this.lbManageTitle.Name = "lbManageTitle";
-            this.lbManageTitle.Size = new System.Drawing.Size(327, 42);
-            this.lbManageTitle.TabIndex = 35;
-            this.lbManageTitle.Text = "Manage Students";
+            this.fdExportCSV.FileName = "studensts.csv";
+            this.fdExportCSV.Filter = "CSV files (*.csv)|*.csv";
+            this.fdExportCSV.Title = "Select a CSV File";
+            // 
+            // fdImportCSV
+            // 
+            this.fdImportCSV.Filter = "CSV files (*.csv)|*.csv";
+            this.fdImportCSV.Title = "Select a CSV File";
             // 
             // ManageStudents
             // 
@@ -298,5 +311,7 @@ namespace Student_Management_with_DB
         private System.Windows.Forms.Button btnGenerateReport;
         private System.Windows.Forms.Button btnBack2;
         private Label lbManageTitle;
+        private SaveFileDialog fdExportCSV;
+        private OpenFileDialog fdImportCSV;
     }
 }
