@@ -4,7 +4,8 @@ using System;
 using System.Drawing;
 using System.Windows.Forms;
 using System.Configuration;
-
+using System.Text.RegularExpressions;
+using System.Net.Mail;
 namespace Student_Management_with_DB
 {
     public class Util
@@ -26,15 +27,31 @@ namespace Student_Management_with_DB
         {
             try
             {
-                var addr = new System.Net.Mail.MailAddress(email); //trying to parse email in correct using an in built class
-                return true;
+                // Basic format validation
+                var addr = new MailAddress(email);
                 //upper statement would throw exception in cas of invalid format...and control will transfer to catch block without coming on this line
+
+
+                // Regular expression to enforce domain extensions like .com, .edu, .org, etc.
+                string pattern = @"^[^@\s]+@[^@\s]+\.(com|edu|org|net|gov|pk|info)$";
+                /*
+   Explanation of the pattern:
+   ^         -> Start of the string
+   [^@\s]+   -> Matches one or more characters that are NOT '@' or whitespace
+   @         -> Ensures the presence of a single '@' symbol
+   [^@\s]+   -> Matches one or more characters after '@', ensuring no spaces or multiple '@'
+   \.        -> Matches a literal dot '.' (escaped because '.' in regex means "any character")
+   (com|edu|org|net|gov|pk|info) -> Ensures the domain extension is one of the listed options
+   $         -> End of the string
+*/
+                return Regex.IsMatch(email, pattern, RegexOptions.IgnoreCase);  //true only when both checks are true
             }
             catch
             {
                 return false;
             }
         }
+
 
 
         public static void ShowAll(DataGridView grdStudents)

@@ -76,7 +76,7 @@ namespace Student_Management_with_DB
                             Age = int.Parse(tbAge.Text),
                             Grade = cbGrades.SelectedItem.ToString(),
                             Email = tbEmail.Text,
-                            DOB = dateTimePicker.Value
+                            DOB = dateTimePicker.Value.Date
                         };
                         sqlConnection.Open();
                         using (SqlCommand checkEmailCmd = new SqlCommand("SELECT COUNT(*) FROM tbStudents WHERE Email = @Email", sqlConnection))
@@ -129,7 +129,7 @@ namespace Student_Management_with_DB
                 Age = int.Parse(tbAge.Text),
                 Grade = cbGrades.SelectedItem.ToString(),
                 Email = tbEmail.Text,
-                DOB = dateTimePicker.Value
+                DOB = dateTimePicker.Value.Date
             };
         }
 
