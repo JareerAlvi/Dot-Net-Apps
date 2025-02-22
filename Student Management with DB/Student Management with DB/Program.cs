@@ -16,7 +16,7 @@ namespace Student_Management_with_DB
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new ManageStudents());
+            Application.Run(new HomePage());
             Environment.Exit(0);
         }
     }

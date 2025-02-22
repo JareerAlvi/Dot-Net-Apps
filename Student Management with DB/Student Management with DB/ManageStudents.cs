@@ -214,7 +214,7 @@ namespace Student_Management_with_DB
                 }
 
                 // Confirmation message box
-                DialogResult result = MessageBox.Show(
+                DialogResult result = MessageBox.Show(    //A variable which stores dufferent values returned from message box
                     "Are you sure you want to delete the selected student(s)?",
                     "Confirm Deletion",
                     MessageBoxButtons.YesNo,
