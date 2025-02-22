@@ -68,16 +68,8 @@ namespace Student_Management_with_DB
                 {
                     try
                     {
-                        SMSStudent student = new SMSStudent()
-                        {
+                        SMSStudent student = CreateStudentFromInput();
 
-                            First_Name = tbFirstName.Text.Trim(),
-                            Last_Name = tbLastName.Text.Trim(),
-                            Age = int.Parse(tbAge.Text),
-                            Grade = cbGrades.SelectedItem.ToString(),
-                            Email = tbEmail.Text,
-                            DOB = dateTimePicker.Value.Date
-                        };
                         sqlConnection.Open();
                         using (SqlCommand checkEmailCmd = new SqlCommand("SELECT COUNT(*) FROM tbStudents WHERE Email = @Email", sqlConnection))
                         {
@@ -166,21 +158,23 @@ namespace Student_Management_with_DB
 
         private void btnSubmitUpdate_Click(object sender, EventArgs e)
         {
-            if (grdStudents.SelectedRows.Count == 1)
+            if (ValidateStudentInput())
             {
-                try
+                if (grdStudents.SelectedRows.Count == 1)
                 {
-                    // Get the selected student's ID from the grid
-                    int studentID = int.Parse(grdStudents.CurrentRow.Cells["StudentID"].Value.ToString());
-
-                    // Create an updated student object from the form inputs
-                    SMSStudent updatedStudent = CreateStudentFromInput();
-
-                    // Update the student in the database
-                    using (SqlConnection sqlConnection = new SqlConnection(connectionString))
+                    try
                     {
-                        sqlConnection.Open();
-                        string updateQuery = @"
+                        // Get the selected student's ID from the grid
+                        int studentID = int.Parse(grdStudents.CurrentRow.Cells["StudentID"].Value.ToString());
+
+                        // Create an updated student object from the form inputs
+                        SMSStudent updatedStudent = CreateStudentFromInput();
+
+                        // Update the student in the database
+                        using (SqlConnection sqlConnection = new SqlConnection(connectionString))
+                        {
+                            sqlConnection.Open();
+                            string updateQuery = @"
                     UPDATE tbStudents 
                     SET FirstName = @FirstName, 
                         LastName = @LastName, 
@@ -190,44 +184,46 @@ namespace Student_Management_with_DB
                         DateOfBirth = @DOB 
                     WHERE StudentID = @StudentID";
 
-                        using (SqlCommand updateCommand = new SqlCommand(updateQuery, sqlConnection))
-                        {
-                            updateCommand.Parameters.AddWithValue("@FirstName", updatedStudent.First_Name);
-                            updateCommand.Parameters.AddWithValue("@LastName", updatedStudent.Last_Name);
-                            updateCommand.Parameters.AddWithValue("@Age", updatedStudent.Age);
-                            updateCommand.Parameters.AddWithValue("@Grade", updatedStudent.Grade);
-                            updateCommand.Parameters.AddWithValue("@Email", updatedStudent.Email);
-                            updateCommand.Parameters.AddWithValue("@DOB", updatedStudent.DOB);
-                            updateCommand.Parameters.AddWithValue("@StudentID", studentID);
-
-                            int rowsAffected = updateCommand.ExecuteNonQuery();
-
-                            if (rowsAffected > 0)
+                            using (SqlCommand updateCommand = new SqlCommand(updateQuery, sqlConnection))
                             {
-                                MessageBox.Show("Student updated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                                Util.ShowAll(grdStudents); // Refresh the grid to show updated data
-                            }
-                            else
-                            {
-                                MessageBox.Show("No student was updated. Please check the selected student.", "Update Failed", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                updateCommand.Parameters.AddWithValue("@FirstName", updatedStudent.First_Name);
+                                updateCommand.Parameters.AddWithValue("@LastName", updatedStudent.Last_Name);
+                                updateCommand.Parameters.AddWithValue("@Age", updatedStudent.Age);
+                                updateCommand.Parameters.AddWithValue("@Grade", updatedStudent.Grade);
+                                updateCommand.Parameters.AddWithValue("@Email", updatedStudent.Email);
+                                updateCommand.Parameters.AddWithValue("@DOB", updatedStudent.DOB);
+                                updateCommand.Parameters.AddWithValue("@StudentID", studentID);
+
+                                int rowsAffected = updateCommand.ExecuteNonQuery();
+
+                                if (rowsAffected > 0)
+                                {
+                                    MessageBox.Show("Student updated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                    Util.ShowAll(grdStudents); // Refresh the grid to show updated data
+                                }
+                                else
+                                {
+                                    MessageBox.Show("No student was updated. Please check the selected student.", "Update Failed", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                }
                             }
                         }
-                    }
 
-                    // Reset the form
-                    btnAddStudent.Visible = true;
-                    btnUpdateStudent.Visible = true;
-                    btnSubmitUpdate.Visible = false;
+                        // Reset the form
+                        btnAddStudent.Visible = true;
+                        btnUpdateStudent.Visible = true;
+                        btnSubmitUpdate.Visible = false;
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Error updating student: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
                 }
-                catch (Exception ex)
+                else
                 {
-                    MessageBox.Show($"Error updating student: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Please select a student to update.", "No Selection", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
             }
-            else
-            {
-                MessageBox.Show("Please select a student to update.", "No Selection", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }
+           
         }
         private void btnNext_Click(object sender, EventArgs e)
         {
