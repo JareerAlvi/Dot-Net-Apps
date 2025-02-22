@@ -17,11 +17,8 @@ namespace Student_Management_with_DB
         public ManageStudents()
         {
             InitializeComponent();
-
-            List<string> cbItemsSearch = new List<string> { "Name", "Email", "Grade" };
             List<string> cbItemsSort = new List<string> { "First Name", "Last Name", "Grade" };
 
-            cbSearch.DataSource = cbItemsSearch;
             cbSort.DataSource = cbItemsSort;
         }
         /*
@@ -66,73 +63,42 @@ namespace Student_Management_with_DB
             using (SqlConnection sqlConnection = new SqlConnection(connectionString))
             {
                 sqlConnection.Open();
-                if (cbSearch.SelectedItem != null)
+                string searchValue = tbSearch.Text.Trim();
+
+                if (string.IsNullOrWhiteSpace(searchValue))
                 {
-                    string selectedCriteria = cbSearch.SelectedItem.ToString();
-                    SqlCommand searchCommand = sqlConnection.CreateCommand();
-
-                    if (selectedCriteria == "Name")
-                    {
-                        if (string.IsNullOrWhiteSpace(tbSearch.Text))
-                        {
-                            MessageBox.Show("Provide a Name", "Input Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                            return;
-                        }
-                        string Name = tbSearch.Text.ToString() + " ";
-                        searchCommand.CommandText = "SELECT * FROM tbStudents WHERE FirstName = @Value";
-                        searchCommand.Parameters.AddWithValue("@Value", Name.Substring(0, Name.IndexOf(" ")));
-                    }
-                    else if (selectedCriteria == "Email")
-                    {
-                        try
-                        {
-                            var addr = new System.Net.Mail.MailAddress(tbSearch.Text);
-                        }
-                        catch
-                        {
-                            MessageBox.Show("Please enter a valid Email (e.g., abc@example.com)", "Invalid Email", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                            return;
-                        }
-
-                        searchCommand.CommandText = "SELECT * FROM tbStudents WHERE Email = @Value";
-                        searchCommand.Parameters.AddWithValue("@Value", tbSearch.Text);
-                    }
-                    else if (selectedCriteria == "Grade")
-                    {
-                        string[] validGrades = { "A", "B", "C", "D", "F" };
-                        if (!validGrades.Contains(tbSearch.Text.Trim().ToUpper()))
-                        {
-                            MessageBox.Show("Please enter a valid Grade (A, B, C, D, F).", "Invalid Grade", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                            return;
-                        }
-                        searchCommand.CommandText = "SELECT * FROM tbStudents WHERE Grade = @Value";
-                        searchCommand.Parameters.AddWithValue("@Value", tbSearch.Text);
-                    }
-
-                    SqlDataReader sqlDataReader = searchCommand.ExecuteReader();
-
-                    while (sqlDataReader.Read())
-                    {
-                        SMSStudent objStudent = new SMSStudent()
-                        {
-                            StudentID = int.Parse(sqlDataReader["StudentID"].ToString()),
-                            First_Name = sqlDataReader["FirstName"].ToString(),
-                            Last_Name = sqlDataReader["LastName"].ToString(),
-                            Age = int.Parse(sqlDataReader["Age"].ToString()),
-                            Grade = sqlDataReader["Grade"].ToString(),
-                            Email = sqlDataReader["Email"].ToString(),
-                            DOB = DateTime.Parse(sqlDataReader["DateOfBirth"].ToString())
-                        };
-
-                        lstStudents.Add(objStudent);
-                    }
-
-                    sqlDataReader.Close();
+                    MessageBox.Show("Please enter a search keyword.", "Input Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
                 }
 
+                // Using LIKE for searching substrings
+                string query = "SELECT * FROM tbStudents WHERE FirstName LIKE @Value OR LastName LIKE @Value OR Email LIKE @Value";
+                SqlCommand searchCommand = new SqlCommand(query, sqlConnection);
+                searchCommand.Parameters.AddWithValue("@Value", "%" + searchValue + "%");
+
+                SqlDataReader sqlDataReader = searchCommand.ExecuteReader();
+
+                while (sqlDataReader.Read())
+                {
+                    SMSStudent objStudent = new SMSStudent()
+                    {
+                        StudentID = int.Parse(sqlDataReader["StudentID"].ToString()),
+                        First_Name = sqlDataReader["FirstName"].ToString(),
+                        Last_Name = sqlDataReader["LastName"].ToString(),
+                        Age = int.Parse(sqlDataReader["Age"].ToString()),
+                        Grade = sqlDataReader["Grade"].ToString(),
+                        Email = sqlDataReader["Email"].ToString(),
+                        DOB = DateTime.Parse(sqlDataReader["DateOfBirth"].ToString())
+                    };
+
+                    lstStudents.Add(objStudent);
+                }
+
+                sqlDataReader.Close();
                 grdStudents.DataSource = lstStudents;
             }
         }
+
 
         private void btnAll_Click(object sender, EventArgs e)
         {

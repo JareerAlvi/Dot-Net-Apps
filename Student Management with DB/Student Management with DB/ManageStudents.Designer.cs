@@ -41,7 +41,6 @@ namespace Student_Management_with_DB
             this.btnSort = new System.Windows.Forms.Button();
             this.cbSort = new System.Windows.Forms.ComboBox();
             this.btnAll = new System.Windows.Forms.Button();
-            this.cbSearch = new System.Windows.Forms.ComboBox();
             this.btnSearch = new System.Windows.Forms.Button();
             this.tbSearch = new System.Windows.Forms.TextBox();
             this.lbSearchMsg = new System.Windows.Forms.Label();
@@ -65,7 +64,6 @@ namespace Student_Management_with_DB
             this.panel2.Controls.Add(this.btnSort);
             this.panel2.Controls.Add(this.cbSort);
             this.panel2.Controls.Add(this.btnAll);
-            this.panel2.Controls.Add(this.cbSearch);
             this.panel2.Controls.Add(this.btnSearch);
             this.panel2.Controls.Add(this.tbSearch);
             this.panel2.Controls.Add(this.lbSearchMsg);
@@ -196,14 +194,6 @@ namespace Student_Management_with_DB
             this.btnAll.UseVisualStyleBackColor = false;
             this.btnAll.Click += new System.EventHandler(this.btnAll_Click);
             // 
-            // cbSearch
-            // 
-            this.cbSearch.FormattingEnabled = true;
-            this.cbSearch.Location = new System.Drawing.Point(107, 133);
-            this.cbSearch.Name = "cbSearch";
-            this.cbSearch.Size = new System.Drawing.Size(121, 21);
-            this.cbSearch.TabIndex = 27;
-            // 
             // btnSearch
             // 
             this.btnSearch.BackColor = System.Drawing.SystemColors.MenuHighlight;
@@ -301,7 +291,6 @@ namespace Student_Management_with_DB
         private System.Windows.Forms.TextBox tbSearch;
         private System.Windows.Forms.Label lbSearchMsg;
         private System.Windows.Forms.Button btnSearch;
-        private System.Windows.Forms.ComboBox cbSearch;
         private System.Windows.Forms.Button btnAll;
         private System.Windows.Forms.Button btnSort;
         private System.Windows.Forms.ComboBox cbSort;
