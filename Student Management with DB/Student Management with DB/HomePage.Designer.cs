@@ -31,7 +31,6 @@ namespace Student_Management_with_DB
         /// </summary>
         private void InitializeComponent()
         {
-            this.btnBack = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.lbFNameMsg = new System.Windows.Forms.Label();
             this.lbLNameMsg = new System.Windows.Forms.Label();
@@ -60,24 +59,6 @@ namespace Student_Management_with_DB
             ((System.ComponentModel.ISupportInitialize)(this.grdStudents)).BeginInit();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // btnBack
-            // 
-            this.btnBack.BackColor = System.Drawing.SystemColors.Control;
-            this.btnBack.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.btnBack.FlatAppearance.BorderColor = System.Drawing.SystemColors.Control;
-            this.btnBack.FlatAppearance.BorderSize = 0;
-            this.btnBack.FlatAppearance.MouseDownBackColor = System.Drawing.SystemColors.AppWorkspace;
-            this.btnBack.FlatAppearance.MouseOverBackColor = System.Drawing.SystemColors.AppWorkspace;
-            this.btnBack.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnBack.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnBack.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.btnBack.Location = new System.Drawing.Point(1, 2);
-            this.btnBack.Name = "btnBack";
-            this.btnBack.Size = new System.Drawing.Size(50, 40);
-            this.btnBack.TabIndex = 24;
-            this.btnBack.UseVisualStyleBackColor = false;
-            this.btnBack.Click += new System.EventHandler(this.btnBack_Click);
             // 
             // label1
             // 
@@ -366,7 +347,6 @@ namespace Student_Management_with_DB
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(842, 651);
-            this.Controls.Add(this.btnBack);
             this.Controls.Add(this.panel1);
             this.MaximizeBox = false;
             this.Name = "HomePage";
@@ -379,7 +359,6 @@ namespace Student_Management_with_DB
         }
 
         #endregion
-        private System.Windows.Forms.Button btnBack;
         private Label label1;
         private Label lbFNameMsg;
         private Label lbLNameMsg;

@@ -232,11 +232,6 @@ namespace Student_Management_with_DB
             this.Hide();
         }
 
-        private void btnBack_Click(object sender, EventArgs e)
-        {
-            SMS_Authentication sMS_Authentication = new SMS_Authentication();
-            sMS_Authentication.Show();
-            this.Hide();
-        }
+
     }
 }
