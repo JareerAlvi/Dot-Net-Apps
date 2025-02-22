@@ -2,7 +2,7 @@
 
 namespace Student_Management_with_DB
 {
-    internal class SMSStudent
+    public class SMSStudent
     {
         public int StudentID { get; set; } = 0;
         public string First_Name { get; set; } = "";

@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;
-using System.Linq;
 using System.Windows.Forms;
 namespace Student_Management_with_DB
 {
@@ -15,7 +13,7 @@ namespace Student_Management_with_DB
             //btnBack.BackgroundImage = ResizeImage(Image.FromFile("C:\\Users\\MY GUEST\\Downloads\\back.png"), btnBack.Size);
             string[] validGrades = { "A", "B", "C", "D", "F" };
             cbGrades.DataSource = validGrades;
-            Util.ShowAll(grdStudents);
+            grdStudents.DataSource = Util.GetAllStudents();
         }
 
         private bool ValidateStudentInput()
@@ -97,10 +95,12 @@ namespace Student_Management_with_DB
                         int rowsAffected = sqlCommand.ExecuteNonQuery();
                         if (rowsAffected > 0)
                         {
-                            tbFirstName.Text = tbLastName.Text = tbAge.Text = tbEmail.Text = "";
+                            tbFirstName.Text = tbLastName.Text = tbAge.Text = tbEmail.Text = string.Empty;
                             cbGrades.SelectedItem = "A";
                             dateTimePicker.Value = DateTime.Now;
-                            Util.ShowAll(grdStudents);
+
+                            grdStudents.DataSource = Util.GetAllStudents();
+
                             MessageBox.Show("Student has been added successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         }
                     }
@@ -199,7 +199,7 @@ namespace Student_Management_with_DB
                                 if (rowsAffected > 0)
                                 {
                                     MessageBox.Show("Student updated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                                    Util.ShowAll(grdStudents); // Refresh the grid to show updated data
+                                    grdStudents.DataSource = Util.GetAllStudents();
                                 }
                                 else
                                 {
@@ -223,7 +223,7 @@ namespace Student_Management_with_DB
                     MessageBox.Show("Please select a student to update.", "No Selection", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
             }
-           
+
         }
         private void btnNext_Click(object sender, EventArgs e)
         {

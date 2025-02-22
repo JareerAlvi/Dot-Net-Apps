@@ -17,59 +17,60 @@ namespace Student_Management_with_DB
         public ManageStudents()
         {
             InitializeComponent();
-            List<string> cbItemsSort = new List<string> { "First Name", "Last Name", "Grade" };
-
-            cbSort.DataSource = cbItemsSort;
+            cbSort.DataSource = new List<string> { "First Name", "Last Name", "Grade" };
         }
-        /*
-                 private bool ValidateStudentInput(int studentID, string firstName, string lastName, int age, string grade, string email, DateTime dob, out string errorMessage)
-                {
-                    errorMessage = string.Empty;
-                    List<string> errors = new List<string>();
 
-                    if (string.IsNullOrWhiteSpace(firstName))
-                        errors.Add("First Name must be provided.");
+        private bool ValidateStudentInput(string studentID, string firstName, string lastName, int age, string grade, string email, DateTime dob, out string errorMessage)
+        {
+            errorMessage = string.Empty;
+            List<string> errors = new List<string>();
 
-                    if (string.IsNullOrWhiteSpace(lastName))
-                        errors.Add("Last Name must be provided.");
+            /*if (int.TryParse(st))
+                errors.Add("First Name must be provided.");*/
 
-                    if (age <= 0)
-                        errors.Add("Please enter a valid positive number for Age.");
+            if (string.IsNullOrWhiteSpace(firstName))
+                errors.Add("First Name must be provided.");
 
-                    if (string.IsNullOrWhiteSpace(grade))
-                        errors.Add("Grade must be provided.");
+            if (string.IsNullOrWhiteSpace(lastName))
+                errors.Add("Last Name must be provided.");
 
-                    if (!Util.IsValidEmail(email.Trim()))
-                        errors.Add("Please enter a valid Email.");
+            if (age <= 0)
+                errors.Add("Please enter a valid positive number for Age.");
 
-                    if (dob > DateTime.Now)
-                        errors.Add("Date of Birth cannot be in the future.");
+            if (string.IsNullOrWhiteSpace(grade))
+                errors.Add("Grade must be provided.");
 
-                    if (errors.Count > 0)
-                    {
-                        errorMessage = string.Join("\n", errors);
-                        return false;
-                    }
+            if (!Util.IsValidEmail(email.Trim()))
+                errors.Add("Please enter a valid Email.");
 
-                    return true;
-                }
+            if (dob > DateTime.Now)
+                errors.Add("Date of Birth cannot be in the future.");
+
+            if (errors.Count > 0)
+            {
+                errorMessage = string.Join("\n", errors);
+                return false;
+            }
+
+            return true;
+        }
 
 
-         */      //Failed validation for file data entered manually
+        //Failed validation for file data entered manually
         private void btnSearch_Click(object sender, EventArgs e)
         {
+            string searchValue = tbSearch.Text.Trim();
+            if (string.IsNullOrWhiteSpace(searchValue))
+            {
+                MessageBox.Show("Please enter a search keyword.", "Input Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
             IList<SMSStudent> lstStudents = new List<SMSStudent>();
 
             using (SqlConnection sqlConnection = new SqlConnection(connectionString))
             {
                 sqlConnection.Open();
-                string searchValue = tbSearch.Text.Trim();
-
-                if (string.IsNullOrWhiteSpace(searchValue))
-                {
-                    MessageBox.Show("Please enter a search keyword.", "Input Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
 
                 // Using LIKE for searching substrings
                 string query = "SELECT * FROM tbStudents WHERE FirstName LIKE @Value OR LastName LIKE @Value OR Email LIKE @Value";
@@ -99,130 +100,82 @@ namespace Student_Management_with_DB
             }
         }
 
-
         private void btnAll_Click(object sender, EventArgs e)
         {
-            Util.ShowAll(grdStudents);
+            grdStudents.DataSource = Util.GetAllStudents();
         }
 
         private void btnSort_Click(object sender, EventArgs e)
         {
-            IList<SMSStudent> lstStudents = new List<SMSStudent>();
+            string selectedCriteria = cbSort.SelectedItem.ToString();
+            string orderByClause = " ORDER BY ";
 
-            using (SqlConnection sqlConnection = new SqlConnection(connectionString))
+            if (selectedCriteria == "First Name")
             {
-                sqlConnection.Open();
-                if (cbSort.SelectedItem != null)
-                {
-                    string selectedCriteria = cbSort.SelectedItem.ToString();
-                    string orderByClause = "";
-
-                    if (selectedCriteria == "First Name")
-                    {
-                        orderByClause = "ORDER BY FirstName";
-                    }
-                    else if (selectedCriteria == "Last Name")
-                    {
-                        orderByClause = "ORDER BY LastName";
-                    }
-                    else if (selectedCriteria == "Grade")
-                    {
-                        orderByClause = "ORDER BY Grade";
-                    }
-                    else
-                    {
-                        MessageBox.Show("Please select a valid sorting criterion.", "Invalid Option", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        return;
-                    }
-
-                    SqlCommand sortCommand = new SqlCommand($"SELECT * FROM tbStudents {orderByClause}", sqlConnection);
-                    SqlDataReader sqlDataReader = sortCommand.ExecuteReader();
-
-                    while (sqlDataReader.Read())
-                    {
-                        SMSStudent objStudent = new SMSStudent()
-                        {
-                            StudentID = int.Parse(sqlDataReader["StudentID"].ToString()),
-                            First_Name = sqlDataReader["FirstName"].ToString(),
-                            Last_Name = sqlDataReader["LastName"].ToString(),
-                            Age = int.Parse(sqlDataReader["Age"].ToString()),
-                            Grade = sqlDataReader["Grade"].ToString(),
-                            Email = sqlDataReader["Email"].ToString(),
-                            DOB = DateTime.Parse(sqlDataReader["DateOfBirth"].ToString())
-                        };
-
-                        lstStudents.Add(objStudent);
-                    }
-
-                    sqlDataReader.Close();
-                }
-                else
-                {
-                    MessageBox.Show("Please select a sorting option.", "No Option Selected", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
+                orderByClause += "FirstName";
+            }
+            else if (selectedCriteria == "Last Name")
+            {
+                orderByClause += "LastName";
+            }
+            else if (selectedCriteria == "Grade")
+            {
+                orderByClause += "Grade";
             }
 
-            grdStudents.DataSource = lstStudents;
+            grdStudents.DataSource = Util.GetAllStudents(orderClause: orderByClause);
         }
 
         private void btnDelete_Click(object sender, EventArgs e)
         {
-            if (grdStudents.SelectedRows.Count > 0)
-            {
-                List<int> idsToDelete = new List<int>();
-                foreach (DataGridViewRow currentrow in grdStudents.SelectedRows)
-                {
-                    if (currentrow.Cells["StudentID"].Value != null)
-                    {
-                        idsToDelete.Add(int.Parse(currentrow.Cells["StudentID"].Value.ToString()));
-                    }
-                }
-
-                // Confirmation message box
-                DialogResult result = MessageBox.Show(    //A variable which stores dufferent values returned from message box
-                    "Are you sure you want to delete the selected student(s)?",
-                    "Confirm Deletion",
-                    MessageBoxButtons.YesNo,
-                    MessageBoxIcon.Warning);
-
-                if (result == DialogResult.Yes)
-                {
-                    try
-                    {
-                        using (SqlConnection sqlConnection = new SqlConnection(connectionString))
-                        {
-                            sqlConnection.Open();
-                            foreach (int currentid in idsToDelete)
-                            {
-                                SqlCommand sqlCommand = sqlConnection.CreateCommand();
-                                sqlCommand.CommandText = "DELETE FROM tbStudents WHERE StudentID = @ID";
-                                sqlCommand.Parameters.AddWithValue("@ID", currentid);
-                                sqlCommand.ExecuteNonQuery();
-                            }
-
-                            Util.ShowAll(grdStudents);
-                            MessageBox.Show("Students Deleted Successfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show($"Error in btnDelete_Click1: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-                }
-            }
-            else
+            if (grdStudents.SelectedRows.Count == 0)
             {
                 MessageBox.Show("Please select at least one Student to Delete.", "No Selection", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            List<int> lstIdsToDelete = new List<int>();
+            foreach (DataGridViewRow currentrow in grdStudents.SelectedRows)
+            {
+                lstIdsToDelete.Add((int)currentrow.Cells["StudentID"].Value);
+            }
+
+            // Confirmation message box
+            DialogResult result = MessageBox.Show(    //A variable which stores dufferent values returned from message box
+                "Are you sure you want to delete the selected student(s)?",
+                "Confirm Deletion",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Warning);
+
+            if (result != DialogResult.Yes)
+            {
+                return;
+            }
+
+            try
+            {
+                using (SqlConnection sqlConnection = new SqlConnection(connectionString))
+                {
+                    sqlConnection.Open();
+                    SqlCommand sqlCommand = sqlConnection.CreateCommand();
+                    sqlCommand.CommandText = "DELETE FROM tbStudents WHERE StudentID IN ("
+                        + string.Join(",", lstIdsToDelete) + ")";
+                    sqlCommand.ExecuteNonQuery();
+
+                    grdStudents.DataSource = Util.GetAllStudents();
+                    MessageBox.Show("Students Deleted Successfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error in btnDelete_Click1: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
 
         private void btnExport_Click(object sender, EventArgs e)
         {
             try
             {
-
                 if (fdExportCSV.ShowDialog() == DialogResult.OK) //if user clicks on OK then the Import Functionality is performed else wise Not
                 {
                     using (SqlConnection sqlConnection = new SqlConnection(connectionString))
@@ -249,7 +202,7 @@ namespace Student_Management_with_DB
                         MessageBox.Show($"Student records exported successfully to {filePath}", "Export Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                 }
-                   
+
             }
             catch (Exception ex)
             {
@@ -259,12 +212,9 @@ namespace Student_Management_with_DB
 
         private void btnImport_Click(object sender, EventArgs e)
         {
-
-
             try
             {
-               
-                if (fdImportCSV.ShowDialog()==DialogResult.OK)
+                if (fdImportCSV.ShowDialog() == DialogResult.OK)
                 {
                     string filePath = fdImportCSV.FileName;
                     using (SqlConnection sqlConnection = new SqlConnection(connectionString))
@@ -310,7 +260,7 @@ namespace Student_Management_with_DB
                         }
 
                         MessageBox.Show("Student records imported successfully.", "Import Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        Util.ShowAll(grdStudents);
+                        grdStudents.DataSource = Util.GetAllStudents();
                     }
 
                 }
@@ -321,72 +271,49 @@ namespace Student_Management_with_DB
             }
         }
 
-
         private void btnGenerateReport_Click(object sender, EventArgs e)
         {
+            if (fdExportCSV.ShowDialog() != DialogResult.OK)
+            {
+                return;
+            }
+
+            IList<SMSStudent> lstStudents = Util.GetAllStudents();
+            fdExportCSV.Filter = "All files (*.*)|*.*";
+            fdExportCSV.FileName = "report.txt"; //Default Name
+            fdExportCSV.Title = "Report";
+
             try
             {
-                IList<SMSStudent> lstStudents = new List<SMSStudent>();
-                fdExportCSV.Filter = "All files (*.*)|*.*";
-                fdExportCSV.FileName = "report.txt"; //Default Name
-                fdExportCSV.Title = "Report";
-                if (fdExportCSV.ShowDialog()==DialogResult.OK)
-
+                if (lstStudents.Count == 0)
                 {
-                    using (SqlConnection sqlConnection = new SqlConnection(connectionString))
-                    {
-                        sqlConnection.Open();
-                        SqlCommand sqlCommand = new SqlCommand("SELECT * FROM tbStudents", sqlConnection);
-                        SqlDataReader sqlDataReader = sqlCommand.ExecuteReader();
-
-                        while (sqlDataReader.Read())
-                        {
-                            SMSStudent objStudent = new SMSStudent()
-                            {
-                                StudentID = int.Parse(sqlDataReader["StudentID"].ToString()),
-                                First_Name = sqlDataReader["FirstName"].ToString(),
-                                Last_Name = sqlDataReader["LastName"].ToString(),
-                                Age = int.Parse(sqlDataReader["Age"].ToString()),
-                                Grade = sqlDataReader["Grade"].ToString(),
-                                Email = sqlDataReader["Email"].ToString(),
-                                DOB = DateTime.Parse(sqlDataReader["DateOfBirth"].ToString())
-                            };
-
-                            lstStudents.Add(objStudent);
-                        }
-                    }
-
-                    if (lstStudents.Count == 0)
-                    {
-                        MessageBox.Show("No students found to generate a report.", "No Data", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        return;
-                    }
-
-                    int totalStudents = lstStudents.Count;
-                    double averageAge = lstStudents.Average(s => s.Age);
-
-                    Dictionary<string, int> gradeCounts = lstStudents.GroupBy(s => s.Grade)
-                                                                     .ToDictionary(g => g.Key, g => g.Count());
-
-                    StringBuilder report = new StringBuilder();
-                    report.AppendLine("Student Report");
-                    report.AppendLine("----------------------------");
-                    report.AppendLine($"Total Students: {totalStudents}");
-                    report.AppendLine($"Average Age: {averageAge:F2}");
-                    report.AppendLine("\nGrade-wise Student Count:");
-
-                    foreach (var grade in gradeCounts)
-                    {
-                        report.AppendLine($"Grade {grade.Key}: {grade.Value} students");
-                    }
-
-                    string reportPath = fdExportCSV.FileName;
-                    File.WriteAllText(reportPath, report.ToString());
-
-                    MessageBox.Show($"Report generated successfully", "Report Generated", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    Process.Start(reportPath);
+                    MessageBox.Show("No students found to generate a report.", "No Data", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
                 }
-              
+
+                int totalStudents = lstStudents.Count;
+                double averageAge = lstStudents.Average(s => s.Age);
+
+                Dictionary<string, int> gradeCounts = lstStudents.GroupBy(s => s.Grade)
+                                                                 .ToDictionary(g => g.Key, g => g.Count());
+
+                StringBuilder report = new StringBuilder();
+                report.AppendLine("Student Report");
+                report.AppendLine("----------------------------");
+                report.AppendLine($"Total Students: {totalStudents}");
+                report.AppendLine($"Average Age: {averageAge:F2}");
+                report.AppendLine("\nGrade-wise Student Count:");
+
+                foreach (var grade in gradeCounts)
+                {
+                    report.AppendLine($"Grade {grade.Key}: {grade.Value} students");
+                }
+
+                string reportPath = fdExportCSV.FileName;
+                File.WriteAllText(reportPath, report.ToString());
+
+                MessageBox.Show($"Report generated successfully", "Report Generated", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                Process.Start(reportPath);
             }
             catch (Exception ex)
             {
