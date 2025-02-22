@@ -46,6 +46,7 @@ namespace Student_Management_with_DB
             this.lbSearchMsg = new System.Windows.Forms.Label();
             this.grdStudents = new System.Windows.Forms.DataGridView();
             this.btnBack2 = new System.Windows.Forms.Button();
+            this.lbManageTitle = new System.Windows.Forms.Label();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.grdStudents)).BeginInit();
             this.SuspendLayout();
@@ -54,6 +55,7 @@ namespace Student_Management_with_DB
             // 
             this.panel2.BackColor = System.Drawing.SystemColors.InactiveCaption;
             this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel2.Controls.Add(this.lbManageTitle);
             this.panel2.Controls.Add(this.btnGenerateReport);
             this.panel2.Controls.Add(this.btnImport);
             this.panel2.Controls.Add(this.btnExport);
@@ -185,7 +187,7 @@ namespace Student_Management_with_DB
             // cbSearch
             // 
             this.cbSearch.FormattingEnabled = true;
-            this.cbSearch.Location = new System.Drawing.Point(107, 90);
+            this.cbSearch.Location = new System.Drawing.Point(107, 133);
             this.cbSearch.Name = "cbSearch";
             this.cbSearch.Size = new System.Drawing.Size(121, 21);
             this.cbSearch.TabIndex = 27;
@@ -199,7 +201,7 @@ namespace Student_Management_with_DB
             this.btnSearch.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnSearch.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnSearch.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.btnSearch.Location = new System.Drawing.Point(300, 152);
+            this.btnSearch.Location = new System.Drawing.Point(300, 195);
             this.btnSearch.Name = "btnSearch";
             this.btnSearch.Size = new System.Drawing.Size(98, 39);
             this.btnSearch.TabIndex = 26;
@@ -210,7 +212,7 @@ namespace Student_Management_with_DB
             // tbSearch
             // 
             this.tbSearch.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbSearch.Location = new System.Drawing.Point(254, 90);
+            this.tbSearch.Location = new System.Drawing.Point(254, 133);
             this.tbSearch.Name = "tbSearch";
             this.tbSearch.Size = new System.Drawing.Size(194, 26);
             this.tbSearch.TabIndex = 25;
@@ -252,6 +254,16 @@ namespace Student_Management_with_DB
             this.btnBack2.UseVisualStyleBackColor = false;
             this.btnBack2.Click += new System.EventHandler(this.btnBack2_Click);
             // 
+            // lbManageTitle
+            // 
+            this.lbManageTitle.AutoSize = true;
+            this.lbManageTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 27.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbManageTitle.Location = new System.Drawing.Point(213, 37);
+            this.lbManageTitle.Name = "lbManageTitle";
+            this.lbManageTitle.Size = new System.Drawing.Size(327, 42);
+            this.lbManageTitle.TabIndex = 35;
+            this.lbManageTitle.Text = "Manage Students";
+            // 
             // ManageStudents
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -285,6 +297,6 @@ namespace Student_Management_with_DB
         private System.Windows.Forms.Button btnExport;
         private System.Windows.Forms.Button btnGenerateReport;
         private System.Windows.Forms.Button btnBack2;
-
+        private Label lbManageTitle;
     }
 }

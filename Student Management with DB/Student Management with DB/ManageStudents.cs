@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+
 namespace Student_Management_with_DB
 {
     public partial class ManageStudents : Form
@@ -17,16 +18,12 @@ namespace Student_Management_with_DB
         {
             InitializeComponent();
 
-            //btnBack2.BackgroundImage = Util.ResizeImage(Image.FromFile("C:\\Users\\MY GUEST\\Downloads\\back.png"), btnBack2.Size);
-
             List<string> cbItemsSearch = new List<string> { "Name", "Email", "Grade" };
             List<string> cbItemsSort = new List<string> { "First Name", "Last Name", "Grade" };
 
             cbSearch.DataSource = cbItemsSearch;
             cbSort.DataSource = cbItemsSort;
-
         }
-
 
         private void btnSearch_Click(object sender, EventArgs e)
         {
@@ -38,20 +35,16 @@ namespace Student_Management_with_DB
                 if (cbSearch.SelectedItem != null)
                 {
                     string selectedCriteria = cbSearch.SelectedItem.ToString();
-
-
-
-
                     SqlCommand searchCommand = sqlConnection.CreateCommand();
 
                     if (selectedCriteria == "Name")
                     {
                         if (string.IsNullOrWhiteSpace(tbSearch.Text))
                         {
-                            MessageBox.Show("Provide a Name");
+                            MessageBox.Show("Provide a Name", "Input Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                             return;
                         }
-                        string Name = tbSearch.Text.ToString() + " "; //ADDING Whiespace in case user gives corect input i.e FirstName
+                        string Name = tbSearch.Text.ToString() + " ";
                         searchCommand.CommandText = "SELECT * FROM tbStudents WHERE FirstName = @Value";
                         searchCommand.Parameters.AddWithValue("@Value", Name.Substring(0, Name.IndexOf(" ")));
                     }
@@ -60,11 +53,10 @@ namespace Student_Management_with_DB
                         try
                         {
                             var addr = new System.Net.Mail.MailAddress(tbSearch.Text);
-
                         }
                         catch
                         {
-                            MessageBox.Show("Please enter a valid Email(e.g abc@example.com)");
+                            MessageBox.Show("Please enter a valid Email (e.g., abc@example.com)", "Invalid Email", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                             return;
                         }
 
@@ -76,7 +68,7 @@ namespace Student_Management_with_DB
                         string[] validGrades = { "A", "B", "C", "D", "F" };
                         if (!validGrades.Contains(tbSearch.Text.Trim().ToUpper()))
                         {
-                            MessageBox.Show("Please enter a valid Grade (A, B, C, D, F).");
+                            MessageBox.Show("Please enter a valid Grade (A, B, C, D, F).", "Invalid Grade", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                             return;
                         }
                         searchCommand.CommandText = "SELECT * FROM tbStudents WHERE Grade = @Value";
@@ -106,15 +98,15 @@ namespace Student_Management_with_DB
 
                 grdStudents.DataSource = lstStudents;
             }
-
         }
+
         private void btnAll_Click(object sender, EventArgs e)
         {
             Util.ShowAll(grdStudents);
         }
+
         private void btnSort_Click(object sender, EventArgs e)
         {
-
             IList<SMSStudent> lstStudents = new List<SMSStudent>();
 
             using (SqlConnection sqlConnection = new SqlConnection(connectionString))
@@ -139,7 +131,7 @@ namespace Student_Management_with_DB
                     }
                     else
                     {
-                        MessageBox.Show("Please select a valid sorting criterion.");
+                        MessageBox.Show("Please select a valid sorting criterion.", "Invalid Option", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         return;
                     }
 
@@ -166,7 +158,7 @@ namespace Student_Management_with_DB
                 }
                 else
                 {
-                    MessageBox.Show("Please select a sorting option.");
+                    MessageBox.Show("Please select a sorting option.", "No Option Selected", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
             }
@@ -176,26 +168,23 @@ namespace Student_Management_with_DB
 
         private void btnDelete_Click(object sender, EventArgs e)
         {
-            if (grdStudents.SelectedRows.Count > 0) //Checking if User has selected a row or not
+            if (grdStudents.SelectedRows.Count > 0)
             {
-                List<int> idsToDelete = new List<int>(); //Making a list in case user selects many students
-                foreach (DataGridViewRow currentrow in grdStudents.SelectedRows) // a variable of a built in data type that stored the row of grid
+                List<int> idsToDelete = new List<int>();
+                foreach (DataGridViewRow currentrow in grdStudents.SelectedRows)
                 {
                     if (currentrow.Cells["StudentID"].Value != null)
                     {
-                        idsToDelete.Add(int.Parse(currentrow.Cells["StudentID"].Value.ToString())); //adding the id of current row in looping in the list
+                        idsToDelete.Add(int.Parse(currentrow.Cells["StudentID"].Value.ToString()));
                     }
-
-
                 }
 
                 try
                 {
-
                     using (SqlConnection sqlConnection = new SqlConnection(connectionString))
                     {
                         sqlConnection.Open();
-                        foreach (int currentid in idsToDelete) //Deleting all the ids in idsForDelete List
+                        foreach (int currentid in idsToDelete)
                         {
                             SqlCommand sqlCommand = sqlConnection.CreateCommand();
                             sqlCommand.CommandText = "DELETE FROM tbStudents WHERE StudentID = @ID";
@@ -204,21 +193,18 @@ namespace Student_Management_with_DB
                         }
 
                         Util.ShowAll(grdStudents);
-                        MessageBox.Show("Students Deleted Successfully");
-
+                        MessageBox.Show("Students Deleted Successfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show($"Error in btnDelete_Click1: {ex.Message}");
+                    MessageBox.Show($"Error in btnDelete_Click1: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
-
             else
             {
-                MessageBox.Show("Please select at least one Student to Delete.");
+                MessageBox.Show("Please select at least one Student to Delete.", "No Selection", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
-
         }
 
         private void btnExport_Click(object sender, EventArgs e)
@@ -234,13 +220,10 @@ namespace Student_Management_with_DB
                     string filePath = "students.csv";
                     using (StreamWriter writer = new StreamWriter(filePath))
                     {
-                        writer.WriteLine("StudentID,FirstName,LastName,Age,Grade,Email,DateOfBirth"); // CSV Header
+                        writer.WriteLine("StudentID,FirstName,LastName,Age,Grade,Email,DateOfBirth");
 
                         while (reader.Read())
                         {
-                            //Getting data from Execute Reader query "reader var" currently contains a row currently...
-                            //reader gives the value of the column inside square brackets [] and formats it as recquoired to be stored in csv
-                            //csv stores tabular data seprated by a delimeter (',' ususallyy) 
                             string csvLine = $"{reader["StudentID"]},{reader["FirstName"]},{reader["LastName"]}," +
                                              $"{reader["Age"]},{reader["Grade"]},{reader["Email"]},{reader["DateOfBirth"]}";
                             writer.WriteLine(csvLine);
@@ -248,12 +231,12 @@ namespace Student_Management_with_DB
                     }
 
                     reader.Close();
-                    MessageBox.Show("Student records exported successfully to students.csv");
+                    MessageBox.Show("Student records exported successfully to students.csv", "Export Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error exporting to CSV: {ex.Message}");
+                MessageBox.Show($"Error exporting to CSV: {ex.Message}", "Export Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -264,7 +247,7 @@ namespace Student_Management_with_DB
                 string filePath = "students.csv";
                 if (!File.Exists(filePath))
                 {
-                    MessageBox.Show("File students.csv not found.");
+                    MessageBox.Show("File students.csv not found.", "File Not Found", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
 
@@ -274,12 +257,12 @@ namespace Student_Management_with_DB
                     using (StreamReader reader = new StreamReader(filePath))
                     {
                         string line;
-                        reader.ReadLine(); // Skiping header row
+                        reader.ReadLine();
 
                         while ((line = reader.ReadLine()) != null)
                         {
-                            string[] data = line.Split(','); //storing the line in an array making it of index 7 by seprating the lines into different strings using Split(',')
-                            if (data.Length != 7) continue; // Skip invalid lines i.e those which are incomplete or inseted manually but were wrong and couldnt provide all values or provided extra values
+                            string[] data = line.Split(',');
+                            if (data.Length != 7) continue;
 
                             int studentID = int.Parse(data[0]);
                             string firstName = data[1];
@@ -289,12 +272,11 @@ namespace Student_Management_with_DB
                             string email = data[5];
                             DateTime dob = DateTime.Parse(data[6]);
 
-                            // Checking if student already exists
                             SqlCommand checkCmd = new SqlCommand("SELECT COUNT(*) FROM tbStudents WHERE StudentID = @ID", sqlConnection);
                             checkCmd.Parameters.AddWithValue("@ID", studentID);
                             int count = (int)checkCmd.ExecuteScalar();
 
-                            if (count == 0) // Inserting in case the current student row of file doesnt exists in db to avoid duplication
+                            if (count == 0)
                             {
                                 SqlCommand insertCmd = new SqlCommand("INSERT INTO tbStudents (StudentID, FirstName, LastName, Age, Grade, Email, DateOfBirth) " +
                                                                       "VALUES (@ID, @FirstName, @LastName, @Age, @Grade, @Email, @DOB)", sqlConnection);
@@ -311,13 +293,13 @@ namespace Student_Management_with_DB
                         }
                     }
 
-                    MessageBox.Show("Student records imported successfully.");
+                    MessageBox.Show("Student records imported successfully.", "Import Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     Util.ShowAll(grdStudents);
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error importing from CSV: {ex.Message}");
+                MessageBox.Show($"Error importing from CSV: {ex.Message}", "Import Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -352,18 +334,16 @@ namespace Student_Management_with_DB
 
                 if (lstStudents.Count == 0)
                 {
-                    MessageBox.Show("No students found to generate a report.");
+                    MessageBox.Show("No students found to generate a report.", "No Data", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
 
                 int totalStudents = lstStudents.Count;
                 double averageAge = lstStudents.Average(s => s.Age);
 
-                // Grade-wise student count
                 Dictionary<string, int> gradeCounts = lstStudents.GroupBy(s => s.Grade)
                                                                  .ToDictionary(g => g.Key, g => g.Count());
 
-                // Generate Report
                 StringBuilder report = new StringBuilder();
                 report.AppendLine("Student Report");
                 report.AppendLine("----------------------------");
@@ -379,12 +359,12 @@ namespace Student_Management_with_DB
                 string reportPath = "report.txt";
                 File.WriteAllText(reportPath, report.ToString());
 
-                MessageBox.Show($"Report generated successfully");
+                MessageBox.Show($"Report generated successfully", "Report Generated", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 Process.Start(reportPath);
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error generating report: {ex.Message}");
+                MessageBox.Show($"Error generating report: {ex.Message}", "Report Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -395,9 +375,4 @@ namespace Student_Management_with_DB
             this.Hide();
         }
     }
-
-
-
-
-
 }

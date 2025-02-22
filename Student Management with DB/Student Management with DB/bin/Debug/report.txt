@@ -1,0 +1,8 @@
+Student Report
+----------------------------
+Total Students: 3
+Average Age: 154.33
+
+Grade-wise Student Count:
+Grade A: 1 students
+Grade B: 2 students

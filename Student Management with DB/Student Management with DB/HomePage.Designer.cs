@@ -32,6 +32,7 @@ namespace Student_Management_with_DB
         private void InitializeComponent()
         {
             this.panel1 = new System.Windows.Forms.Panel();
+            this.cbGrades = new System.Windows.Forms.ComboBox();
             this.btnNext = new System.Windows.Forms.Button();
             this.btnSubmitUpdate = new System.Windows.Forms.Button();
             this.btnUpdateStudent = new System.Windows.Forms.Button();
@@ -55,7 +56,7 @@ namespace Student_Management_with_DB
             this.lbFNameMsg = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.btnBack = new System.Windows.Forms.Button();
-            this.cbGrades = new System.Windows.Forms.ComboBox();
+            this.lbStudentFormTitle = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.grdStudents)).BeginInit();
             this.SuspendLayout();
@@ -64,6 +65,7 @@ namespace Student_Management_with_DB
             // 
             this.panel1.BackColor = System.Drawing.SystemColors.InactiveCaption;
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel1.Controls.Add(this.lbStudentFormTitle);
             this.panel1.Controls.Add(this.cbGrades);
             this.panel1.Controls.Add(this.btnNext);
             this.panel1.Controls.Add(this.btnSubmitUpdate);
@@ -87,10 +89,18 @@ namespace Student_Management_with_DB
             this.panel1.Controls.Add(this.lbLNameMsg);
             this.panel1.Controls.Add(this.lbFNameMsg);
             this.panel1.Controls.Add(this.label1);
-            this.panel1.Location = new System.Drawing.Point(41, 48);
+            this.panel1.Location = new System.Drawing.Point(41, 25);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(754, 582);
+            this.panel1.Size = new System.Drawing.Size(754, 605);
             this.panel1.TabIndex = 1;
+            // 
+            // cbGrades
+            // 
+            this.cbGrades.FormattingEnabled = true;
+            this.cbGrades.Location = new System.Drawing.Point(277, 229);
+            this.cbGrades.Name = "cbGrades";
+            this.cbGrades.Size = new System.Drawing.Size(121, 21);
+            this.cbGrades.TabIndex = 27;
             // 
             // btnNext
             // 
@@ -101,7 +111,7 @@ namespace Student_Management_with_DB
             this.btnNext.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnNext.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnNext.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.btnNext.Location = new System.Drawing.Point(620, 395);
+            this.btnNext.Location = new System.Drawing.Point(620, 418);
             this.btnNext.Name = "btnNext";
             this.btnNext.Size = new System.Drawing.Size(128, 39);
             this.btnNext.TabIndex = 26;
@@ -118,7 +128,7 @@ namespace Student_Management_with_DB
             this.btnSubmitUpdate.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnSubmitUpdate.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnSubmitUpdate.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.btnSubmitUpdate.Location = new System.Drawing.Point(322, 333);
+            this.btnSubmitUpdate.Location = new System.Drawing.Point(322, 356);
             this.btnSubmitUpdate.Name = "btnSubmitUpdate";
             this.btnSubmitUpdate.Size = new System.Drawing.Size(98, 39);
             this.btnSubmitUpdate.TabIndex = 25;
@@ -136,7 +146,7 @@ namespace Student_Management_with_DB
             this.btnUpdateStudent.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnUpdateStudent.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnUpdateStudent.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.btnUpdateStudent.Location = new System.Drawing.Point(426, 361);
+            this.btnUpdateStudent.Location = new System.Drawing.Point(426, 384);
             this.btnUpdateStudent.Name = "btnUpdateStudent";
             this.btnUpdateStudent.Size = new System.Drawing.Size(98, 39);
             this.btnUpdateStudent.TabIndex = 24;
@@ -153,7 +163,7 @@ namespace Student_Management_with_DB
             this.btnAddStudent.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnAddStudent.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnAddStudent.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.btnAddStudent.Location = new System.Drawing.Point(185, 361);
+            this.btnAddStudent.Location = new System.Drawing.Point(185, 384);
             this.btnAddStudent.Name = "btnAddStudent";
             this.btnAddStudent.Size = new System.Drawing.Size(98, 39);
             this.btnAddStudent.TabIndex = 23;
@@ -164,7 +174,7 @@ namespace Student_Management_with_DB
             // grdStudents
             // 
             this.grdStudents.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.grdStudents.Location = new System.Drawing.Point(2, 440);
+            this.grdStudents.Location = new System.Drawing.Point(2, 463);
             this.grdStudents.Name = "grdStudents";
             this.grdStudents.RowHeadersWidth = 51;
             this.grdStudents.Size = new System.Drawing.Size(746, 126);
@@ -172,7 +182,7 @@ namespace Student_Management_with_DB
             // 
             // dateTimePicker
             // 
-            this.dateTimePicker.Location = new System.Drawing.Point(279, 293);
+            this.dateTimePicker.Location = new System.Drawing.Point(279, 316);
             this.dateTimePicker.Name = "dateTimePicker";
             this.dateTimePicker.Size = new System.Drawing.Size(200, 20);
             this.dateTimePicker.TabIndex = 21;
@@ -181,7 +191,7 @@ namespace Student_Management_with_DB
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(160, 293);
+            this.label5.Location = new System.Drawing.Point(160, 316);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(115, 20);
             this.label5.TabIndex = 19;
@@ -191,7 +201,7 @@ namespace Student_Management_with_DB
             // 
             this.lbDOBMsg.AutoSize = true;
             this.lbDOBMsg.ForeColor = System.Drawing.Color.Red;
-            this.lbDOBMsg.Location = new System.Drawing.Point(275, 319);
+            this.lbDOBMsg.Location = new System.Drawing.Point(275, 342);
             this.lbDOBMsg.Name = "lbDOBMsg";
             this.lbDOBMsg.Size = new System.Drawing.Size(0, 13);
             this.lbDOBMsg.TabIndex = 18;
@@ -199,7 +209,7 @@ namespace Student_Management_with_DB
             // tbEmail
             // 
             this.tbEmail.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbEmail.Location = new System.Drawing.Point(278, 248);
+            this.tbEmail.Location = new System.Drawing.Point(278, 271);
             this.tbEmail.Name = "tbEmail";
             this.tbEmail.Size = new System.Drawing.Size(194, 20);
             this.tbEmail.TabIndex = 17;
@@ -208,7 +218,7 @@ namespace Student_Management_with_DB
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(212, 248);
+            this.label4.Location = new System.Drawing.Point(212, 271);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(53, 20);
             this.label4.TabIndex = 16;
@@ -218,7 +228,7 @@ namespace Student_Management_with_DB
             // 
             this.lbEmailMsg.AutoSize = true;
             this.lbEmailMsg.ForeColor = System.Drawing.Color.Red;
-            this.lbEmailMsg.Location = new System.Drawing.Point(275, 273);
+            this.lbEmailMsg.Location = new System.Drawing.Point(275, 296);
             this.lbEmailMsg.Name = "lbEmailMsg";
             this.lbEmailMsg.Size = new System.Drawing.Size(0, 13);
             this.lbEmailMsg.TabIndex = 15;
@@ -226,7 +236,7 @@ namespace Student_Management_with_DB
             // tbAge
             // 
             this.tbAge.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbAge.Location = new System.Drawing.Point(278, 160);
+            this.tbAge.Location = new System.Drawing.Point(278, 183);
             this.tbAge.Name = "tbAge";
             this.tbAge.Size = new System.Drawing.Size(194, 20);
             this.tbAge.TabIndex = 13;
@@ -235,7 +245,7 @@ namespace Student_Management_with_DB
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(212, 205);
+            this.label3.Location = new System.Drawing.Point(212, 228);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(59, 20);
             this.label3.TabIndex = 12;
@@ -245,7 +255,7 @@ namespace Student_Management_with_DB
             // 
             this.lbGradeMsg.AutoSize = true;
             this.lbGradeMsg.ForeColor = System.Drawing.Color.Red;
-            this.lbGradeMsg.Location = new System.Drawing.Point(275, 230);
+            this.lbGradeMsg.Location = new System.Drawing.Point(275, 253);
             this.lbGradeMsg.Name = "lbGradeMsg";
             this.lbGradeMsg.Size = new System.Drawing.Size(0, 13);
             this.lbGradeMsg.TabIndex = 11;
@@ -254,7 +264,7 @@ namespace Student_Management_with_DB
             // 
             this.lbAgeMsg.AutoSize = true;
             this.lbAgeMsg.ForeColor = System.Drawing.Color.Red;
-            this.lbAgeMsg.Location = new System.Drawing.Point(276, 184);
+            this.lbAgeMsg.Location = new System.Drawing.Point(276, 207);
             this.lbAgeMsg.Name = "lbAgeMsg";
             this.lbAgeMsg.Size = new System.Drawing.Size(0, 13);
             this.lbAgeMsg.TabIndex = 10;
@@ -263,7 +273,7 @@ namespace Student_Management_with_DB
             // 
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(230, 162);
+            this.label6.Location = new System.Drawing.Point(230, 185);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(41, 20);
             this.label6.TabIndex = 9;
@@ -272,7 +282,7 @@ namespace Student_Management_with_DB
             // tbLastName
             // 
             this.tbLastName.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbLastName.Location = new System.Drawing.Point(279, 113);
+            this.tbLastName.Location = new System.Drawing.Point(279, 136);
             this.tbLastName.Name = "tbLastName";
             this.tbLastName.Size = new System.Drawing.Size(194, 20);
             this.tbLastName.TabIndex = 8;
@@ -280,7 +290,7 @@ namespace Student_Management_with_DB
             // tbFirstName
             // 
             this.tbFirstName.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbFirstName.Location = new System.Drawing.Point(278, 66);
+            this.tbFirstName.Location = new System.Drawing.Point(278, 89);
             this.tbFirstName.Name = "tbFirstName";
             this.tbFirstName.Size = new System.Drawing.Size(194, 20);
             this.tbFirstName.TabIndex = 7;
@@ -289,7 +299,7 @@ namespace Student_Management_with_DB
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(182, 115);
+            this.label2.Location = new System.Drawing.Point(182, 138);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(95, 20);
             this.label2.TabIndex = 6;
@@ -299,7 +309,7 @@ namespace Student_Management_with_DB
             // 
             this.lbLNameMsg.AutoSize = true;
             this.lbLNameMsg.ForeColor = System.Drawing.Color.Red;
-            this.lbLNameMsg.Location = new System.Drawing.Point(276, 137);
+            this.lbLNameMsg.Location = new System.Drawing.Point(276, 160);
             this.lbLNameMsg.Name = "lbLNameMsg";
             this.lbLNameMsg.Size = new System.Drawing.Size(0, 13);
             this.lbLNameMsg.TabIndex = 5;
@@ -308,7 +318,7 @@ namespace Student_Management_with_DB
             // 
             this.lbFNameMsg.AutoSize = true;
             this.lbFNameMsg.ForeColor = System.Drawing.Color.Red;
-            this.lbFNameMsg.Location = new System.Drawing.Point(275, 90);
+            this.lbFNameMsg.Location = new System.Drawing.Point(275, 113);
             this.lbFNameMsg.Name = "lbFNameMsg";
             this.lbFNameMsg.Size = new System.Drawing.Size(0, 13);
             this.lbFNameMsg.TabIndex = 4;
@@ -317,7 +327,7 @@ namespace Student_Management_with_DB
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(181, 65);
+            this.label1.Location = new System.Drawing.Point(181, 88);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(96, 20);
             this.label1.TabIndex = 2;
@@ -341,13 +351,15 @@ namespace Student_Management_with_DB
             this.btnBack.UseVisualStyleBackColor = false;
             this.btnBack.Click += new System.EventHandler(this.btnBack_Click);
             // 
-            // cbGrades
+            // lbStudentFormTitle
             // 
-            this.cbGrades.FormattingEnabled = true;
-            this.cbGrades.Location = new System.Drawing.Point(277, 206);
-            this.cbGrades.Name = "cbGrades";
-            this.cbGrades.Size = new System.Drawing.Size(121, 21);
-            this.cbGrades.TabIndex = 27;
+            this.lbStudentFormTitle.AutoSize = true;
+            this.lbStudentFormTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 27.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbStudentFormTitle.Location = new System.Drawing.Point(248, 12);
+            this.lbStudentFormTitle.Name = "lbStudentFormTitle";
+            this.lbStudentFormTitle.Size = new System.Drawing.Size(255, 42);
+            this.lbStudentFormTitle.TabIndex = 28;
+            this.lbStudentFormTitle.Text = "Student Form";
             // 
             // HomePage
             // 
@@ -393,5 +405,6 @@ namespace Student_Management_with_DB
         private System.Windows.Forms.Button btnNext;
         private System.Windows.Forms.Button btnBack;
         private ComboBox cbGrades;
+        private Label lbStudentFormTitle;
     }
 }

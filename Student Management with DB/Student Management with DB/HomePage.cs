@@ -76,14 +76,14 @@ namespace Student_Management_with_DB
                             int emailCount = (int)checkEmailCmd.ExecuteScalar();
                             if (emailCount > 0)
                             {
-                                MessageBox.Show("This email is already registered. Please use a different email.");
+                                MessageBox.Show("This email is already registered. Please use a different email.", "Duplicate Email", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                                 return;
                             }
                         }
                         SqlCommand sqlCommand = sqlConnection.CreateCommand();
                         sqlCommand.CommandText = @"
-            INSERT INTO tbStudents(FirstName, LastName, Age, Grade, Email, DateOfBirth)
-            VALUES(@FirstName, @LastName, @Age, @Grade, @Email, @DateOfBirth)";
+                INSERT INTO tbStudents(FirstName, LastName, Age, Grade, Email, DateOfBirth)
+                VALUES(@FirstName, @LastName, @Age, @Grade, @Email, @DateOfBirth)";
 
                         sqlCommand.Parameters.AddWithValue("@FirstName", tbFirstName.Text.Trim());
                         sqlCommand.Parameters.AddWithValue("@LastName", tbLastName.Text.Trim());
@@ -95,17 +95,16 @@ namespace Student_Management_with_DB
                         int rowsAffected = sqlCommand.ExecuteNonQuery();
                         if (rowsAffected > 0)
                         {
-                            tbFirstName.Text = tbLastName.Text = tbAge.Text  = tbEmail.Text = "";
+                            tbFirstName.Text = tbLastName.Text = tbAge.Text = tbEmail.Text = "";
                             cbGrades.SelectedItem = "A";
                             dateTimePicker.Value = DateTime.Now;
                             Util.ShowAll(grdStudents);
-                            MessageBox.Show("Student Added Successfully");
+                            MessageBox.Show("Student has been added successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         }
-
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show("An error occurred: " + ex.Message);
+                        MessageBox.Show("An error occurred: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
             }
@@ -129,11 +128,11 @@ namespace Student_Management_with_DB
             }
             else if (grdStudents.SelectedRows.Count > 0)
             {
-                MessageBox.Show("Only One Student's Inmformation can be Updated at a time", "Students");
+                MessageBox.Show("Only one student's information can be updated at a time.", "Update Restriction", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
             else
             {
-                MessageBox.Show("Please Select a Student First");
+                MessageBox.Show("Please select a student first.", "No Selection", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
 
@@ -154,20 +153,19 @@ namespace Student_Management_with_DB
                         checkEmailCmd.Parameters.AddWithValue("@Email", tbEmail.Text.Trim());
 
                         int emailCount = (int)checkEmailCmd.ExecuteScalar();
-                        if (emailCount > 0) //&& tbEmail.Text != grdStudents.CurrentRow.Cells["Email"].Value.ToString()) //Check so that email isnt duplicated and if email isnt changed during update...the false ,message doesnt appears
+                        if (emailCount > 0)
                         {
-                            MessageBox.Show("This email is already registered. Please use a different email.");
+                            MessageBox.Show("This email is already registered. Please use a different email.", "Duplicate Email", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                             return;
                         }
                     }
 
                     SqlCommand sqlCommand = sqlConnection.CreateCommand();
-
                     sqlCommand.CommandText = @"
-                       UPDATE tbStudents 
-                       SET FirstName = @FirstName, LastName = @LastName, Age = @Age, 
-                       Grade = @Grade, Email = @Email, DateOfBirth = @DateOfBirth 
-                       WHERE StudentID = @StudentID";
+                UPDATE tbStudents 
+                SET FirstName = @FirstName, LastName = @LastName, Age = @Age, 
+                Grade = @Grade, Email = @Email, DateOfBirth = @DateOfBirth 
+                WHERE StudentID = @StudentID";
                     sqlCommand.Parameters.AddWithValue("@StudentID", studentId);
                     sqlCommand.Parameters.AddWithValue("@FirstName", tbFirstName.Text.Trim());
                     sqlCommand.Parameters.AddWithValue("@LastName", tbLastName.Text.Trim());
@@ -180,24 +178,23 @@ namespace Student_Management_with_DB
 
                     if (rowsAffected > 0)
                     {
-                        //Returning to previous states
                         btnSubmitUpdate.Visible = false;
                         btnUpdateStudent.Visible = btnAddStudent.Visible = true;
-                        tbFirstName.Text = tbLastName.Text = tbAge.Text  = tbEmail.Text = string.Empty;
+                        tbFirstName.Text = tbLastName.Text = tbAge.Text = tbEmail.Text = string.Empty;
                         cbGrades.SelectedItem = "A";
                         dateTimePicker.Value = DateTime.Now;
                         Util.ShowAll(grdStudents);
-                        MessageBox.Show("Student Information Updated Successfully");
+                        MessageBox.Show("Student information has been updated successfully.", "Update Successful", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                     else
                     {
-                        MessageBox.Show("No changes were made. The information remains the same.");
+                        MessageBox.Show("No changes were made. The information remains the same.", "No Update", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error in btnUpdateFinal_Click: {ex.Message}");
+                MessageBox.Show($"An error occurred: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
