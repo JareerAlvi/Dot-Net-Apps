@@ -1,8 +1,4 @@
-Student Report
-----------------------------
-Total Students: 3
-Average Age: 154.33
-
-Grade-wise Student Count:
-Grade A: 1 students
-Grade B: 2 students
+StudentID,FirstName,LastName,Age,Grade,Email,DateOfBirth
+1,Jareer,Umar,19,A,jareeralvi01@gmail.com,8/2/2005 2:34:24 PM
+11,aas,asas,22,A,asas@asas.com,2/22/2025 12:00:00 AM
+1002,AbcD,efg,14,A,asdaasasa2@asas.com,2/26/2025 12:00:00 AM
