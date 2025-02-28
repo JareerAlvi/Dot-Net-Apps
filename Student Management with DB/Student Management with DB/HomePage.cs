@@ -68,8 +68,10 @@ namespace Student_Management_with_DB
 
         private void btnAddStudent_Click(object sender, EventArgs e)
         {
-            if (ValidateStudentInput())
+            if (!ValidateStudentInput())
             {
+                return;
+            }
                 using (SqlConnection sqlConnection = new SqlConnection(connectionString))
                 {
                     try
@@ -117,7 +119,7 @@ namespace Student_Management_with_DB
                         MessageBox.Show("An error occurred: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
-            }
+            
         }
 
         private SMSStudent CreateStudentFromInput()
@@ -165,8 +167,10 @@ namespace Student_Management_with_DB
 
         private void btnSubmitUpdate_Click(object sender, EventArgs e)
         {
-            if (ValidateStudentInput())
+            if (!ValidateStudentInput())
             {
+                return;
+            }
                 if (grdStudents.SelectedRows.Count == 1)
                 {
                     try
@@ -207,9 +211,7 @@ namespace Student_Management_with_DB
                                 {
                                     MessageBox.Show("Student updated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                                     grdStudents.DataSource = Util.GetAllStudents();
-                                    tbFirstName.Text = tbLastName.Text = tbAge.Text = tbEmail.Text = string.Empty;
-                                    cbGrades.SelectedItem = "A";
-                                    dateTimePicker.Value = DateTime.Now;
+
                                 }
 
                                 else
@@ -231,7 +233,7 @@ namespace Student_Management_with_DB
                 {
                     MessageBox.Show("Please select a student to update.", "No Selection", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
-            }
+            
 
         }
 
@@ -244,41 +246,11 @@ namespace Student_Management_with_DB
                grdStudents.DataSource= Util.GetAllStudents();
                 return;
             }
-
-            IList<SMSStudent> lstStudents = new List<SMSStudent>();
-
-            using (SqlConnection sqlConnection = new SqlConnection(connectionString))
-            {
-                sqlConnection.Open();
-
-                // Using LIKE for searching substrings
-                string query = "SELECT * FROM tbStudents WHERE FirstName LIKE @Value OR LastName LIKE @Value OR Email LIKE @Value";
-                SqlCommand searchCommand = new SqlCommand(query, sqlConnection);
-                searchCommand.Parameters.AddWithValue("@Value", "%" + searchValue + "%");
-
-                SqlDataReader sqlDataReader = searchCommand.ExecuteReader();
-
-                while (sqlDataReader.Read())
-                {
-                    SMSStudent objStudent = new SMSStudent()
-                    {
-                        StudentID = int.Parse(sqlDataReader["StudentID"].ToString()),
-                        First_Name = sqlDataReader["FirstName"].ToString(),
-                        Last_Name = sqlDataReader["LastName"].ToString(),
-                        Age = int.Parse(sqlDataReader["Age"].ToString()),
-                        Grade = sqlDataReader["Grade"].ToString(),
-                        Email = sqlDataReader["Email"].ToString(),
-                        DOB = DateTime.Parse(sqlDataReader["DateOfBirth"].ToString())
-                    };
-
-                    lstStudents.Add(objStudent);
-                }
-
-                sqlDataReader.Close();
-                grdStudents.DataSource = lstStudents;
-            }
+            string whereClause = $" WHERE FirstName LIKE '%{searchValue}%' OR LastName LIKE '%{searchValue}%' OR Email LIKE '%{searchValue}%' OR Grade LIKE '%{searchValue}%' OR Age Like '%{searchValue}%'  ";
+            grdStudents.DataSource = Util.GetAllStudents(whereClause: whereClause);
         }
 
+           
         private void btnAddPannel_Click(object sender, EventArgs e)
         {
             newStudentPanel.Visible = true;
@@ -292,7 +264,9 @@ namespace Student_Management_with_DB
             newStudentPanel.Visible = false;
             btnSubmitUpdate.Visible = false;
             lbTitle.Text = "New Student";
-
+            tbFirstName.Text = tbLastName.Text = tbAge.Text = tbEmail.Text = string.Empty;
+            cbGrades.SelectedItem = "A";
+            dateTimePicker.Value = DateTime.Now;
         }
 
 
@@ -347,24 +321,31 @@ namespace Student_Management_with_DB
         {
             try
             {
-                if (fdExportCSV.ShowDialog() == DialogResult.OK) //if user clicks on OK then the Import Functionality is performed else wise Not
+                if (fdExportCSV.ShowDialog() == DialogResult.OK) // User selects a file
                 {
                     using (SqlConnection sqlConnection = new SqlConnection(connectionString))
                     {
                         sqlConnection.Open();
-                        SqlCommand sqlCommand = new SqlCommand("SELECT * FROM tbStudents", sqlConnection);
+
+                        // Exclude StudentID from the export
+                        SqlCommand sqlCommand = new SqlCommand("SELECT FirstName, LastName, Age, Grade, Email, DateOfBirth FROM tbStudents", sqlConnection);
                         SqlDataReader reader = sqlCommand.ExecuteReader();
 
-                        string filePath = fdExportCSV.FileName; //the default file name set in designer
+                        string filePath = fdExportCSV.FileName;
 
                         using (StreamWriter writer = new StreamWriter(filePath))
                         {
-                            writer.WriteLine("StudentID,FirstName,LastName,Age,Grade,Email,DateOfBirth");
+                            // Write CSV Header (without StudentID)
+                            writer.WriteLine("FirstName,LastName,Age,Grade,Email,DateOfBirth");
 
                             while (reader.Read())
                             {
-                                string csvLine = $"{reader["StudentID"]},{reader["FirstName"]},{reader["LastName"]}," +
-                                                 $"{reader["Age"]},{reader["Grade"]},{reader["Email"]},{reader["DateOfBirth"]}";
+                                // Format DateOfBirth properly
+                                string dob = Convert.ToDateTime(reader["DateOfBirth"]).ToString("yyyy-MM-dd");
+
+                                string csvLine = $"{reader["FirstName"]},{reader["LastName"]}," +
+                                                 $"{reader["Age"]},{reader["Grade"]},{reader["Email"]},{dob}";
+
                                 writer.WriteLine(csvLine);
                             }
                         }
@@ -373,7 +354,6 @@ namespace Student_Management_with_DB
                         MessageBox.Show($"Student records exported successfully to {filePath}", "Export Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                 }
-
             }
             catch (Exception ex)
             {
@@ -394,30 +374,54 @@ namespace Student_Management_with_DB
                         using (StreamReader reader = new StreamReader(filePath))
                         {
                             string line;
-                            reader.ReadLine();
+                            reader.ReadLine(); // Skip header
+                            int lineNumber = 1; // To track line numbers for error messages
 
                             while ((line = reader.ReadLine()) != null)
                             {
+                                lineNumber++;
                                 string[] data = line.Split(',');
-                                if (data.Length != 7) continue;
-                                //ValidateStudentInput();   //Failed validation for file data entered manually
-                                int studentID = int.Parse(data[0]);
-                                string firstName = data[1];
-                                string lastName = data[2];
-                                int age = int.Parse(data[3]);
-                                string grade = data[4];
-                                string email = data[5];
-                                DateTime dob = DateTime.Parse(data[6]);
+                                if (data.Length != 6)
+                                {
+                                    MessageBox.Show($"Error on line {lineNumber}: Incorrect number of fields.",
+                                                    "Import Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    continue;
+                                }
 
-                                SqlCommand checkCmd = new SqlCommand("SELECT COUNT(*) FROM tbStudents WHERE StudentID = @ID", sqlConnection);
-                                checkCmd.Parameters.AddWithValue("@ID", studentID);
+                                string firstName = data[0].Trim();
+                                string lastName = data[1].Trim();
+                                if (!int.TryParse(data[2], out int age) || age <= 0)
+                                {
+                                    MessageBox.Show($"Error on line {lineNumber}: Invalid age value.",
+                                                    "Import Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    continue;
+                                }
+
+                                string grade = data[3].Trim();
+                                string email = data[4].Trim();
+                                if (!Util.IsValidEmail(email))
+                                {
+                                    MessageBox.Show($"Error on line {lineNumber}: Invalid email format ({email}).",
+                                                    "Import Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    continue;
+                                }
+
+                                if (!DateTime.TryParse(data[5], out DateTime dob) || dob > DateTime.Now)
+                                {
+                                    MessageBox.Show($"Error on line {lineNumber}: Invalid Date of Birth.",
+                                                    "Import Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    continue;
+                                }
+
+                                // Check if Student Exists (by Email since ID is auto-incremented)
+                                SqlCommand checkCmd = new SqlCommand("SELECT COUNT(*) FROM tbStudents WHERE Email = @Email", sqlConnection);
+                                checkCmd.Parameters.AddWithValue("@Email", email);
                                 int count = (int)checkCmd.ExecuteScalar();
 
-                                if (count == 0)
+                                if (count == 0) // Only insert if email doesn't already exist
                                 {
-                                    SqlCommand insertCmd = new SqlCommand("INSERT INTO tbStudents (StudentID, FirstName, LastName, Age, Grade, Email, DateOfBirth) " +
-                                                                          "VALUES (@ID, @FirstName, @LastName, @Age, @Grade, @Email, @DOB)", sqlConnection);
-                                    insertCmd.Parameters.AddWithValue("@ID", studentID);
+                                    SqlCommand insertCmd = new SqlCommand("INSERT INTO tbStudents (FirstName, LastName, Age, Grade, Email, DateOfBirth) " +
+                                                                          "VALUES (@FirstName, @LastName, @Age, @Grade, @Email, @DOB)", sqlConnection);
                                     insertCmd.Parameters.AddWithValue("@FirstName", firstName);
                                     insertCmd.Parameters.AddWithValue("@LastName", lastName);
                                     insertCmd.Parameters.AddWithValue("@Age", age);
@@ -427,13 +431,14 @@ namespace Student_Management_with_DB
 
                                     insertCmd.ExecuteNonQuery();
                                 }
+
                             }
                         }
 
                         MessageBox.Show("Student records imported successfully.", "Import Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        grdStudents.DataSource = Util.GetAllStudents();
+                        grdStudents.DataSource = null; // Force UI to refresh
+                        grdStudents.DataSource = Util.GetAllStudents(); // Load updated data
                     }
-
                 }
             }
             catch (Exception ex)
@@ -441,6 +446,7 @@ namespace Student_Management_with_DB
                 MessageBox.Show($"Error importing from CSV: {ex.Message}", "Import Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
 
         private void btnGenerateReport_Click(object sender, EventArgs e)
         {
@@ -492,10 +498,6 @@ namespace Student_Management_with_DB
             }
         }
 
-        private void lbSearchMsg_Click(object sender, EventArgs e)
-        {
-
-        }
 
 
         private void cbSort_SelectedIndexChanged(object sender, EventArgs e)

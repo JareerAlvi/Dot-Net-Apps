@@ -25,31 +25,22 @@ namespace Student_Management_with_DB
 
         public static bool IsValidEmail(string email)
         {
-            try
-            {
-                // Basic format validation
-                var addr = new MailAddress(email);
-                //upper statement would throw exception in cas of invalid format...and control will transfer to catch block without coming on this line
+            string pattern = @"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.(com|edu|org|net|gov|pk|info)$";
 
-                // Regular expression to enforce domain extensions like .com, .edu, .org, etc.
-                string pattern = @"^[^@\s]+@[^@\s]+\.(com|edu|org|net|gov|pk|info)$";
-                /*
-   Explanation of the pattern:
-   ^         -> Start of the string
-   [^@\s]+   -> Matches one or more characters that are NOT '@' or whitespace
-   @         -> Ensures the presence of a single '@' symbol
-   [^@\s]+   -> Matches one or more characters after '@', ensuring no spaces or multiple '@'
-   \.        -> Matches a literal dot '.' (escaped because '.' in regex means "any character")
-   (com|edu|org|net|gov|pk|info) -> Ensures the domain extension is one of the listed options
-   $         -> End of the string
-*/
-                return Regex.IsMatch(email, pattern, RegexOptions.IgnoreCase);  //true only when both checks are true
-            }
-            catch
-            {
-                return false;
-            }
+            /*
+            Explanation:
+            ^                  -> Start of the string
+            [a-zA-Z0-9._%+-]+  -> Local part: allows letters, numbers, dots, underscores, %, +, and - 
+            @                  -> Ensures the presence of '@'
+            [a-zA-Z0-9.-]+     -> Domain part: allows letters, numbers, dots, and hyphens
+            \.                 -> Matches a literal dot '.'
+            (com|edu|org|net|gov|pk|info) -> Allowed domain extensions
+            $                  -> End of the string
+            */
+
+            return Regex.IsMatch(email, pattern, RegexOptions.IgnoreCase);
         }
+
 
         public static IList<SMSStudent> GetAllStudents(string whereClause = "", string orderClause = "")
         {
