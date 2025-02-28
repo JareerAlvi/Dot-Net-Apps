@@ -17,7 +17,7 @@ namespace Student_Management_with_DB
             InitializeComponent();
             //btnBack.BackgroundImage = ResizeImage(Image.FromFile("C:\\Users\\MY GUEST\\Downloads\\back.png"), btnBack.Size);
             string[] validGrades = { "A", "B", "C", "D", "F" };
-            cbSort.DataSource = new List<string>{ "First Name", "Last Name","Grade","Age","Email","Date of Birth"};
+            cbSort.DataSource = new List<string> { "First Name", "Last Name", "Grade", "Age", "Email", "Date of Birth" };
             cbSortOrder.DataSource = new List<string> { "Ascending", "Descending" };
 
             cbGrades.DataSource = validGrades;
@@ -72,54 +72,54 @@ namespace Student_Management_with_DB
             {
                 return;
             }
-                using (SqlConnection sqlConnection = new SqlConnection(connectionString))
+            using (SqlConnection sqlConnection = new SqlConnection(connectionString))
+            {
+                try
                 {
-                    try
+                    SMSStudent student = CreateStudentFromInput();
+
+                    sqlConnection.Open();
+                    using (SqlCommand checkEmailCmd = new SqlCommand("SELECT COUNT(*) FROM tbStudents WHERE Email = @Email", sqlConnection))
                     {
-                        SMSStudent student = CreateStudentFromInput();
+                        checkEmailCmd.Parameters.AddWithValue("@Email", tbEmail.Text.Trim());
 
-                        sqlConnection.Open();
-                        using (SqlCommand checkEmailCmd = new SqlCommand("SELECT COUNT(*) FROM tbStudents WHERE Email = @Email", sqlConnection))
+                        int emailCount = (int)checkEmailCmd.ExecuteScalar();
+                        if (emailCount > 0)
                         {
-                            checkEmailCmd.Parameters.AddWithValue("@Email", tbEmail.Text.Trim());
-
-                            int emailCount = (int)checkEmailCmd.ExecuteScalar();
-                            if (emailCount > 0)
-                            {
-                                MessageBox.Show("This email is already registered. Please use a different email.", "Duplicate Email", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                                return;
-                            }
+                            MessageBox.Show("This email is already registered. Please use a different email.", "Duplicate Email", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            return;
                         }
-                        SqlCommand sqlCommand = sqlConnection.CreateCommand();
-                        sqlCommand.CommandText = @"
+                    }
+                    SqlCommand sqlCommand = sqlConnection.CreateCommand();
+                    sqlCommand.CommandText = @"
                 INSERT INTO tbStudents(FirstName, LastName, Age, Grade, Email, DateOfBirth)
                 VALUES(@FirstName, @LastName, @Age, @Grade, @Email, @DateOfBirth)";
 
-                        sqlCommand.Parameters.AddWithValue("@FirstName", student.First_Name);
-                        sqlCommand.Parameters.AddWithValue("@LastName", student.Last_Name);
-                        sqlCommand.Parameters.AddWithValue("@Age", student.Age);
-                        sqlCommand.Parameters.AddWithValue("@Grade", student.Grade);
-                        sqlCommand.Parameters.AddWithValue("@Email", student.Email);
-                        sqlCommand.Parameters.AddWithValue("@DateOfBirth", student.DOB);
+                    sqlCommand.Parameters.AddWithValue("@FirstName", student.First_Name);
+                    sqlCommand.Parameters.AddWithValue("@LastName", student.Last_Name);
+                    sqlCommand.Parameters.AddWithValue("@Age", student.Age);
+                    sqlCommand.Parameters.AddWithValue("@Grade", student.Grade);
+                    sqlCommand.Parameters.AddWithValue("@Email", student.Email);
+                    sqlCommand.Parameters.AddWithValue("@DateOfBirth", student.DOB);
 
-                        int rowsAffected = sqlCommand.ExecuteNonQuery();
-                        if (rowsAffected > 0)
-                        {
-                            tbFirstName.Text = tbLastName.Text = tbAge.Text = tbEmail.Text = string.Empty;
-                            cbGrades.SelectedItem = "A";
-                            dateTimePicker.Value = DateTime.Now;
-
-                            grdStudents.DataSource = Util.GetAllStudents();
-
-                            MessageBox.Show("Student has been added successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        }
-                    }
-                    catch (Exception ex)
+                    int rowsAffected = sqlCommand.ExecuteNonQuery();
+                    if (rowsAffected > 0)
                     {
-                        MessageBox.Show("An error occurred: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        tbFirstName.Text = tbLastName.Text = tbAge.Text = tbEmail.Text = string.Empty;
+                        cbGrades.SelectedItem = "A";
+                        dateTimePicker.Value = DateTime.Now;
+
+                        grdStudents.DataSource = Util.GetAllStudents();
+
+                        MessageBox.Show("Student has been added successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                 }
-            
+                catch (Exception ex)
+                {
+                    MessageBox.Show("An error occurred: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+
         }
 
         private SMSStudent CreateStudentFromInput()
@@ -171,21 +171,21 @@ namespace Student_Management_with_DB
             {
                 return;
             }
-                if (grdStudents.SelectedRows.Count == 1)
+            if (grdStudents.SelectedRows.Count == 1)
+            {
+                try
                 {
-                    try
+                    // Get the selected student's ID from the grid
+                    int studentID = int.Parse(grdStudents.CurrentRow.Cells["StudentID"].Value.ToString());
+
+                    // Create an updated student object from the form inputs
+                    SMSStudent updatedStudent = CreateStudentFromInput();
+
+                    // Update the student in the database
+                    using (SqlConnection sqlConnection = new SqlConnection(connectionString))
                     {
-                        // Get the selected student's ID from the grid
-                        int studentID = int.Parse(grdStudents.CurrentRow.Cells["StudentID"].Value.ToString());
-
-                        // Create an updated student object from the form inputs
-                        SMSStudent updatedStudent = CreateStudentFromInput();
-
-                        // Update the student in the database
-                        using (SqlConnection sqlConnection = new SqlConnection(connectionString))
-                        {
-                            sqlConnection.Open();
-                            string updateQuery = @"
+                        sqlConnection.Open();
+                        string updateQuery = @"
                     UPDATE tbStudents 
                     SET FirstName = @FirstName, 
                         LastName = @LastName, 
@@ -195,45 +195,45 @@ namespace Student_Management_with_DB
                         DateOfBirth = @DOB 
                     WHERE StudentID = @StudentID";
 
-                            using (SqlCommand updateCommand = new SqlCommand(updateQuery, sqlConnection))
+                        using (SqlCommand updateCommand = new SqlCommand(updateQuery, sqlConnection))
+                        {
+                            updateCommand.Parameters.AddWithValue("@FirstName", updatedStudent.First_Name);
+                            updateCommand.Parameters.AddWithValue("@LastName", updatedStudent.Last_Name);
+                            updateCommand.Parameters.AddWithValue("@Age", updatedStudent.Age);
+                            updateCommand.Parameters.AddWithValue("@Grade", updatedStudent.Grade);
+                            updateCommand.Parameters.AddWithValue("@Email", updatedStudent.Email);
+                            updateCommand.Parameters.AddWithValue("@DOB", updatedStudent.DOB);
+                            updateCommand.Parameters.AddWithValue("@StudentID", studentID);
+
+                            int rowsAffected = updateCommand.ExecuteNonQuery();
+
+                            if (rowsAffected > 0)
                             {
-                                updateCommand.Parameters.AddWithValue("@FirstName", updatedStudent.First_Name);
-                                updateCommand.Parameters.AddWithValue("@LastName", updatedStudent.Last_Name);
-                                updateCommand.Parameters.AddWithValue("@Age", updatedStudent.Age);
-                                updateCommand.Parameters.AddWithValue("@Grade", updatedStudent.Grade);
-                                updateCommand.Parameters.AddWithValue("@Email", updatedStudent.Email);
-                                updateCommand.Parameters.AddWithValue("@DOB", updatedStudent.DOB);
-                                updateCommand.Parameters.AddWithValue("@StudentID", studentID);
+                                MessageBox.Show("Student updated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                grdStudents.DataSource = Util.GetAllStudents();
 
-                                int rowsAffected = updateCommand.ExecuteNonQuery();
+                            }
 
-                                if (rowsAffected > 0)
-                                {
-                                    MessageBox.Show("Student updated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                                    grdStudents.DataSource = Util.GetAllStudents();
-
-                                }
-
-                                else
-                                {
-                                    MessageBox.Show("No student was updated. Please check the selected student.", "Update Failed", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                                }
+                            else
+                            {
+                                MessageBox.Show("No student was updated. Please check the selected student.", "Update Failed", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                             }
                         }
-
-                        // Reset the form
-
                     }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show($"Error updating student: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
+
+                    // Reset the form
+
                 }
-                else
+                catch (Exception ex)
                 {
-                    MessageBox.Show("Please select a student to update.", "No Selection", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show($"Error updating student: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
-            
+            }
+            else
+            {
+                MessageBox.Show("Please select a student to update.", "No Selection", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+
 
         }
 
@@ -243,14 +243,14 @@ namespace Student_Management_with_DB
             string searchValue = tbSearch.Text.Trim();
             if (string.IsNullOrEmpty(searchValue))
             {
-               grdStudents.DataSource= Util.GetAllStudents();
+                grdStudents.DataSource = Util.GetAllStudents();
                 return;
             }
             string whereClause = $" WHERE FirstName LIKE '%{searchValue}%' OR LastName LIKE '%{searchValue}%' OR Email LIKE '%{searchValue}%' OR Grade LIKE '%{searchValue}%' OR Age Like '%{searchValue}%'  ";
             grdStudents.DataSource = Util.GetAllStudents(whereClause: whereClause);
         }
 
-           
+
         private void btnAddPannel_Click(object sender, EventArgs e)
         {
             newStudentPanel.Visible = true;
@@ -539,5 +539,10 @@ namespace Student_Management_with_DB
             grdStudents.DataSource = Util.GetAllStudents(orderClause: orderByClause);
         }
 
+        private void studentsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FormStudent student = new FormStudent();
+            student.Show();
+        }
     }
 }
