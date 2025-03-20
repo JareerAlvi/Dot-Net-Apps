@@ -129,8 +129,9 @@ namespace Student_Management_with_DB
                 First_Name = tbFirstName.Text.Trim(),
                 Last_Name = tbLastName.Text.Trim(),
                 Age = int.Parse(tbAge.Text),
-                Grade = cbGrades.SelectedItem.ToString(),
+                
                 Email = tbEmail.Text,
+                Grade = cbGrades.SelectedItem.ToString(),
                 DOB = dateTimePicker.Value.Date
             };
         }
