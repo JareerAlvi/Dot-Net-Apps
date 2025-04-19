@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="acdb3900cbeb480caeff8ddd13830191" Name="Diagram1">
+        <EntityTypeShape EntityType="Chatting_AppModel.tbContact" Width="1.5" PointX="3" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="Chatting_AppModel.tbMessage" Width="1.5" PointX="3" PointY="3.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Chatting_AppModel.tbUser" Width="1.5" PointX="0.75" PointY="2.5" IsExpanded="true" />
+        <AssociationConnector Association="Chatting_AppModel.FK__tbContact__Conta__46E78A0C" ManuallyRouted="false" />
+        <AssociationConnector Association="Chatting_AppModel.FK__tbContact__UserC__45F365D3" ManuallyRouted="false" />
+        <AssociationConnector Association="Chatting_AppModel.FK__tbMessage__Recei__4CA06362" ManuallyRouted="false" />
+        <AssociationConnector Association="Chatting_AppModel.FK__tbMessage__Sende__4BAC3F29" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

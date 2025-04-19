@@ -1,0 +1,42 @@
+﻿@{
+    ViewData["Title"] = "About Us";
+    var team = new List<dynamic>
+    {
+        new { Name = "Alice", Role = "Frontend Developer", ImagePath = "~/NewFolder/team1.jpg" },
+        new { Name = "Bob", Role = "Backend Developer", ImagePath = "~/NewFolder/team2.jpg" },
+        new { Name = "Charlie", Role = "UI/UX Designer", ImagePath = "~/NewFolder/team3.jpg" }
+    };
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Team Page</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-white text-gray-900">
+
+    <section class="mt-10 mx-36">
+        <h1 class="text-3xl font-semibold">Empowering the world with Astro</h1>
+        <p class="mt-2 text-xl font-semibold text-gray-400">
+            We're a multi-cultural team from around the world! We come from diverse backgrounds, bringing different personalities, experiences and skills to the job. This is what makes our team so special.
+        </p>
+
+        <div class="flex flex-wrap justify-center mt-16 gap-12">
+            @foreach (var member in team)
+            {
+                <div class="grid grid-rows-2">
+                    <img src="@Url.Content(member.ImagePath)" alt="@member.Name"
+                         class="transition-transform duration-300 transform hover:scale-105 cursor-pointer hover:shadow-xl rounded-lg w-48 h-48 object-cover" />
+                    <div>
+                        <div class="mt-2 flex justify-center text-xl font-normal text-gray-500">@member.Name</div>
+                        <div class="flex justify-center text-lg font-semibold text-gray-400">@member.Role</div>
+                    </div>
+                </div>
+            }
+        </div>
+    </section>
+
+</body>
+</html>

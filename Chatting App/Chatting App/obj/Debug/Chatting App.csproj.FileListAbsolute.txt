@@ -1,0 +1,23 @@
+C:\Dot-Net-Apps\Chatting App\Chatting App\obj\Debug\Chatting App.csproj.AssemblyReference.cache
+C:\Dot-Net-Apps\Chatting App\Chatting App\obj\Debug\HomePage.g.cs
+C:\Dot-Net-Apps\Chatting App\Chatting App\obj\Debug\MainWindow.g.cs
+C:\Dot-Net-Apps\Chatting App\Chatting App\obj\Debug\App.g.cs
+C:\Dot-Net-Apps\Chatting App\Chatting App\obj\Debug\Chatting App_Content.g.cs
+C:\Dot-Net-Apps\Chatting App\Chatting App\obj\Debug\Chatting App_MarkupCompile.cache
+C:\Dot-Net-Apps\Chatting App\Chatting App\obj\Debug\Chatting App_MarkupCompile.lref
+C:\Dot-Net-Apps\Chatting App\Chatting App\bin\Debug\Chatting App.exe.config
+C:\Dot-Net-Apps\Chatting App\Chatting App\bin\Debug\Chatting App.exe
+C:\Dot-Net-Apps\Chatting App\Chatting App\bin\Debug\Chatting App.pdb
+C:\Dot-Net-Apps\Chatting App\Chatting App\bin\Debug\EntityFramework.dll
+C:\Dot-Net-Apps\Chatting App\Chatting App\bin\Debug\EntityFramework.SqlServer.dll
+C:\Dot-Net-Apps\Chatting App\Chatting App\bin\Debug\EntityFramework.xml
+C:\Dot-Net-Apps\Chatting App\Chatting App\bin\Debug\EntityFramework.SqlServer.xml
+C:\Dot-Net-Apps\Chatting App\Chatting App\obj\Debug\HomePage.baml
+C:\Dot-Net-Apps\Chatting App\Chatting App\obj\Debug\MainWindow.baml
+C:\Dot-Net-Apps\Chatting App\Chatting App\obj\Debug\Chatting App.g.resources
+C:\Dot-Net-Apps\Chatting App\Chatting App\obj\Debug\Chatting_App.Properties.Resources.resources
+C:\Dot-Net-Apps\Chatting App\Chatting App\obj\Debug\Chatting App.csproj.GenerateResource.cache
+C:\Dot-Net-Apps\Chatting App\Chatting App\obj\Debug\Chatting App.csproj.CoreCompileInputs.cache
+C:\Dot-Net-Apps\Chatting App\Chatting App\obj\Debug\Chatting.5FBEF857.Up2Date
+C:\Dot-Net-Apps\Chatting App\Chatting App\obj\Debug\Chatting App.exe
+C:\Dot-Net-Apps\Chatting App\Chatting App\obj\Debug\Chatting App.pdb

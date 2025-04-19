@@ -1,0 +1,282 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Chatting_AppModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="tbContacts">
+          <Key>
+            <PropertyRef Name="UserContactNumber" />
+            <PropertyRef Name="ContactNumber" />
+          </Key>
+          <Property Name="UserContactNumber" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="ContactNumber" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="AddedOn" Type="datetime" />
+        </EntityType>
+        <EntityType Name="tbMessages">
+          <Key>
+            <PropertyRef Name="MessageId" />
+          </Key>
+          <Property Name="MessageId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SenderContact" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="ReceiverContact" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="Content" Type="text" Nullable="false" />
+          <Property Name="SentAt" Type="datetime" />
+          <Property Name="IsRead" Type="bit" />
+        </EntityType>
+        <EntityType Name="tbUsers">
+          <Key>
+            <PropertyRef Name="ContactNumber" />
+          </Key>
+          <Property Name="ContactNumber" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Password" Type="varchar" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__tbContact__Conta__46E78A0C">
+          <End Role="tbUsers" Type="Self.tbUsers" Multiplicity="1" />
+          <End Role="tbContacts" Type="Self.tbContacts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbUsers">
+              <PropertyRef Name="ContactNumber" />
+            </Principal>
+            <Dependent Role="tbContacts">
+              <PropertyRef Name="ContactNumber" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tbContact__UserC__45F365D3">
+          <End Role="tbUsers" Type="Self.tbUsers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="tbContacts" Type="Self.tbContacts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbUsers">
+              <PropertyRef Name="ContactNumber" />
+            </Principal>
+            <Dependent Role="tbContacts">
+              <PropertyRef Name="UserContactNumber" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tbMessage__Recei__4CA06362">
+          <End Role="tbUsers" Type="Self.tbUsers" Multiplicity="1" />
+          <End Role="tbMessages" Type="Self.tbMessages" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbUsers">
+              <PropertyRef Name="ContactNumber" />
+            </Principal>
+            <Dependent Role="tbMessages">
+              <PropertyRef Name="ReceiverContact" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tbMessage__Sende__4BAC3F29">
+          <End Role="tbUsers" Type="Self.tbUsers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="tbMessages" Type="Self.tbMessages" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbUsers">
+              <PropertyRef Name="ContactNumber" />
+            </Principal>
+            <Dependent Role="tbMessages">
+              <PropertyRef Name="SenderContact" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Chatting_AppModelStoreContainer">
+          <EntitySet Name="tbContacts" EntityType="Self.tbContacts" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbMessages" EntityType="Self.tbMessages" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbUsers" EntityType="Self.tbUsers" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__tbContact__Conta__46E78A0C" Association="Self.FK__tbContact__Conta__46E78A0C">
+            <End Role="tbUsers" EntitySet="tbUsers" />
+            <End Role="tbContacts" EntitySet="tbContacts" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tbContact__UserC__45F365D3" Association="Self.FK__tbContact__UserC__45F365D3">
+            <End Role="tbUsers" EntitySet="tbUsers" />
+            <End Role="tbContacts" EntitySet="tbContacts" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tbMessage__Recei__4CA06362" Association="Self.FK__tbMessage__Recei__4CA06362">
+            <End Role="tbUsers" EntitySet="tbUsers" />
+            <End Role="tbMessages" EntitySet="tbMessages" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tbMessage__Sende__4BAC3F29" Association="Self.FK__tbMessage__Sende__4BAC3F29">
+            <End Role="tbUsers" EntitySet="tbUsers" />
+            <End Role="tbMessages" EntitySet="tbMessages" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Chatting_AppModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="tbContact">
+          <Key>
+            <PropertyRef Name="UserContactNumber" />
+            <PropertyRef Name="ContactNumber" />
+          </Key>
+          <Property Name="UserContactNumber" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ContactNumber" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="AddedOn" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="tbUser" Relationship="Self.FK__tbContact__Conta__46E78A0C" FromRole="tbContacts" ToRole="tbUsers" />
+          <NavigationProperty Name="tbUser1" Relationship="Self.FK__tbContact__UserC__45F365D3" FromRole="tbContacts" ToRole="tbUsers" />
+        </EntityType>
+        <EntityType Name="tbMessage">
+          <Key>
+            <PropertyRef Name="MessageId" />
+          </Key>
+          <Property Name="MessageId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SenderContact" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ReceiverContact" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Content" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="SentAt" Type="DateTime" Precision="3" />
+          <Property Name="IsRead" Type="Boolean" />
+          <NavigationProperty Name="tbUser" Relationship="Self.FK__tbMessage__Recei__4CA06362" FromRole="tbMessages" ToRole="tbUsers" />
+          <NavigationProperty Name="tbUser1" Relationship="Self.FK__tbMessage__Sende__4BAC3F29" FromRole="tbMessages" ToRole="tbUsers" />
+        </EntityType>
+        <EntityType Name="tbUser">
+          <Key>
+            <PropertyRef Name="ContactNumber" />
+          </Key>
+          <Property Name="ContactNumber" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="tbContacts" Relationship="Self.FK__tbContact__Conta__46E78A0C" FromRole="tbUsers" ToRole="tbContacts" />
+          <NavigationProperty Name="tbContacts1" Relationship="Self.FK__tbContact__UserC__45F365D3" FromRole="tbUsers" ToRole="tbContacts" />
+          <NavigationProperty Name="tbMessages" Relationship="Self.FK__tbMessage__Recei__4CA06362" FromRole="tbUsers" ToRole="tbMessages" />
+          <NavigationProperty Name="tbMessages1" Relationship="Self.FK__tbMessage__Sende__4BAC3F29" FromRole="tbUsers" ToRole="tbMessages" />
+        </EntityType>
+        <Association Name="FK__tbContact__Conta__46E78A0C">
+          <End Role="tbUsers" Type="Self.tbUser" Multiplicity="1" />
+          <End Role="tbContacts" Type="Self.tbContact" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbUsers">
+              <PropertyRef Name="ContactNumber" />
+            </Principal>
+            <Dependent Role="tbContacts">
+              <PropertyRef Name="ContactNumber" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tbContact__UserC__45F365D3">
+          <End Role="tbUsers" Type="Self.tbUser" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="tbContacts" Type="Self.tbContact" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbUsers">
+              <PropertyRef Name="ContactNumber" />
+            </Principal>
+            <Dependent Role="tbContacts">
+              <PropertyRef Name="UserContactNumber" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tbMessage__Recei__4CA06362">
+          <End Role="tbUsers" Type="Self.tbUser" Multiplicity="1" />
+          <End Role="tbMessages" Type="Self.tbMessage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbUsers">
+              <PropertyRef Name="ContactNumber" />
+            </Principal>
+            <Dependent Role="tbMessages">
+              <PropertyRef Name="ReceiverContact" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tbMessage__Sende__4BAC3F29">
+          <End Role="tbUsers" Type="Self.tbUser" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="tbMessages" Type="Self.tbMessage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbUsers">
+              <PropertyRef Name="ContactNumber" />
+            </Principal>
+            <Dependent Role="tbMessages">
+              <PropertyRef Name="SenderContact" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Chatting_AppEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="tbContacts" EntityType="Self.tbContact" />
+          <EntitySet Name="tbMessages" EntityType="Self.tbMessage" />
+          <EntitySet Name="tbUsers" EntityType="Self.tbUser" />
+          <AssociationSet Name="FK__tbContact__Conta__46E78A0C" Association="Self.FK__tbContact__Conta__46E78A0C">
+            <End Role="tbUsers" EntitySet="tbUsers" />
+            <End Role="tbContacts" EntitySet="tbContacts" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tbContact__UserC__45F365D3" Association="Self.FK__tbContact__UserC__45F365D3">
+            <End Role="tbUsers" EntitySet="tbUsers" />
+            <End Role="tbContacts" EntitySet="tbContacts" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tbMessage__Recei__4CA06362" Association="Self.FK__tbMessage__Recei__4CA06362">
+            <End Role="tbUsers" EntitySet="tbUsers" />
+            <End Role="tbMessages" EntitySet="tbMessages" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tbMessage__Sende__4BAC3F29" Association="Self.FK__tbMessage__Sende__4BAC3F29">
+            <End Role="tbUsers" EntitySet="tbUsers" />
+            <End Role="tbMessages" EntitySet="tbMessages" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Chatting_AppModelStoreContainer" CdmEntityContainer="Chatting_AppEntities">
+          <EntitySetMapping Name="tbContacts">
+            <EntityTypeMapping TypeName="Chatting_AppModel.tbContact">
+              <MappingFragment StoreEntitySet="tbContacts">
+                <ScalarProperty Name="UserContactNumber" ColumnName="UserContactNumber" />
+                <ScalarProperty Name="ContactNumber" ColumnName="ContactNumber" />
+                <ScalarProperty Name="AddedOn" ColumnName="AddedOn" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbMessages">
+            <EntityTypeMapping TypeName="Chatting_AppModel.tbMessage">
+              <MappingFragment StoreEntitySet="tbMessages">
+                <ScalarProperty Name="MessageId" ColumnName="MessageId" />
+                <ScalarProperty Name="SenderContact" ColumnName="SenderContact" />
+                <ScalarProperty Name="ReceiverContact" ColumnName="ReceiverContact" />
+                <ScalarProperty Name="Content" ColumnName="Content" />
+                <ScalarProperty Name="SentAt" ColumnName="SentAt" />
+                <ScalarProperty Name="IsRead" ColumnName="IsRead" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbUsers">
+            <EntityTypeMapping TypeName="Chatting_AppModel.tbUser">
+              <MappingFragment StoreEntitySet="tbUsers">
+                <ScalarProperty Name="ContactNumber" ColumnName="ContactNumber" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

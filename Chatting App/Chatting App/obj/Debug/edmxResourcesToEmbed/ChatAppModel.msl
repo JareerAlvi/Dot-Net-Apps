@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="Chatting_AppModelStoreContainer" CdmEntityContainer="Chatting_AppEntities">
+    <EntitySetMapping Name="tbContacts">
+      <EntityTypeMapping TypeName="Chatting_AppModel.tbContact">
+        <MappingFragment StoreEntitySet="tbContacts">
+          <ScalarProperty Name="UserContactNumber" ColumnName="UserContactNumber" />
+          <ScalarProperty Name="ContactNumber" ColumnName="ContactNumber" />
+          <ScalarProperty Name="AddedOn" ColumnName="AddedOn" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbMessages">
+      <EntityTypeMapping TypeName="Chatting_AppModel.tbMessage">
+        <MappingFragment StoreEntitySet="tbMessages">
+          <ScalarProperty Name="MessageId" ColumnName="MessageId" />
+          <ScalarProperty Name="SenderContact" ColumnName="SenderContact" />
+          <ScalarProperty Name="ReceiverContact" ColumnName="ReceiverContact" />
+          <ScalarProperty Name="Content" ColumnName="Content" />
+          <ScalarProperty Name="SentAt" ColumnName="SentAt" />
+          <ScalarProperty Name="IsRead" ColumnName="IsRead" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbUsers">
+      <EntityTypeMapping TypeName="Chatting_AppModel.tbUser">
+        <MappingFragment StoreEntitySet="tbUsers">
+          <ScalarProperty Name="ContactNumber" ColumnName="ContactNumber" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>
