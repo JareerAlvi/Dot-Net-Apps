@@ -33,7 +33,7 @@
                 <td class="border px-4 py-2" type="date">@student.DateOfBirth.ToString("yyyy-MM-dd")</td>
                 <td class="border px-4 py-2">@student.Email</td>
                 <td>
-                    <button type="button" class="btn btn-danger" onclick="confirmDelete(@student.StudentId)">Delete</button>
+                    <button type="button" class="btn btn-danger" onclick="Delete(@student.StudentId)">Delete</button>
                     <a asp-controller="Student" asp-action="Edit" asp-route-id="@student.StudentId" class="btn btn-primary">Edit</a>
                 </td>
 
@@ -51,20 +51,38 @@
     <div class="modal-content">
         <p>Are you sure you want to delete this student?</p>
         <form id="deleteForm" method="post">
-            <button type="submit" class="btn btn-danger">Yes, Delete</button>
+            <button type="button" class="btn btn-danger" onclick="deleteStudent()">Yes, Delete</button>
             <button type="button" class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+
         </form>
     </div>
 </div>
 <script>
-    function confirmDelete(studentId) {
-        const form = document.getElementById('deleteForm');
-        form.action = `/Student/Delete/${studentId}`;
-        document.getElementById('deleteModal').classList.remove('hidden');
+    let currentStudentId = 0;
+
+    function Delete(studentId) {
+        currentStudentId = studentId; 
+        document.getElementById('deleteModal').classList.remove('hidden'); //unhidin the pop up model by first getting it with its id then removing the hidden prop from css list
     }
 
     function closeModal() {
-        document.getElementById('deleteModal').classList.add('hidden');
+        document.getElementById('deleteModal').classList.add('hidden'); //hiding again if user clicks no
+    }
+
+    function deleteStudent() {
+        $.ajax({
+            url: `/Student/Delete/${currentStudentId}`, //calling Delete action of Student controller and passing it a param
+            type: 'DELETE',
+            success: function (result) {  //runs in success case
+                
+                location.reload(); // Refresh the page after delete
+            },
+            error: function (xhr, status, error) {
+                alert("Error: " + xhr.responseText);
+            }
+        });
+
+        closeModal(); // Hide the modal
     }
 </script>
 

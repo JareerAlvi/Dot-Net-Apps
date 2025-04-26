@@ -41,10 +41,9 @@ namespace WebApplication2.Controllers
         }
 
 
-        [HttpPost]
+        [HttpDelete]
         public IActionResult Delete(int id)
         {
-
             var student = context.TbStudents.FirstOrDefault(s => s.StudentId == id);
             if (student != null)
             {
@@ -52,8 +51,9 @@ namespace WebApplication2.Controllers
                 context.SaveChanges();
             }
 
-            return RedirectToAction("List"); 
+            return Ok(); //Ok(): This is a method that creates a response with the HTTP status code 200 (OK). It indicates that the request was successfully processed by the server.
         }
+
         public IActionResult Edit(int id)
         {
             var student = context.TbStudents.FirstOrDefault(s => s.StudentId == id);
