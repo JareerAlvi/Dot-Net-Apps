@@ -21,12 +21,13 @@
                 <span class="ml-3 text-xl">Minor Project</span>
             </a>
             <nav class="md:ml-auto md:mr-auto flex flex-wrap items-center text-base justify-center">
-                <a class="mr-5 hover:text-black hover:cursor-pointer text-xl font-normal" asp-action="Home">Home</a>
-                <a class="mr-5 hover:text-black hover:cursor-pointer text-xl font-normal" asp-action="Plans">Plans</a>
-                <a class="mr-5 hover:text-black hover:cursor-pointer text-xl font-normal" asp-action="AboutUs">About Us</a>
-                <a class="mr-5 hover:text-black hover:cursor-pointer text-xl font-normal" asp-action="Blog">Blogs</a>
-                <a class="mr-5 hover:text-black hover:cursor-pointer text-xl font-normal" asp-action="Contact">Contact</a>
+                <a class="mr-5 hover:text-black hover:cursor-pointer text-xl font-normal" asp-controller="Home"  asp-action="Home">Home</a>
+                <a class="mr-5 hover:text-black hover:cursor-pointer text-xl font-normal" asp-controller="Student" asp-action="List">Students</a>
+                <a class="mr-5 hover:text-black hover:cursor-pointer text-xl font-normal" asp-controller="Home" asp-action="AboutUs">About Us</a>
+                <a class="mr-5 hover:text-black hover:cursor-pointer text-xl font-normal" asp-controller="Home" asp-action="Blog">Blogs</a>
+                <a class="mr-5 hover:text-black hover:cursor-pointer text-xl font-normal" asp-controller="Home" asp-action="Contact">Contact</a>
             </nav>
+
             <button class="mr-8 text-xl hover:text-black font-medium">Login</button>
             <button class="inline-flex items-center bg-black text-white border-0 py-3 px-3 focus:outline-none hover:bg-white hover:text-black rounded text-lg mt-4 md:mt-0 shadow-md">Sign Up</button>
         </div>

@@ -6,7 +6,7 @@ using System.Text;
 using System.Windows;
 namespace Chatting_App
 {
-
+    
     /*
      Example Usage:-
 
@@ -34,6 +34,7 @@ namespace Chatting_App
      */
     public static class AES
     {
+        public static string key = "1234567890abcdef1234567890abcdef";
         // S-Box and Inverse S-Box
         private static readonly byte[] SBox = {
         0x63, 0x7c, 0x77, 0x7b, 0xf0, 0x6f, 0x6b, 0x68, 0x4f, 0x53, 0x53, 0x51, 0x67, 0x6f, 0x5b, 0x56, 0x2f,

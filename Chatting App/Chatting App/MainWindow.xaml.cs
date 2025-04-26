@@ -20,9 +20,9 @@ namespace Chatting_App
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class    BaseWindow : Window
     {
-        public MainWindow()
+        public BaseWindow()
         {
             InitializeComponent();
             
@@ -88,8 +88,9 @@ namespace Chatting_App
                 {
                     return;
                 }
+                
                 string contactNumber = txtContactNumber.Text;
-                string password = txtPassword.Password;
+                string password = AES.Encrypt(txtPassword.Password,AES.key);
                 bool userExists = userEntity.tbUsers.Any(user => user.ContactNumber == contactNumber && user.Password == password);
 
                 if (!userExists)
@@ -123,9 +124,73 @@ namespace Chatting_App
 
         private void btnSignUp_Click(object sender, RoutedEventArgs e)
         {
-
+            btnLogin.Visibility = btnSignUp.Visibility = Visibility.Hidden;
+            lbHeading.Text = "SignUp";
+            txtContactNumber.Text = txtPassword.Password= lbWarning.Text =  string.Empty;
+            txtContactNumber.BorderBrush=txtPassword.BorderBrush= new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF2980B9"));
+            
+            lb_Name.Visibility=txtName.Visibility = btn_Confirm.Visibility = Visibility.Visible;
 
         }
+
+        private void btnConfirm_Click(object sender, RoutedEventArgs e)
+        {
+            if (!ValidateInput())
+            {
+                if (txtName.Text == string.Empty)
+                {
+                    txtName.BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFFF4747"));
+
+                    return;
+
+                }
+                return; 
+            
+            }
+
+            try
+            {
+                using (Chatting_AppEntities userEntity = new Chatting_AppEntities())
+                {
+                    
+
+                    string contactNumber = txtContactNumber.Text.Trim();
+                    string password = AES.Encrypt(txtPassword.Password, AES.key);
+                    string Name= txtName.Text.Trim();
+                    bool exists = userEntity.tbUsers.Any(u => u.ContactNumber == contactNumber);
+
+                    if (exists)
+                    {
+                        lbWarning.Text = "Contact Number Already Exists";
+                        return;
+                    }
+
+                    var user = new tbUser
+                    {
+                        ContactNumber = contactNumber,
+                        Password = password,
+                        Name = Name
+                    };
+
+                    userEntity.tbUsers.Add(user);
+                    userEntity.SaveChanges();
+
+                    btnLogin.Visibility = btnSignUp.Visibility = Visibility.Visible;
+                    
+                    lbHeading.Text = "Login";
+                    txtContactNumber.Text = txtPassword.Password = string.Empty;
+                    txtContactNumber.BorderBrush = txtPassword.BorderBrush = txtName.BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF2980B9"));
+                    lb_Name.Visibility = txtName.Visibility = btn_Confirm.Visibility = Visibility.Hidden;
+                    MessageBox.Show("User Registered Successfully!", "", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Something went wrong: " + ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+
 
     }
 }

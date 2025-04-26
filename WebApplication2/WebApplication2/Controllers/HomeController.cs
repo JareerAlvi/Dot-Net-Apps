@@ -7,10 +7,11 @@ namespace WebApplication2.Controllers;
 public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
-
-    public HomeController(ILogger<HomeController> logger)
+    private readonly SmsContext context;
+    public HomeController(ILogger<HomeController> logger, SmsContext smsContext)
     {
         _logger = logger;
+        context = smsContext;
     }
     public IActionResult Index()
     {
@@ -20,10 +21,7 @@ public class HomeController : Controller
     {
         return View();
     }
-    public IActionResult Plans()
-    {
-        return View();
-    }
+
     public IActionResult AboutUs()
     {
         return View();
@@ -36,6 +34,13 @@ public class HomeController : Controller
     {
         return View();
     }
+
+  
+
+
+   
+
+
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
     {
