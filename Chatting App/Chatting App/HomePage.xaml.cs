@@ -11,6 +11,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace Chatting_App
 {
@@ -19,12 +20,27 @@ namespace Chatting_App
     /// </summary>
     public partial class HomePage : Window
     {
+   
         public HomePage()
         {
             InitializeComponent();
             ContactList.Items.Clear(); //To initially load clearing it
             LoadContacts();
+
+           
+
+
         }
+
+
+
+
+        public class ContactDTO //Added cuz i had problem accessing name and Contact from List
+        {
+            public string ContactNumber { get; set; }
+            public string Name { get; set; }
+        }
+
         private void LoadContacts()
         {
             try
@@ -32,26 +48,24 @@ namespace Chatting_App
                 using (Chatting_AppEntities chatting_AppEntities = new Chatting_AppEntities())
                 {
                     var contacts = chatting_AppEntities.tbContacts
-                        .Where(c => c.UserContactNumber == Shared.loggedInContactNumber)
-                        .Join(chatting_AppEntities.tbUsers,
-                            c => c.ContactNumber,
-                            u => u.ContactNumber,
-                            (c, u) => new
-                            {
-                                u.ContactNumber,
-                                u.Name
-                            })
-                        .ToList();
+      .Where(c => c.UserContactNumber == Shared.loggedInContactNumber)
+      .Join(chatting_AppEntities.tbUsers,
+          c => c.ContactNumber,
+          u => u.ContactNumber,
+          (c, u) => new ContactDTO
+          {
+              ContactNumber = u.ContactNumber,
+              Name = u.Name
+          })
+      .ToList();
 
-                    // Directly assign the new collection to the ItemsSource without clearing first
-                    ContactList.ItemsSource = null;  // This detaches the current ItemsSource
-                    ContactList.ItemsSource = contacts;  // Reassign the new data
-                    ContactList.DisplayMemberPath = "Name"; // Display the Name property in the ListBox
+                    ContactList.ItemsSource = contacts;
+                    ContactList.DisplayMemberPath = "Name";
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Text = ex.Message;  // Ensure that MessageBox is the correct control
+                MessageBox.Show("An error occurred while loading contacts: " + ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
         private void AddMessageBubble(string messageText, bool isSentByMe)
@@ -105,11 +119,60 @@ namespace Chatting_App
         {
             if (ContactList.SelectedItem != null)
             {
-                dynamic selectedContact = ContactList.SelectedItem;
-                ChatTitle.Text = selectedContact.Name; // Set the selected contact name
-                ChatArea.Visibility= MessageBox.Visibility=btnSend.Visibility=Visibility.Visible;
-                // Optionally: Clear old messages when switching contacts
-               // ChatMessagesPanel.Children.Clear();
+                var selectedUser = ContactList.SelectedItem as ContactDTO;
+                if (selectedUser == null)
+                {
+                    MessageBox.Show("Please select a valid contact.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+                string recieverContact = selectedUser.ContactNumber;
+                ChatTitle.Text = selectedUser.Name;
+
+
+                MessagesPanel.Children.Clear(); // clearing msgs from another chat
+                try {
+                    using (Chatting_AppEntities context = new Chatting_AppEntities())
+                    {
+                        var encryptedMessages = context.tbMessages
+             .Where(m =>
+        (m.SenderContact == Shared.loggedInContactNumber && m.ReceiverContact == recieverContact) ||
+        (m.SenderContact == recieverContact && m.ReceiverContact == Shared.loggedInContactNumber)
+    )
+    .OrderBy(m => m.SentAt)
+    .ToList();
+                        // This runs the SQL and loads into memory
+
+                        var decryptedMessages = encryptedMessages
+                            .Select(m => new {
+                                m.MessageId,
+                                m.SenderContact,
+                                m.ReceiverContact,
+                                Content = AES.Decrypt(m.Content, AES.key),  // Now it's OK — in memory
+                                m.SentAt
+                            }).ToList();
+
+
+
+                        // Clear old messages
+                        MessagesPanel.Children.Clear();
+
+                        foreach (var message in decryptedMessages)
+                        {
+                            bool isSentByMe = message.SenderContact == Shared.loggedInContactNumber;
+                            AddMessageBubble(message.Content, isSentByMe);
+                        }
+
+                        ChatArea.Visibility = Visibility.Visible;
+                        btnSend.Visibility = Visibility.Visible;
+                        MessageBox2.Visibility = Visibility.Visible;
+
+                    }
+
+                }
+                catch (Exception ex){
+                    MessageBox.Show("An error occurred ContactList_SelectionChanged : " + ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+
+                }
             }
         }
 
@@ -128,13 +191,49 @@ namespace Chatting_App
 
         private void btnSend_Click(object sender, RoutedEventArgs e)
         {
-            string myMessage = MessageBox.Text.Trim();
+            string myMessage = MessageBox2.Text.Trim();
+            var selectedUser = ContactList.SelectedItem as ContactDTO;
+            if (selectedUser == null)
+            {
+                MessageBox.Show("Please select a valid contact.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            string recieverContact = selectedUser.ContactNumber;
+
+
             if (!string.IsNullOrEmpty(myMessage))
             {
-                AddMessageBubble(myMessage, true);
-                MessageBox.Text = "";
-            }
+                try
+                {
+                    using (Chatting_AppEntities context = new Chatting_AppEntities())
+                    {
+                        tbMessage message = new tbMessage();
+                        message.SenderContact = Shared.loggedInContactNumber;
 
+                        if (ContactList.SelectedItem == null)
+                        {
+                            MessageBox.Show("Please select a contact to send the message.", "No Contact", MessageBoxButton.OK, MessageBoxImage.Warning);
+                            return;
+                        }
+
+                        message.ReceiverContact = recieverContact; // ✅ Correct property now
+
+                        message.Content = AES.Encrypt(myMessage, AES.key);
+                        message.SentAt = DateTime.Now;
+
+                        context.tbMessages.Add(message);
+                        context.SaveChanges();
+                    }
+
+                    AddMessageBubble(myMessage, true); // Sent by logged-in user
+                    MessageBox2.Text = string.Empty;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("An error occurred btnSend_Click: " + ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
         }
+
     }
 }

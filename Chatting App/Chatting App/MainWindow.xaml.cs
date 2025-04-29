@@ -105,7 +105,7 @@ namespace Chatting_App
                 else
                 {
 
-                    Shared.loggedInContactNumber = txtContactNumber.Text;
+                   Shared.loggedInContactNumber = txtContactNumber.Text;
                     HomePage home = new HomePage();
                     home.Show();
                     this.Close();
