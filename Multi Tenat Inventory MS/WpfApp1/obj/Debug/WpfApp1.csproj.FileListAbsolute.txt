@@ -1,0 +1,44 @@
+C:\ADBMS Project\WpfApp1\obj\Debug\WpfApp1.csproj.AssemblyReference.cache
+C:\ADBMS Project\WpfApp1\obj\Debug\MainWindow.baml
+C:\ADBMS Project\WpfApp1\obj\Debug\MainWindow.g.cs
+C:\ADBMS Project\WpfApp1\obj\Debug\App.g.cs
+C:\ADBMS Project\WpfApp1\obj\Debug\WpfApp1_Content.g.cs
+C:\ADBMS Project\WpfApp1\obj\Debug\WpfApp1_MarkupCompile.cache
+C:\ADBMS Project\WpfApp1\obj\Debug\WpfApp1.g.resources
+C:\ADBMS Project\WpfApp1\obj\Debug\WpfApp1.Properties.Resources.resources
+C:\ADBMS Project\WpfApp1\obj\Debug\WpfApp1.csproj.GenerateResource.cache
+C:\ADBMS Project\WpfApp1\obj\Debug\WpfApp1.csproj.CoreCompileInputs.cache
+C:\ADBMS Project\WpfApp1\bin\Debug\WpfApp1.exe.config
+C:\ADBMS Project\WpfApp1\bin\Debug\WpfApp1.exe
+C:\ADBMS Project\WpfApp1\bin\Debug\WpfApp1.pdb
+C:\ADBMS Project\WpfApp1\bin\Debug\EntityFramework.dll
+C:\ADBMS Project\WpfApp1\bin\Debug\EntityFramework.SqlServer.dll
+C:\ADBMS Project\WpfApp1\bin\Debug\EntityFramework.xml
+C:\ADBMS Project\WpfApp1\bin\Debug\EntityFramework.SqlServer.xml
+C:\ADBMS Project\WpfApp1\obj\Debug\WpfApp1.csproj.Up2Date
+C:\ADBMS Project\WpfApp1\obj\Debug\WpfApp1.exe
+C:\ADBMS Project\WpfApp1\obj\Debug\WpfApp1.pdb
+C:\ADBMS Project\WpfApp1\obj\Debug\Dashboard.baml
+C:\ADBMS Project\WpfApp1\obj\Debug\Dashboard.g.cs
+C:\Group 10 ADBMS Project\WpfApp1\bin\Debug\WpfApp1.exe.config
+C:\Group 10 ADBMS Project\WpfApp1\bin\Debug\WpfApp1.exe
+C:\Group 10 ADBMS Project\WpfApp1\bin\Debug\WpfApp1.pdb
+C:\Group 10 ADBMS Project\WpfApp1\bin\Debug\EntityFramework.dll
+C:\Group 10 ADBMS Project\WpfApp1\bin\Debug\EntityFramework.SqlServer.dll
+C:\Group 10 ADBMS Project\WpfApp1\bin\Debug\EntityFramework.xml
+C:\Group 10 ADBMS Project\WpfApp1\bin\Debug\EntityFramework.SqlServer.xml
+C:\Group 10 ADBMS Project\WpfApp1\obj\Debug\WpfApp1.csproj.AssemblyReference.cache
+C:\Group 10 ADBMS Project\WpfApp1\obj\Debug\Dashboard.baml
+C:\Group 10 ADBMS Project\WpfApp1\obj\Debug\MainWindow.baml
+C:\Group 10 ADBMS Project\WpfApp1\obj\Debug\Dashboard.g.cs
+C:\Group 10 ADBMS Project\WpfApp1\obj\Debug\MainWindow.g.cs
+C:\Group 10 ADBMS Project\WpfApp1\obj\Debug\App.g.cs
+C:\Group 10 ADBMS Project\WpfApp1\obj\Debug\WpfApp1_Content.g.cs
+C:\Group 10 ADBMS Project\WpfApp1\obj\Debug\WpfApp1_MarkupCompile.cache
+C:\Group 10 ADBMS Project\WpfApp1\obj\Debug\WpfApp1.g.resources
+C:\Group 10 ADBMS Project\WpfApp1\obj\Debug\WpfApp1.Properties.Resources.resources
+C:\Group 10 ADBMS Project\WpfApp1\obj\Debug\WpfApp1.csproj.GenerateResource.cache
+C:\Group 10 ADBMS Project\WpfApp1\obj\Debug\WpfApp1.csproj.CoreCompileInputs.cache
+C:\Group 10 ADBMS Project\WpfApp1\obj\Debug\WpfApp1.csproj.Up2Date
+C:\Group 10 ADBMS Project\WpfApp1\obj\Debug\WpfApp1.exe
+C:\Group 10 ADBMS Project\WpfApp1\obj\Debug\WpfApp1.pdb

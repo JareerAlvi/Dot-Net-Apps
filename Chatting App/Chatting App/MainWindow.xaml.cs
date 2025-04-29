@@ -20,6 +20,8 @@ namespace Chatting_App
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
+    /// 
+
     public partial class    BaseWindow : Window
     {
         public BaseWindow()
@@ -27,6 +29,7 @@ namespace Chatting_App
             InitializeComponent();
             
         }
+         
         private void Close_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
@@ -101,6 +104,8 @@ namespace Chatting_App
                 }
                 else
                 {
+
+                    Shared.loggedInContactNumber = txtContactNumber.Text;
                     HomePage home = new HomePage();
                     home.Show();
                     this.Close();

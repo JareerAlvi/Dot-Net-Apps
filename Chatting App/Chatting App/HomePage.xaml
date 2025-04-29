@@ -26,10 +26,47 @@
                         </LinearGradientBrush>
                     </StackPanel.Background>
                     <Button Width="40" Height="30" Content="─" Click="Minimize_Click"/>
-                    <Button Width="40" Height="30" Content="☐" Click="Maximize_Click"/> 
+                    <Button Width="40" Height="30" Content="☐" Click="Maximize_Click"/>
                     <Button Width="40" Height="30" Content="X" Background="Red" Foreground="White" Click="Close_Click"/>
                 </StackPanel>
             </DockPanel>
+
+            <!-- Main content area -->
+            <Grid Margin="0,30,0,0">
+                <Grid.ColumnDefinitions>
+                    <!-- Left side for contact list -->
+                    <ColumnDefinition Width="250"/>
+                    <!-- Right side for chat area -->
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Contact List Section -->
+                <StackPanel Grid.Column="0" Background="#FF2C2C2C" Margin="5,5,5,10">
+                    <TextBlock Text="Contacts" Foreground="White" FontWeight="Bold" FontSize="16" Margin="10,10"/>
+                    <ListBox Name="ContactList" Background="#FF2C2C2C" Foreground="White" SelectionChanged="ContactList_SelectionChanged">
+                        <!-- Sample Contacts -->
+                        \
+                    </ListBox>
+                    <Button x:Name="btnAddContact" Foreground="White" FontWeight="Bold"
+        Cursor="Hand" 
+        Content="Add a Contact+" RenderTransformOrigin="1.133,0.469"
+        Background="#FF2C504F" Click="btnAddContact_Click" Height="26" Width="94" BorderBrush="#FF2C504F" />
+                </StackPanel>
+
+                <!-- Chat Area Section -->
+                <Grid Grid.Column="1" Background="#FF1E1E1E">
+                    <TextBlock Name="ChatTitle" Text="Select a contact" Foreground="White" FontWeight="Bold" FontSize="16" Margin="10,10,10,49"/>
+                    <ScrollViewer Name="ChatArea" Margin="10,40,10,49" Visibility="Hidden">
+                        <StackPanel Name="MessagesPanel" />
+                        <!-- Add Name so we can add messages here -->
+                    </ScrollViewer>
+
+                    <Button x:Name="btnSend" 
+                        Background="#FF2C504F" Foreground="White" FontWeight="Bold" 
+                        Cursor="Hand"  Content="Send"  Margin="344,378,10,10" RenderTransformOrigin="0.541,0.343" Visibility="Hidden" Click="btnSend_Click"  />
+                </Grid>
+            </Grid>
+            <TextBox Name="MessageBox" HorizontalAlignment="Left" Margin="259,410,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="332" Height="28" Visibility="Hidden"/>
         </Grid>
     </Border>
 </Window>
