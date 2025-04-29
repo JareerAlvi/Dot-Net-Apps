@@ -93,7 +93,12 @@ namespace Chatting_App
                 }
                 
                 string contactNumber = txtContactNumber.Text;
-                string password = AES.Encrypt(txtPassword.Password,AES.key);
+                string key = userEntity.tbUsers
+                    .Where(
+                    u => u.ContactNumber == contactNumber)
+                    .Select(u=>u.AESKey)
+                    .FirstOrDefault();
+                string password = AES.Encrypt(txtPassword.Password, key);
                 bool userExists = userEntity.tbUsers.Any(user => user.ContactNumber == contactNumber && user.Password == password);
 
                 if (!userExists)
@@ -160,7 +165,6 @@ namespace Chatting_App
                     
 
                     string contactNumber = txtContactNumber.Text.Trim();
-                    string password = AES.Encrypt(txtPassword.Password, AES.key);
                     string Name= txtName.Text.Trim();
                     bool exists = userEntity.tbUsers.Any(u => u.ContactNumber == contactNumber);
 
@@ -169,14 +173,18 @@ namespace Chatting_App
                         lbWarning.Text = "Contact Number Already Exists";
                         return;
                     }
-
+                    string key = AES.GenerateAESKey();
+                    string password = AES.Encrypt(txtPassword.Password,key);
                     var user = new tbUser
                     {
                         ContactNumber = contactNumber,
+                        Name = Name,
                         Password = password,
-                        Name = Name
-                    };
+                        AESKey=key 
+                        
 
+                    };
+                   
                     userEntity.tbUsers.Add(user);
                     userEntity.SaveChanges();
 
@@ -187,6 +195,7 @@ namespace Chatting_App
                     txtContactNumber.BorderBrush = txtPassword.BorderBrush = txtName.BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF2980B9"));
                     lb_Name.Visibility = txtName.Visibility = btn_Confirm.Visibility = Visibility.Hidden;
                     MessageBox.Show("User Registered Successfully!", "", MessageBoxButton.OK, MessageBoxImage.Information);
+                    
                 }
             }
             catch (Exception ex)

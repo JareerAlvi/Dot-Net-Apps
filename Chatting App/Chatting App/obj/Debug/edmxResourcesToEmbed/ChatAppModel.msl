@@ -25,6 +25,7 @@
     <EntitySetMapping Name="tbUsers">
       <EntityTypeMapping TypeName="Chatting_AppModel.tbUser">
         <MappingFragment StoreEntitySet="tbUsers">
+          <ScalarProperty Name="AESKey" ColumnName="AESKey" />
           <ScalarProperty Name="ContactNumber" ColumnName="ContactNumber" />
           <ScalarProperty Name="Name" ColumnName="Name" />
           <ScalarProperty Name="Password" ColumnName="Password" />

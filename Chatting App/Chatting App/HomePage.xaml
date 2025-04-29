@@ -39,7 +39,7 @@
                 </Grid.ColumnDefinitions>
 
                 <!-- Contact List Panel -->
-                <StackPanel Grid.Column="0" Background="#FF2C2C2C" Margin="5">
+                <StackPanel Grid.Column="0" Background="#FF2C2C2C" Margin="5,5,5,38">
                     <TextBlock Text="Contacts" Foreground="White" FontWeight="Bold" FontSize="16" Margin="10"/>
                     <ListBox Name="ContactList" Background="#FF2C2C2C" Foreground="White" Margin="10,0,10,10" 
                              SelectionChanged="ContactList_SelectionChanged"/>
@@ -107,6 +107,9 @@
                 Click="btnSend_Click" Visibility="Hidden"/>
                     </Grid>
                 </Grid>
+                <Button x:Name="btnLogout" Content="Log out" Foreground="White" FontWeight="Bold"
+                        Background="#FF2C504F" BorderBrush="#FF2C504F"
+                        Margin="10,385,162,3" Click="btnLogout_Click"/>
 
             </Grid>
         </Grid>

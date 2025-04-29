@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="Chatting_AppModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="Chatting_AppModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="tbContacts">
           <Key>
             <PropertyRef Name="UserContactNumber" />
@@ -22,7 +22,7 @@
           <Property Name="SenderContact" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="ReceiverContact" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="Content" Type="text" Nullable="false" />
-          <Property Name="SentAt" Type="datetime" />
+          <Property Name="SentAt" Type="datetime2" Precision="3" Nullable="false" />
           <Property Name="IsRead" Type="bit" />
         </EntityType>
         <EntityType Name="tbUsers">
@@ -32,6 +32,7 @@
           <Property Name="ContactNumber" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="Name" Type="varchar" MaxLength="100" Nullable="false" />
           <Property Name="Password" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="AESKey" Type="varchar" MaxLength="256" Nullable="false" />
         </EntityType>
         <Association Name="FK__tbContact__Conta__46E78A0C">
           <End Role="tbUsers" Type="Self.tbUsers" Multiplicity="1" />
@@ -106,8 +107,7 @@
             <End Role="tbMessages" EntitySet="tbMessages" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="Chatting_AppModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -130,7 +130,7 @@
           <Property Name="SenderContact" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="ReceiverContact" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Content" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="SentAt" Type="DateTime" Precision="3" />
+          <Property Name="SentAt" Type="DateTime" Precision="3" Nullable="false" />
           <Property Name="IsRead" Type="Boolean" />
           <NavigationProperty Name="tbUser" Relationship="Self.FK__tbMessage__Recei__4CA06362" FromRole="tbMessages" ToRole="tbUsers" />
           <NavigationProperty Name="tbUser1" Relationship="Self.FK__tbMessage__Sende__4BAC3F29" FromRole="tbMessages" ToRole="tbUsers" />
@@ -146,6 +146,7 @@
           <NavigationProperty Name="tbContacts1" Relationship="Self.FK__tbContact__UserC__45F365D3" FromRole="tbUsers" ToRole="tbContacts" />
           <NavigationProperty Name="tbMessages" Relationship="Self.FK__tbMessage__Recei__4CA06362" FromRole="tbUsers" ToRole="tbMessages" />
           <NavigationProperty Name="tbMessages1" Relationship="Self.FK__tbMessage__Sende__4BAC3F29" FromRole="tbUsers" ToRole="tbMessages" />
+          <Property Name="AESKey" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="false" />
         </EntityType>
         <Association Name="FK__tbContact__Conta__46E78A0C">
           <End Role="tbUsers" Type="Self.tbUser" Multiplicity="1" />
@@ -250,6 +251,7 @@
           <EntitySetMapping Name="tbUsers">
             <EntityTypeMapping TypeName="Chatting_AppModel.tbUser">
               <MappingFragment StoreEntitySet="tbUsers">
+                <ScalarProperty Name="AESKey" ColumnName="AESKey" />
                 <ScalarProperty Name="ContactNumber" ColumnName="ContactNumber" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Password" ColumnName="Password" />

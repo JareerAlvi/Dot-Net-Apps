@@ -19,7 +19,7 @@
     <Property Name="SenderContact" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
     <Property Name="ReceiverContact" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
     <Property Name="Content" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
-    <Property Name="SentAt" Type="DateTime" Precision="3" />
+    <Property Name="SentAt" Type="DateTime" Precision="3" Nullable="false" />
     <Property Name="IsRead" Type="Boolean" />
     <NavigationProperty Name="tbUser" Relationship="Self.FK__tbMessage__Recei__4CA06362" FromRole="tbMessages" ToRole="tbUsers" />
     <NavigationProperty Name="tbUser1" Relationship="Self.FK__tbMessage__Sende__4BAC3F29" FromRole="tbMessages" ToRole="tbUsers" />
@@ -35,6 +35,7 @@
     <NavigationProperty Name="tbContacts1" Relationship="Self.FK__tbContact__UserC__45F365D3" FromRole="tbUsers" ToRole="tbContacts" />
     <NavigationProperty Name="tbMessages" Relationship="Self.FK__tbMessage__Recei__4CA06362" FromRole="tbUsers" ToRole="tbMessages" />
     <NavigationProperty Name="tbMessages1" Relationship="Self.FK__tbMessage__Sende__4BAC3F29" FromRole="tbUsers" ToRole="tbMessages" />
+    <Property Name="AESKey" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="false" />
   </EntityType>
   <Association Name="FK__tbContact__Conta__46E78A0C">
     <End Role="tbUsers" Type="Self.tbUser" Multiplicity="1" />

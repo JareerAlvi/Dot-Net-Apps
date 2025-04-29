@@ -125,38 +125,48 @@ namespace Chatting_App
                     MessageBox.Show("Please select a valid contact.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
                 }
+
                 string recieverContact = selectedUser.ContactNumber;
                 ChatTitle.Text = selectedUser.Name;
+                MessagesPanel.Children.Clear();
 
-
-                MessagesPanel.Children.Clear(); // clearing msgs from another chat
-                try {
+                try
+                {
                     using (Chatting_AppEntities context = new Chatting_AppEntities())
                     {
+                        var keys = context.tbUsers
+                            .Where(u => u.ContactNumber == Shared.loggedInContactNumber || u.ContactNumber == recieverContact)
+                            .ToDictionary(u => u.ContactNumber, u => u.AESKey);
+
+                        string key = keys[Shared.loggedInContactNumber];
+                        string key2 = keys[recieverContact];
+
+                        if (key == null || key2 == null)
+                        {
+                            // Handle null keys
+                        }
+
                         var encryptedMessages = context.tbMessages
-             .Where(m =>
-        (m.SenderContact == Shared.loggedInContactNumber && m.ReceiverContact == recieverContact) ||
-        (m.SenderContact == recieverContact && m.ReceiverContact == Shared.loggedInContactNumber)
-    )
-    .OrderBy(m => m.SentAt)
-    .ToList();
-                        // This runs the SQL and loads into memory
+                            .Where(m => (m.SenderContact == Shared.loggedInContactNumber && m.ReceiverContact == recieverContact) ||
+                                       (m.SenderContact == recieverContact && m.ReceiverContact == Shared.loggedInContactNumber))
+                            .OrderBy(m => m.SentAt)
+                            .ToList();
 
-                        var decryptedMessages = encryptedMessages
-                            .Select(m => new {
-                                m.MessageId,
-                                m.SenderContact,
-                                m.ReceiverContact,
-                                Content = AES.Decrypt(m.Content, AES.key),  // Now it's OK — in memory
-                                m.SentAt
-                            }).ToList();
+                        var messagesList = encryptedMessages
+       .Select(m => new
+       {
+           m.MessageId,
+           m.SenderContact,
+           m.ReceiverContact,
+           Content = m.SenderContact == Shared.loggedInContactNumber
+               ? AES.Decrypt(m.Content, key)
+               : AES.Decrypt(m.Content, key2),
+           m.SentAt
+       })
+       .ToList();
 
-
-
-                        // Clear old messages
                         MessagesPanel.Children.Clear();
-
-                        foreach (var message in decryptedMessages)
+                        foreach (var message in messagesList)
                         {
                             bool isSentByMe = message.SenderContact == Shared.loggedInContactNumber;
                             AddMessageBubble(message.Content, isSentByMe);
@@ -165,16 +175,15 @@ namespace Chatting_App
                         ChatArea.Visibility = Visibility.Visible;
                         btnSend.Visibility = Visibility.Visible;
                         MessageBox2.Visibility = Visibility.Visible;
-
                     }
-
                 }
-                catch (Exception ex){
+                catch (Exception ex)
+                {
                     MessageBox.Show("An error occurred ContactList_SelectionChanged : " + ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-
                 }
             }
         }
+
 
         private void btnAddContact_Click(object sender, RoutedEventArgs e)
         {
@@ -215,10 +224,14 @@ namespace Chatting_App
                             MessageBox.Show("Please select a contact to send the message.", "No Contact", MessageBoxButton.OK, MessageBoxImage.Warning);
                             return;
                         }
+                        string key = context.tbUsers
+                    .Where(
+                    u => u.ContactNumber == Shared.loggedInContactNumber)
+                    .Select(u => u.AESKey)
+                    .FirstOrDefault();
+                        message.ReceiverContact = recieverContact; 
 
-                        message.ReceiverContact = recieverContact; // ✅ Correct property now
-
-                        message.Content = AES.Encrypt(myMessage, AES.key);
+                        message.Content = AES.Encrypt(myMessage, key);
                         message.SentAt = DateTime.Now;
 
                         context.tbMessages.Add(message);
@@ -235,5 +248,18 @@ namespace Chatting_App
             }
         }
 
+        private void btnLogout_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBoxResult result = MessageBox.Show("Are you sure you want to logout?", "Confirm Logout", MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+            if (result != MessageBoxResult.Yes)
+            {
+                return;
+            }
+         
+            BaseWindow home = new BaseWindow();
+            home.Show();
+            this.Close();
+        }
     }
 }

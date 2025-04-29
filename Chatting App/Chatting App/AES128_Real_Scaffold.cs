@@ -167,6 +167,9 @@ namespace Chatting_App
 
         public static string Decrypt(string encryptedBase64, string key)
         {
+
+
+          
             using (Aes aesAlg = Aes.Create())
             {
                 // Convert the encrypted Base64 string to a byte array
@@ -192,6 +195,15 @@ namespace Chatting_App
                         }
                     }
                 }
+            }
+        }
+        public static string GenerateAESKey()
+        {
+            using (Aes aes = Aes.Create())
+            {
+                aes.KeySize = 256; // 256-bit AES key
+                aes.GenerateKey();
+                return Convert.ToBase64String(aes.Key);
             }
         }
 

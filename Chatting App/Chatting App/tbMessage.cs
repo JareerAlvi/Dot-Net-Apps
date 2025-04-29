@@ -18,7 +18,7 @@ namespace Chatting_App
         public string SenderContact { get; set; }
         public string ReceiverContact { get; set; }
         public string Content { get; set; }
-        public Nullable<System.DateTime> SentAt { get; set; }
+        public System.DateTime SentAt { get; set; }
         public Nullable<bool> IsRead { get; set; }
     
         public virtual tbUser tbUser { get; set; }

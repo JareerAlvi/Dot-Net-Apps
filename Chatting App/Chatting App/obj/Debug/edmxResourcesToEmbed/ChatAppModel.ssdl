@@ -17,7 +17,7 @@
     <Property Name="SenderContact" Type="varchar" MaxLength="20" Nullable="false" />
     <Property Name="ReceiverContact" Type="varchar" MaxLength="20" Nullable="false" />
     <Property Name="Content" Type="text" Nullable="false" />
-    <Property Name="SentAt" Type="datetime" />
+    <Property Name="SentAt" Type="datetime2" Precision="3" Nullable="false" />
     <Property Name="IsRead" Type="bit" />
   </EntityType>
   <EntityType Name="tbUsers">
@@ -27,6 +27,7 @@
     <Property Name="ContactNumber" Type="varchar" MaxLength="20" Nullable="false" />
     <Property Name="Name" Type="varchar" MaxLength="100" Nullable="false" />
     <Property Name="Password" Type="varchar" MaxLength="255" Nullable="false" />
+    <Property Name="AESKey" Type="varchar" MaxLength="256" Nullable="false" />
   </EntityType>
   <Association Name="FK__tbContact__Conta__46E78A0C">
     <End Role="tbUsers" Type="Self.tbUsers" Multiplicity="1" />
