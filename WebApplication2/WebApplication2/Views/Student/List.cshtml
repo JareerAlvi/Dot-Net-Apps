@@ -11,14 +11,15 @@
 <table class="table table-bordered">
     <thead>
         <tr>
-            <th>Id</th>
-            <th>Name</th>
-            <th>FName</th>
-            <th>Age</th>
-            <th>Grade</th>
-            <th>DOB</th>
-            <th>Email</th>
-            <th></th>
+            <th><a asp-controller="Student" asp-action="Sort" asp-route-order="StudentId">Id</a></th>
+            <th><a asp-controller="Student" asp-action="Sort" asp-route-order="FirstName">Name</a></th>
+            <th><a asp-controller="Student" asp-action="Sort" asp-route-order="LastName">FName</a></th>
+            <th><a asp-controller="Student" asp-action="Sort" asp-route-order="Age">Age</a></th>
+            <th><a asp-controller="Student" asp-action="Sort" asp-route-order="Grade">Grade</a></th>
+            <th><a asp-controller="Student" asp-action="Sort" asp-route-order="DateOfBirth">DOB</a></th>
+            <th><a asp-controller="Student" asp-action="Sort" asp-route-order="Email">Email</a></th>
+            <th></th> 
+
         </tr>
     </thead>
     <tbody>
@@ -34,7 +35,7 @@
                 <td class="border px-4 py-2">@student.Email</td>
                 <td>
                     <button type="button" class="btn btn-danger" onclick="Delete(@student.StudentId)">Delete</button>
-                    <a asp-controller="Student" asp-action="Edit" asp-route-id="@student.StudentId" class="btn btn-primary">Edit</a>
+                    <a asp-controller="Student" asp-action="Edit" asp-route-id="@student.StudentId" class="btn btn-warning">Edit</a>
                 </td>
 
             </tr>
@@ -45,6 +46,35 @@
 <div class="text-center">
 
     <a  asp-action="Add" class="btn btn-primary mb-3">Add Student</a>
+
+
+</div>
+<div class="d-flex justify-content-start">
+    <a asp-controller="Student" asp-action="GenerateReport" class="btn btn-primary mb-3 mt-20">
+        Download Student Report
+    </a>
+   
+</div>
+<div class="d-flex justify-content-start">
+    <a asp-controller="Student" asp-action="ExportStudents" class="btn btn-success mb-3  ">Export Students to CSV</a>
+
+</div>
+<div class="d-flex justify-content-end">
+    <form asp-action="ImportStudents" asp-controller="Student" method="post" enctype="multipart/form-data">
+        <div class="mb-3">
+            <input type="file" name="csvFile" accept=".csv" class="form-control" required />
+        </div>
+        <button type="submit" class="btn btn-primary">Import Students</button>
+    </form>
+
+    @if (TempData["Message"] != null)
+    {
+        <div class="alert alert-info">@TempData["Message"]</div>
+    }
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger">@TempData["Error"]</div>
+    }
 
 </div>
 <div id="deleteModal" class="modal-overlay hidden">

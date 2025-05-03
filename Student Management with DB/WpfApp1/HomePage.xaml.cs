@@ -557,5 +557,7 @@ namespace WpfApp1
                 grdStudents.ItemsSource = query.ToList(); // Fetch sorted data
             }
         }
+
+    
     }
 }
