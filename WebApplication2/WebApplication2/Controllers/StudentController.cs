@@ -29,25 +29,52 @@ namespace WebApplication2.Controllers
 
 
         [HttpPost]
-        [HttpPost]
-        public IActionResult Submit(TbStudent student)
+        public IActionResult SaveOrSubmit(TbStudent student)
         {
-            bool emailExists = context.TbStudents.Any(e => e.Email == student.Email);
+            // Normalize DateOfBirth error
+            if (ModelState["DateOfBirth"]?.Errors.Count > 0 &&
+                ModelState["DateOfBirth"].Errors[0].ErrorMessage.Contains("The value '' is invalid"))
+            {
+                ModelState["DateOfBirth"].Errors.Clear();
+                ModelState.AddModelError("DateOfBirth", "Date of birth is required.");
+            }
+
+            // Check email duplication (exclude same record if editing)
+            bool emailExists = context.TbStudents.Any(e =>
+                e.Email == student.Email &&
+                e.StudentId != student.StudentId); // Exclude self if editing
+
             if (emailExists)
             {
-
                 ModelState.AddModelError("Email", "This email already exists.");
-                return View("Add", student);
             }
+
             if (!ModelState.IsValid)
             {
-                return View("Add", student); // Return the form with validation messages
+                string viewName;
+                if (student.StudentId == 0)
+                    viewName = "Add";
+                else
+                    viewName="Edit";
+                return View(viewName, student);
             }
 
-            context.TbStudents.Add(student);
+            if (student.StudentId == 0)
+            {
+                // New student
+                context.TbStudents.Add(student);
+            }
+            else
+            {
+                // Existing student
+                context.Update(student);
+            }
+
             context.SaveChanges();
             return RedirectToAction("List");
         }
+
+     
 
 
         [HttpDelete]
@@ -66,50 +93,37 @@ namespace WebApplication2.Controllers
         public IActionResult Edit(int id)
         {
             var student = context.TbStudents.FirstOrDefault(s => s.StudentId == id);
-
+            
             return View(student);
         }
-        [HttpPost]
-        public IActionResult Save(TbStudent updatedStudent)
-        {
-            bool emailExists= context.TbStudents.Any(e=>e.Email == updatedStudent.Email);
-            if (emailExists) {
-
-                ModelState.AddModelError("Email", "This email already exists.");
-                return View("Edit",updatedStudent);
-            }
-            if (!ModelState.IsValid)
-            {
-                return View("Edit",updatedStudent);
-            }
-                context.Update(updatedStudent);
-                context.SaveChanges();
+        [HttpGet]
 
 
-            return RedirectToAction("List"); 
-        }
-
-        public IActionResult Sort(string order)
+        public IActionResult Sort(string order, string direction)
         {
             IQueryable<TbStudent> students = context.TbStudents;
 
-            // Default sort column if none provided
-            order = string.IsNullOrEmpty(order) ? "StudentId" : order;
+            bool isDescending = direction == "desc";
 
-            // Apply sorting based on the order parameter
+            // Toggle direction for next click
+            ViewBag.CurrentOrder = order;
+            ViewBag.CurrentDirection = isDescending ? "asc" : "desc";
+
             students = order switch
             {
-                "FirstName" => students.OrderBy(s => s.FirstName),
-                "LastName" => students.OrderBy(s => s.LastName),
-                "Age" => students.OrderBy(s => s.Age),
-                "Grade" => students.OrderBy(s => s.Grade),
-                "DateOfBirth" => students.OrderBy(s => s.DateOfBirth),
-                "Email" => students.OrderBy(s => s.Email),
-                _ => students.OrderBy(s => s.StudentId), // default if unknown column
+                "FirstName" => isDescending ? students.OrderByDescending(s => s.FirstName) : students.OrderBy(s => s.FirstName),
+                "LastName" => isDescending ? students.OrderByDescending(s => s.LastName) : students.OrderBy(s => s.LastName),
+                "Age" => isDescending ? students.OrderByDescending(s => s.Age) : students.OrderBy(s => s.Age),
+                "Grade" => isDescending ? students.OrderByDescending(s => s.Grade) : students.OrderBy(s => s.Grade),
+                "DateOfBirth" => isDescending ? students.OrderByDescending(s => s.DateOfBirth) : students.OrderBy(s => s.DateOfBirth),
+                "Email" => isDescending ? students.OrderByDescending(s => s.Email) : students.OrderBy(s => s.Email),
+                _ => isDescending ? students.OrderByDescending(s => s.StudentId) : students.OrderBy(s => s.StudentId),
             };
 
             return View("List", students.ToList());
         }
+
+
         [HttpGet]
         public IActionResult GenerateReport()
         {
