@@ -1,59 +1,113 @@
 ﻿@{
     ViewData["Title"] = "Add Student";
-
 }
 @model TbStudent
+
 <div class="text-center">
     <h1 class="display-4">Add Student</h1>
 </div>
 
-<form asp-action="SaveOrSubmit" method="post">
-
-    <!-- Display Summary Validation Errors -->
+<form id="studentForm" asp-action="SaveOrSubmit" method="post">
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
     <div class="form-group">
         <label asp-for="FirstName" class="form-label">First Name</label>
         <input asp-for="FirstName" class="form-control" />
-        <!-- Show validation message for FirstName -->
-        @Html.ValidationMessageFor(m => m.FirstName, "", new { @class = "text-danger" })
+        @Html.ValidationMessageFor(m => m.FirstName, "", new { @class = "text-danger", id = "FirstNameError" })
     </div>
 
     <div class="form-group">
         <label asp-for="LastName" class="form-label">Last Name</label>
         <input asp-for="LastName" class="form-control" />
-        @Html.ValidationMessageFor(m => m.LastName, "", new { @class = "text-danger" })
+        @Html.ValidationMessageFor(m => m.LastName, "", new { @class = "text-danger", id = "LastNameError" })
     </div>
 
     <div class="form-group">
-        <label asp-for="Age" class="form-label"></label>
+        <label asp-for="Age" class="form-label">Age</label>
         <input asp-for="Age" class="form-control" />
-        @Html.ValidationMessageFor(m => m.Age, "", new { @class = "text-danger" })
+        @Html.ValidationMessageFor(m => m.Age, "", new { @class = "text-danger", id = "AgeError" })
     </div>
 
     <div class="form-group">
-        <label asp-for="Grade" class="form-label"></label>
+        <label asp-for="Grade" class="form-label">Grade</label>
         <select asp-for="Grade" class="form-control" asp-items="@(new SelectList(new[] { "A", "B", "C", "D", "F" }))">
             <option value="">-- Select Grade --</option>
         </select>
-        @Html.ValidationMessageFor(m => m.Grade, "", new { @class = "text-danger" })
+        @Html.ValidationMessageFor(m => m.Grade, "", new { @class = "text-danger", id = "GradeError" })
     </div>
-
 
     <div class="form-group">
         <label asp-for="DateOfBirth" class="form-label">Date Of Birth</label>
         <input asp-for="DateOfBirth" type="date" class="form-control" value="" />
-        @Html.ValidationMessageFor(m => m.DateOfBirth, "", new { @class = "text-danger" })
+        @Html.ValidationMessageFor(m => m.DateOfBirth, "", new { @class = "text-danger", id = "DateOfBirthError" })
     </div>
 
     <div class="form-group">
-        <label asp-for="Email" class="form-label"></label>
+        <label asp-for="Email" class="form-label">Email</label>
         <input asp-for="Email" class="form-control" />
-        @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+        @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger", id = "EmailError" })
     </div>
-    <div class="d-flex ">
+
+    <div class="d-flex">
         <button type="submit" class="btn btn-primary mt-3">Save</button>
-        <button asp-action="List" type="submit" class="btn btn-warning mt-3 px-3 py-1 ml-2">List</button>
+        <a asp-action="List" class="btn btn-warning mt-3 px-3 py-1 ml-2">List</a>
     </div>
-   
 </form>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+    $('#studentForm').on('submit', function (e) {
+        let isValid = true;
+
+        // Clear all existing error messages
+        $('#FirstNameError').text('');
+        $('#LastNameError').text('');
+        $('#AgeError').text('');
+        $('#GradeError').text('');
+        $('#DateOfBirthError').text('');
+        $('#EmailError').text('');
+
+        // First Name Validation
+        let firstName = $('input[name="FirstName"]').val().trim();
+        if (firstName.length < 2) {
+            $('#FirstNameError').text("First Name must be at least 2 characters.");
+            isValid = false;
+        }
+
+        // Last Name Validation
+        let lastName = $('input[name="LastName"]').val().trim();
+        if (lastName.length < 2) {
+            $('#LastNameError').text("Last Name must be at least 2 characters.");
+            isValid = false;
+        }
+
+        // Age Validation
+        let age = parseInt($('input[name="Age"]').val());
+        if (isNaN(age) || age < 5 || age > 100) {
+            $('#AgeError').text("Age must be between 5 and 100.");
+            isValid = false;
+        }
+
+        // Grade Validation
+        let grade = $('select[name="Grade"]').val();
+        if (!grade) {
+            $('#GradeError').text("Please select a grade.");
+            isValid = false;
+        }
+
+        // Date of Birth Validation
+        let dateOfBirth = $('input[name="DateOfBirth"]').val();
+        if (!dateOfBirth) {
+            $('#DateOfBirthError').text("Date of Birth is required.");
+            isValid = false;
+        }
+
+      
+        }
+
+        if (!isValid) {
+            e.preventDefault();
+        }
+    });
+</script>
