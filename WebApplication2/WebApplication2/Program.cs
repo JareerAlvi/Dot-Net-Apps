@@ -6,37 +6,27 @@ namespace WebApplication2
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
             var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
-            // Register Identity DbContext separately
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(connectionString));
 
-            // Register your app-specific DbContext
             builder.Services.AddDbContext<SmsContext>(options =>
                 options.UseSqlServer(connectionString));
 
-            // Register Identity without default UI
+            // ✅ Added Roles to Identity
             builder.Services.AddDefaultIdentity<IdentityUser>(options =>
             {
                 options.SignIn.RequireConfirmedAccount = false;
             })
+            .AddRoles<IdentityRole>()  // << added this line to enable roles
             .AddEntityFrameworkStores<ApplicationDbContext>()
-            .AddDefaultTokenProviders(); // ✅ Do not add .AddDefaultUI()
-
-            // Configure custom login/logout paths
-            builder.Services.ConfigureApplicationCookie(options =>
-            {
-                options.LoginPath = "/Account/Login";
-                options.LogoutPath = "/Account/Logout";
-                options.AccessDeniedPath = "/Account/AccessDenied";
-            });
-
-            builder.Services.AddControllersWithViews();
+            .AddDefaultUI()
+            .AddDefaultTokenProviders();
 
             var app = builder.Build();
 
@@ -49,18 +39,68 @@ namespace WebApplication2
 
             app.UseRouting();
 
-            app.UseAuthentication();  // ✅ Authentication before Authorization
+            app.UseAuthentication();
             app.UseAuthorization();
 
-            // Map Razor Pages (if you have any) but no longer require default Identity UI
             app.MapRazorPages();
 
-            // Force login for all routes (optional; remove RequireAuthorization() if not needed globally)
+            app.MapGet("/", async context =>
+            {
+                if (!context.User.Identity.IsAuthenticated)
+                {
+                    context.Response.Redirect("/Identity/Account/Login");
+                }
+                else
+                {
+                    context.Response.Redirect("/Home/Home");
+                }
+            });
+
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}");
+                pattern: "{controller=Home}/{action=Home}/{id?}");
 
-            app.Run();
+            // ✅ Role and admin user creation logic
+            using (var scope = app.Services.CreateScope())
+            {
+                var services = scope.ServiceProvider;
+                var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+                var userManager = services.GetRequiredService<UserManager<IdentityUser>>();
+
+                string[] roles = { "Admin", "User" };
+
+                foreach (var role in roles)
+                {
+                    if (!await roleManager.RoleExistsAsync(role))
+                    {
+                        await roleManager.CreateAsync(new IdentityRole(role));
+                    }
+                }
+
+                var adminConfig = builder.Configuration.GetSection("AdminUser");
+                var adminEmail = adminConfig["Email"];
+                var adminPassword = adminConfig["Password"];
+
+                var adminUser = await userManager.FindByEmailAsync(adminEmail);
+
+                if (adminUser == null)
+                {
+                    var user = new IdentityUser
+                    {
+                        UserName = adminEmail,
+                        Email = adminEmail
+                    };
+
+                    var result = await userManager.CreateAsync(user, adminPassword);
+
+                    if (result.Succeeded)
+                    {
+                        await userManager.AddToRoleAsync(user, "Admin");
+                    }
+                }
+            }
+
+            await app.RunAsync();
         }
     }
 }

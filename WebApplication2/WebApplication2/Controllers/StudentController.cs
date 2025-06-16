@@ -6,7 +6,7 @@ using WebApplication2.Models;
 
 namespace WebApplication2.Controllers
 {
-    [Authorize]
+   
     public class StudentController : Controller
     {
         private readonly ILogger<StudentController> _logger;
