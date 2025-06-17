@@ -111,7 +111,7 @@ namespace WebApplication2.Controllers
         public IActionResult DeleteUser(string userId)
         {
             var user = _userManager.FindByIdAsync(userId).Result;
-            if(userId==)
+
             _userManager.DeleteAsync(user).Wait();
             return RedirectToAction("AdminDashboard");
 
