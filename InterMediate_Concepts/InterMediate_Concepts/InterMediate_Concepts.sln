@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.13.35931.197 d17.13
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InterMediate_Concepts", "InterMediate_Concepts.csproj", "{8D1A0A12-803C-6334-9E4C-A4BF593BCD5E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8D1A0A12-803C-6334-9E4C-A4BF593BCD5E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8D1A0A12-803C-6334-9E4C-A4BF593BCD5E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8D1A0A12-803C-6334-9E4C-A4BF593BCD5E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8D1A0A12-803C-6334-9E4C-A4BF593BCD5E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {2756C55A-CA27-41EA-87A9-0579B6D38BBE}
+	EndGlobalSection
+EndGlobal
