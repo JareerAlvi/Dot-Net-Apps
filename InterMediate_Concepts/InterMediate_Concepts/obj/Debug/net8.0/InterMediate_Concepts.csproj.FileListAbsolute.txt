@@ -1,0 +1,15 @@
+C:\Dot-Net-Apps\InterMediate_Concepts\InterMediate_Concepts\bin\Debug\net8.0\InterMediate_Concepts.exe
+C:\Dot-Net-Apps\InterMediate_Concepts\InterMediate_Concepts\bin\Debug\net8.0\InterMediate_Concepts.deps.json
+C:\Dot-Net-Apps\InterMediate_Concepts\InterMediate_Concepts\bin\Debug\net8.0\InterMediate_Concepts.runtimeconfig.json
+C:\Dot-Net-Apps\InterMediate_Concepts\InterMediate_Concepts\bin\Debug\net8.0\InterMediate_Concepts.dll
+C:\Dot-Net-Apps\InterMediate_Concepts\InterMediate_Concepts\bin\Debug\net8.0\InterMediate_Concepts.pdb
+C:\Dot-Net-Apps\InterMediate_Concepts\InterMediate_Concepts\obj\Debug\net8.0\InterMediate_Concepts.GeneratedMSBuildEditorConfig.editorconfig
+C:\Dot-Net-Apps\InterMediate_Concepts\InterMediate_Concepts\obj\Debug\net8.0\InterMediate_Concepts.AssemblyInfoInputs.cache
+C:\Dot-Net-Apps\InterMediate_Concepts\InterMediate_Concepts\obj\Debug\net8.0\InterMediate_Concepts.AssemblyInfo.cs
+C:\Dot-Net-Apps\InterMediate_Concepts\InterMediate_Concepts\obj\Debug\net8.0\InterMediate_Concepts.csproj.CoreCompileInputs.cache
+C:\Dot-Net-Apps\InterMediate_Concepts\InterMediate_Concepts\obj\Debug\net8.0\InterMediate_Concepts.sourcelink.json
+C:\Dot-Net-Apps\InterMediate_Concepts\InterMediate_Concepts\obj\Debug\net8.0\InterMediate_Concepts.dll
+C:\Dot-Net-Apps\InterMediate_Concepts\InterMediate_Concepts\obj\Debug\net8.0\refint\InterMediate_Concepts.dll
+C:\Dot-Net-Apps\InterMediate_Concepts\InterMediate_Concepts\obj\Debug\net8.0\InterMediate_Concepts.pdb
+C:\Dot-Net-Apps\InterMediate_Concepts\InterMediate_Concepts\obj\Debug\net8.0\InterMediate_Concepts.genruntimeconfig.cache
+C:\Dot-Net-Apps\InterMediate_Concepts\InterMediate_Concepts\obj\Debug\net8.0\ref\InterMediate_Concepts.dll
